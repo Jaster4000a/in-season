@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>In Season</title>
+<meta name="description" content="What seafood, fruit and vegetables are in season right now in Texas and the Gulf Coast.">
+<style>
+:root{--bg:#faf8f3;--card:#fff;--ink:#1d2b24;--mute:#68746d;--line:#e4dfd3;--accent:#c2410c;--peak:#15803d;--soon:#1d4ed8;--last:#b45309}
+@media (prefers-color-scheme:dark){:root{--bg:#14181a;--card:#1d2326;--ink:#e8ece9;--mute:#98a39d;--line:#2c3539;--accent:#fb923c;--peak:#4ade80;--soon:#7aa7ff;--last:#fbbf24}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:760px;margin:0 auto;padding:24px 16px 56px}
+h1{margin:0;font-size:1.9rem;letter-spacing:-.02em}
+.sub{color:var(--mute);margin:.2rem 0 1.2rem}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}
+select,button{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+button{cursor:pointer}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.months{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin:0 0 22px}
+.months button{padding:6px 0;font-size:.78rem;border-radius:6px}
+h2{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;margin:26px 0 8px}
+h2.peak{color:var(--peak)}h2.last{color:var(--last)}h2.soon{color:var(--soon)}h2.in{color:var(--mute)}
+ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.n{font-weight:600}.t{font-size:.72rem;color:var(--mute);margin-left:8px;text-transform:uppercase;letter-spacing:.05em}
+.w{color:var(--mute);font-size:.85rem}
+.nt{flex-basis:100%;color:var(--mute);font-size:.88rem}
+.empty{color:var(--mute);font-size:.9rem}
+footer{margin-top:36px;color:var(--mute);font-size:.82rem;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<main>
+<h1>In Season</h1>
+<p class="sub" id="sub"></p>
+<div class="controls" id="filters"></div>
+<div class="months" id="months" role="group" aria-label="Month"></div>
+<div id="out"></div>
+<footer id="foot"></footer>
+</main>
+<script>
+const MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const FULL=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const TYPES=[["all","All"],["seafood","Seafood"],["fruit","Fruit"],["veg","Veg"]];
+let data,month=new Date().getMonth()+1,type="all";
+const inR=(m,a,b)=>a<=b?m>=a&&m<=b:m>=a||m<=b;
+const nx=(m,k)=>((m-1+k)%12)+1;
+function status(it,m){
+  if(inR(m,it.start,it.end)){
+    if(!inR(nx(m,1),it.start,it.end)) return {g:"last",w:"Ends after "+MN[it.end-1]};
+    if(inR(m,it.peak[0],it.peak[1])) return {g:"peak",w:"Peak until "+MN[it.peak[1]-1]};
+    return {g:"in",w:"In season until "+MN[it.end-1]};
+  }
+  for(const k of [1,2]) if(inR(nx(m,k),it.start,it.end)) return {g:"soon",w:"Starts "+MN[it.start-1]};
+  return null;
+}
+function render(){
+  document.getElementById("sub").textContent=data.region+" · "+FULL[month-1];
+  const f=document.getElementById("filters");f.innerHTML="";
+  TYPES.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;b.setAttribute("aria-pressed",k===type);b.onclick=()=>{type=k;render()};f.append(b)});
+  const mo=document.getElementById("months");mo.innerHTML="";
+  MN.forEach((l,i)=>{const b=document.createElement("button");b.textContent=l;b.setAttribute("aria-pressed",i+1===month);b.onclick=()=>{month=i+1;render()};mo.append(b)});
+  const groups={last:[],peak:[],in:[],soon:[]};
+  data.items.filter(i=>type==="all"||i.type===type).forEach(i=>{const s=status(i,month);if(s)groups[s.g].push([i,s])});
+  const titles={last:"Last call",peak:"Peak now",in:"Also in season",soon:"Coming up"};
+  const out=document.getElementById("out");out.innerHTML="";
+  ["last","peak","in","soon"].forEach(g=>{
+    if(!groups[g].length) return;
+    const h=document.createElement("h2");h.className=g;h.textContent=titles[g];out.append(h);
+    const ul=document.createElement("ul");
+    groups[g].forEach(([i,s])=>{
+      const li=document.createElement("li");
+      const l=document.createElement("span");
+      const n=document.createElement("span");n.className="n";n.textContent=i.name;
+      const t=document.createElement("span");t.className="t";t.textContent=i.type;
+      l.append(n,t);
+      const w=document.createElement("span");w.className="w";w.textContent=s.w;
+      li.append(l,w);
+      if(i.note){const p=document.createElement("div");p.className="nt";p.textContent=i.note;li.append(p)}
+      ul.append(li);
+    });
+    out.append(ul);
+  });
+  if(!out.children.length){out.innerHTML='<p class="empty">Nothing in this filter for this month.</p>'}
+  document.getElementById("foot").textContent=data.note+" Data updated "+data.updated+".";
+}
+fetch("data.json").then(r=>r.json()).then(d=>{data=d;render()}).catch(()=>{document.getElementById("out").textContent="Could not load data.json"});
+</script>
+</body>
+</html>
