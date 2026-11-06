@@ -19,7 +19,7 @@
 html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 input::-webkit-search-cancel-button{filter:grayscale(1)}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
-button,input{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--ctl);border-radius:8px;min-height:44px;padding:8px 12px}
+button,input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--ctl);border-radius:8px;min-height:44px;padding:8px 12px}
 button{cursor:pointer}
 @media (hover:hover){button:hover{background:var(--hover)}}
 button:active{background:var(--hover)}
@@ -85,6 +85,44 @@ li.item{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:12px;al
 .bar i{display:block;height:6px;border-radius:1px;background:var(--off);position:relative}
 .bar .on{background:var(--on)}.bar .best{background:var(--peak)}
 .bar .cur::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;margin-left:-1px;background:var(--now);border-radius:1px}
+.barline{display:flex;align-items:center;gap:8px;margin-top:6px}
+.barline .bar{flex:1;margin:0}
+.flag{flex:none;position:relative;width:28px;height:28px;min-height:0;margin:-11px -6px -11px 0;padding:0;border:0;background:none;color:var(--mute);display:grid;place-items:center}
+.flag::before{content:"";position:absolute;inset:-8px}
+@media (hover:hover){.flag:hover{background:none;color:var(--accent)}}
+.flag:active{background:none;color:var(--accent)}
+body:not(.fb-on) .fbx{display:none}
+.fbfoot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;margin:0 0 12px;font-size:.9rem;color:var(--ink)}
+#msg button{display:block;margin-top:8px}
+dialog#fb{border:0;padding:0;background:var(--bg);color:var(--ink);width:100%;max-width:100%;height:100%;max-height:100%;margin:0;overscroll-behavior:contain}
+dialog#fb::backdrop{background:rgb(0 0 0 / .5)}
+.fbhead{position:sticky;top:0;z-index:1;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 16px;border-bottom:1px solid var(--line)}
+.fbhead h2{margin:0;font-size:1.15rem;letter-spacing:-.01em}
+.fbbody{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:12px 16px 28px}
+.fbbody>*{grid-column:1/-1}
+.fbbody>.fbf[data-f=month]:not([hidden]),.fbbody>.fbf[data-f=place]:has(~ .fbf[data-f=month]:not([hidden])){grid-column:auto}
+.fbbody fieldset{border:0;margin:0;padding:0;min-width:0}
+.fbbody legend,.fbf label{display:block;padding:0;margin:0 0 5px;font-weight:600;font-size:.92rem}
+.fbf[hidden]{display:none}
+.fbf input,.fbf textarea{width:100%;display:block}
+.fbf textarea{min-height:104px;resize:vertical}
+.fbt{display:flex;flex-wrap:wrap;gap:6px}
+.fbt label{display:flex;align-items:center;gap:7px;min-height:44px;padding:6px 12px 6px 10px;font-size:.92rem;border:1px solid var(--ctl);border-radius:8px;background:var(--card);cursor:pointer}
+.fbt label:has(:checked){border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.fbt input{min-height:0;width:16px;height:16px;margin:0;accent-color:var(--accent);flex:none}
+.opt{font-weight:400;color:var(--mute)}
+.fbnote{margin:0;font-size:.84rem;color:var(--mute)}
+.trap{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
+#fbSend{width:100%;background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:600}
+#fbSend[disabled]{opacity:.7;cursor:progress}
+#fbErr{margin:0;color:var(--last);font-size:.92rem}
+#fbErr:empty{display:none}
+#fbDone[hidden],#fbForm[hidden]{display:none}
+#fbDone{padding:24px 16px;display:grid;gap:14px;justify-items:start}
+#fbDone p{margin:0}
+@media (min-width:600px){
+  dialog#fb{margin:auto;width:520px;max-width:calc(100% - 32px);height:auto;max-height:calc(100% - 48px);border-radius:12px}
+}
 .key{display:flex;flex-wrap:wrap;gap:4px 14px;margin:12px 0 -6px;font-size:.8rem;color:var(--mute)}
 .key span{display:inline-flex;align-items:center;gap:5px}
 .key i{display:inline-block;width:14px;height:6px;border-radius:1px}
@@ -184,10 +222,32 @@ footer a{color:inherit;text-underline-offset:2px}
   </div>
 </section>
 
-<footer>Season windows are regional estimates, not measured data, and weather moves them. Texas and the Gulf Coast get the most attention so far, other regions are rough. Every place uses the season region it belongs to. For legal harvest dates always check your state wildlife agency. City and ZIP lookup uses <a href="https://www.geonames.org/">GeoNames</a> (CC BY 4.0). <span id="upd"></span></footer>
+<footer><div class="fbfoot fbx"><span>Spot a mistake? Tap the flag next to any food.</span><button id="fbOpen" type="button">Send feedback</button></div>Season windows are regional estimates, not measured data, and weather moves them. Texas and the Gulf Coast get the most attention so far, other regions are rough. Every place uses the season region it belongs to. For legal harvest dates always check your state wildlife agency. City and ZIP lookup uses <a href="https://www.geonames.org/">GeoNames</a> (CC BY 4.0). <span id="upd"></span></footer>
 </div>
 
+<dialog id="fb" aria-labelledby="fbTitle">
+  <div class="fbhead"><h2 id="fbTitle">Send feedback</h2><button id="fbClose" type="button">Close</button></div>
+  <form id="fbForm" class="fbbody" novalidate>
+    <fieldset>
+      <legend>What's this about?</legend>
+      <div class="fbt" id="fbTypes"></div>
+    </fieldset>
+    <div class="fbf" data-f="food"><label for="fbFood"></label><input id="fbFood" list="fbFoods" maxlength="120" autocomplete="off"><datalist id="fbFoods"></datalist></div>
+    <div class="fbf" data-f="place"><label for="fbPlace"></label><input id="fbPlace" maxlength="120" autocomplete="off"></div>
+    <div class="fbf" data-f="month"><label for="fbMonth"></label><input id="fbMonth" maxlength="60" autocomplete="off"></div>
+    <div class="fbf" data-f="msg"><label for="fbMsg"></label><textarea id="fbMsg" maxlength="2000"></textarea></div>
+    <div class="fbf" data-f="source"><label for="fbSource"></label><input id="fbSource" maxlength="300" autocomplete="off"></div>
+    <div class="fbf" data-f="contact"><label for="fbContact">Your email or phone <span class="opt">(optional, only if you'd like a reply)</span></label><input id="fbContact" maxlength="120" autocomplete="email"></div>
+    <label class="trap" aria-hidden="true">Leave this empty<input id="fbTrap" type="checkbox" tabindex="-1"></label>
+    <p class="fbnote">Nothing is sent until you tap Send. Your report, including the place and any contact details you add, is emailed through <a href="https://web3forms.com/" style="color:inherit">Web3Forms</a>, which also includes your IP address. Reports are checked before anything on the site changes.</p>
+    <p id="fbErr" role="alert"></p>
+    <button id="fbSend" type="submit">Send</button>
+  </form>
+  <div id="fbDone" hidden><p id="fbDoneText" role="status"></p><button id="fbDoneClose" type="button">Done</button></div>
+</dialog>
+
 <script>
+const FEEDBACK_KEY="47f81114-0029-496e-b613-bd28d4f63ae2"; // Web3Forms access key. Feedback stays hidden until this is set.
 const MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const FULL=["January","February","March","April","May","June","July","August","September","October","November","December"];
 const TYPES=[["all","All"],["seafood","Seafood"],["fruit","Fruit"],["veg","Veg"]];
@@ -309,6 +369,12 @@ function barEl(it,segs){
   }
   return b;
 }
+function flagEl(it){
+  const b=el("button","flag");b.type="button";b.setAttribute("aria-label","Report a problem with "+it.name);b.title="Something wrong?";
+  const s=document.createElementNS(SVGNS,"svg");s.setAttribute("width","14");s.setAttribute("height","14");s.setAttribute("viewBox","0 0 14 14");s.setAttribute("aria-hidden","true");
+  s.innerHTML='<path d="M2.5 13V1.5M2.5 2H11L9 5l2 3H2.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';
+  b.append(s);b.onclick=()=>openFeedback("correction",{food:it.name});return b;
+}
 function keyEl(){
   const k=el("div","key"),one=(style,text,cls)=>{const s=el("span"),i=el("i",cls);if(style)i.style.background=style;s.append(i,text);return s};
   k.append(one("var(--on)","In season"),one("var(--peak)","Best"),one(null,month===nowMonth()?"Today":FULL[month-1],"tick"),el("span",null,"Bars run Jan to Dec"));
@@ -362,7 +428,9 @@ function render(){
       l.append(el("span","n",it.name));
       if(type==="all") l.append(el("span","t",it.type));
       top.append(l,el("span","w",s.w));
-      body.append(top,barEl(it,windowsFor(it,reg)));
+      const line=el("div","barline");line.append(barEl(it,windowsFor(it,reg)));
+      if(FEEDBACK_KEY) line.append(flagEl(it));
+      body.append(top,line);
       if(it.note) body.append(el("div","nt",it.note));
       li.append(iconEl(it.id),body);
       ul.append(li);
@@ -488,9 +556,16 @@ function showSug(raw){
     const digits=/^\d+$/.test(norm(raw));
     const li=el("li","none",!places?"Still loading places...":digits?"No match. A US ZIP needs at least 3 digits.":"No match. Try a city, state, ZIP or food.");
     li.setAttribute("role","option");li.setAttribute("aria-disabled","true");ul.append(li);
+    if(FEEDBACK_KEY&&places&&!digits){
+      const text=raw.trim(),opt=el("li",null,"Can't find it? Suggest "+text);
+      const act=()=>{$("q").value="";hideSug();openFeedback("food",{food:text})};
+      opt.id="s0";opt.setAttribute("role","option");opt.setAttribute("aria-selected","false");
+      opt.onmousedown=e=>{e.preventDefault();act()};ul.append(opt);
+      sugItems=[{act}];sugPos=-1;
+    }
   }
   ul.hidden=false;$("q").setAttribute("aria-expanded","true");
-  if(sugItems.length)$("q").setAttribute("aria-activedescendant","s0");else $("q").removeAttribute("aria-activedescendant");
+  if(sugPos===0)$("q").setAttribute("aria-activedescendant","s0");else $("q").removeAttribute("aria-activedescendant");
 }
 
 /* ---- geometry and map load only when needed ---- */
@@ -581,7 +656,10 @@ function locate(auto){
       const id=countyAt(fix[0],fix[1]);
       done();
       if(id) choose({kind:"county",id,gps:true,fix},{replace:auto,keepScroll:auto});
-      else if(!auto) msg.textContent="That location looks outside the US, and In Season only covers the US so far."+stillShowing();
+      else if(!auto){
+        msg.textContent="That location looks outside the US, and In Season only covers the US so far."+stillShowing();
+        if(FEEDBACK_KEY){const b=el("button",null,"Ask us to cover your area");b.type="button";b.onclick=()=>openFeedback("place",{place:""});msg.append(b)}
+      }
     }catch(e){
       done();
       if(!auto) msg.textContent="Couldn't load location data. Check your signal, or search for a city."+stillShowing();
@@ -605,7 +683,7 @@ $("q").addEventListener("keydown",e=>{
   if(e.key==="ArrowDown"||e.key==="ArrowUp"){
     if(!sugItems.length) return;e.preventDefault();
     sugPos=(sugPos+(e.key==="ArrowDown"?1:-1)+sugItems.length)%sugItems.length;
-    [...$("sug").children].forEach((li,i)=>li.setAttribute("aria-selected",i===sugPos));
+    [...$("sug").querySelectorAll("li[id]")].forEach((li,i)=>li.setAttribute("aria-selected",i===sugPos));
     $("q").setAttribute("aria-activedescendant","s"+sugPos);
     $("s"+sugPos).scrollIntoView({block:"nearest"});
   }else if(e.key==="Enter"&&sugItems[sugPos]){e.preventDefault();sugItems[sugPos].act()}
@@ -631,6 +709,95 @@ document.addEventListener("visibilitychange",()=>{
   if(!new URLSearchParams(location.hash.slice(1)).has("m")&&month!==nowMonth()){month=nowMonth();update();centerMonth()}
 });
 
+/* ---- feedback: goes out only when someone taps Send ---- */
+const FB={
+  correction:{label:"Data correction",need:["food","msg"],ask:{food:"Please name the food.",msg:"Please tell us what's wrong."},fields:{food:"Which food?",place:"Where?",month:"Which month?",msg:"What's wrong, and what should it be?",source:"How do you know? (optional)"}},
+  food:{label:"New food",need:["food"],ask:{food:"Please name the food."},fields:{food:"Which food?",place:"Where is it found?",month:"Which months? (optional)",msg:"Anything else? (optional)"}},
+  category:{label:"New category",need:["food"],ask:{food:"Please tell us what to add."},fields:{food:"What should we add? For example herbs, mushrooms or game",msg:"Any examples? (optional)"}},
+  place:{label:"New place",need:["place"],ask:{place:"Please name the city or country."},fields:{place:"Which city or country?",msg:"What's in season there? (optional)"}},
+  other:{label:"Bug or idea",need:["msg"],ask:{msg:"Please tell us what's on your mind."},fields:{msg:"What's on your mind?"}}
+};
+const FBIDS={food:"fbFood",place:"fbPlace",month:"fbMonth",msg:"fbMsg",source:"fbSource"};
+const fbType=()=>$("fbTypes").querySelector("input:checked").value;
+function fbBuild(){
+  for(const [k,v] of Object.entries(FB)){
+    const l=el("label"),i=el("input");i.type="radio";i.name="fbType";i.value=k;i.onchange=()=>{fbPrefill();fbFields()};
+    l.append(i,v.label);$("fbTypes").append(l);
+  }
+  for(const it of items){const o=el("option");o.value=it.name;$("fbFoods").append(o)}
+}
+// Prefills apply only where they mean something, and never overwrite what someone typed.
+let fbPre={};
+function fbAuto(id,v){
+  const i=$(id);
+  if(!i.value||i.value===i.dataset.auto) i.value=v;
+  i.dataset.auto=v;
+}
+function fbPrefill(){
+  const t=fbType(),fromRow=fbPre.type==="correction";
+  fbAuto("fbFood",(t==="correction")===fromRow?fbPre.food||"":"");
+  fbAuto("fbPlace",fbPre.place!=null?fbPre.place:t==="place"||!sel?"":nameOfSel());
+  fbAuto("fbMonth",t==="correction"?FULL[month-1]:"");
+}
+function fbFields(){
+  const t=FB[fbType()];
+  document.querySelectorAll("#fbForm .fbf").forEach(d=>{
+    const f=d.dataset.f;
+    if(f==="contact") return;
+    const label=t.fields[f];d.hidden=!label;
+    if(label) d.querySelector("label").textContent=label;
+  });
+  $("fbErr").textContent="";
+}
+function openFeedback(type,pre={}){
+  if(!$("fbTypes").children.length) fbBuild();
+  $("fbForm").hidden=false;$("fbDone").hidden=true;$("fbErr").textContent="";
+  $("fbTypes").querySelector(`input[value=${type}]`).checked=true;
+  for(const id of ["fbFood","fbPlace","fbMonth","fbMsg","fbSource"]){$(id).value="";delete $(id).dataset.auto}
+  fbPre={...pre,type};fbPrefill();
+  fbFields();
+  $("fb").showModal();
+  $("fb").scrollTop=0;
+  const first=FB[type].need.map(f=>$(FBIDS[f])).find(i=>!i.value);
+  (first||$("fbMsg")).focus({preventScroll:true});
+}
+async function fbSubmit(e){
+  e.preventDefault();
+  const type=fbType(),t=FB[type],val=f=>t.fields[f]?$(FBIDS[f]).value.trim():"",err=$("fbErr");
+  const missing=t.need.find(f=>!val(f));
+  if(missing){err.textContent=t.ask[missing];$(FBIDS[missing]).focus();return}
+  // Bots tick the hidden box. Pretend it worked and send nothing.
+  if($("fbTrap").checked){fbDone(false);return}
+  const reg=regionOfSel(),contact=$("fbContact").value.trim(),one=x=>x.replace(/\s+/g," ");
+  const body={access_key:FEEDBACK_KEY,from_name:"In Season",
+    subject:one("In Season: "+t.label+(val("food")?", "+val("food"):"")+(val("place")?", "+val("place"):"")).slice(0,180),
+    "Report type":t.label};
+  const put=(k,v)=>{if(v)body[k]=v};
+  put("Food",val("food"));put("Place",val("place"));put("Season region",reg&&sel&&val("place")===nameOfSel()?reg.name:"");
+  put("Month",val("month"));put("Details",val("msg"));put("Source",val("source"));put("Contact",one(contact));
+  if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)) body.replyto=contact;
+  const send=$("fbSend");send.disabled=true;send.textContent="Sending...";err.textContent="";
+  try{
+    // Form encoding avoids a CORS preflight, so only the POST itself reaches the service.
+    const data=new FormData();for(const [k,v] of Object.entries(body)) data.append(k,v);
+    const r=await fetch("https://api.web3forms.com/submit",{method:"POST",body:data});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||!j.success) throw new Error(j.message||"HTTP "+r.status);
+    fbDone(!!contact);
+  }catch(x){
+    err.textContent="Couldn't send that. Check your signal and try again. What you wrote is still here.";
+  }finally{send.disabled=false;send.textContent="Send"}
+}
+function fbDone(hasContact){
+  $("fbForm").hidden=true;$("fbDone").hidden=false;
+  $("fbDoneText").textContent="Thanks, your report was sent."+(hasContact?" You may hear back at the contact you gave.":"");
+  $("fbContact").value="";$("fbDoneClose").focus();
+}
+$("fbForm").addEventListener("submit",fbSubmit);
+$("fbClose").onclick=()=>$("fb").close();
+$("fbDoneClose").onclick=()=>$("fb").close();
+$("fbOpen").onclick=()=>openFeedback(sel?"correction":"other");
+
 /* ---- boot: the answer needs only regions and items, about 3 KB gzipped ---- */
 function showSkeleton(){
   const o=$("out");o.textContent="";
@@ -651,6 +818,7 @@ async function boot(){
     return;
   }
   if(!$("months").children.length) buildControls();
+  document.body.classList.toggle("fb-on",!!FEEDBACK_KEY);
   buildIndex();
   const fromLink=readHash();
   sel=fromLink||readSaved();
