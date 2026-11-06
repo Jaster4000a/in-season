@@ -40,9 +40,14 @@ function resolve(lon, lat, abbr, county3, tally) {
 }
 
 const cTally = { geo: 0, fips: 0, lost: 0, other: 0 };
-const cities = [];
+const cities = [], territoryCities = [];
+const territories = { PR: "72", VI: "78", GU: "66", MP: "69", AS: "60" };
+let skipped = 0;
 for (const line of fs.readFileSync(citiesFile, "utf8").split("\n")) {
   const c = line.split("\t");
+  // PPLX is a section of a city (neighborhoods, even bus depots), not somewhere people search for.
+  if (c[7] === "PPLX" || /( \/ |Healthcare System|^Downtown )/.test(c[1] || "")) { skipped++; continue; }
+  if (territories[c[8]]) { territoryCities.push([c[1], territories[c[8]], +c[14] || 0]); continue; }
   if (c[8] !== "US") continue;
   const id = resolve(+c[5], +c[4], c[10], c[11], cTally);
   if (id) cities.push([c[1], id, +c[14] || 0]);
@@ -64,7 +69,7 @@ for (const [p, tally] of Object.entries(byPrefix)) zip3[p] = Object.entries(tall
 const zipOk = zipRows.filter(([zip, id]) => regionOf(zip3[zip.slice(0, 3)]) === regionOf(id)).length;
 
 const counties = Object.fromEntries(features.map(f => [f.id, f.properties.name]));
-fs.writeFileSync(path.join(root, "data/places.json"), JSON.stringify({ counties, cities, zip3 }));
-console.log({ counties: features.length, cities: cities.length, cTally, zip3: Object.keys(zip3).length, zTally,
+fs.writeFileSync(path.join(root, "data/places.json"), JSON.stringify({ counties, cities, zip3, territoryCities }));
+console.log({ counties: features.length, cities: cities.length, territoryCities: territoryCities.length, skipped, cTally, zip3: Object.keys(zip3).length, zTally,
   zip3RegionAccuracy: (100 * zipOk / zipRows.length).toFixed(1) + "%",
   bytes: fs.statSync(path.join(root, "data/places.json")).size });

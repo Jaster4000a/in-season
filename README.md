@@ -12,6 +12,10 @@ Live: https://jaster4000a.github.io/in-season/
 
 Feedback reports are emailed through [Web3Forms](https://web3forms.com/) only when someone taps Send. A report includes what they entered, the page address and their IP address. The access key in `index.html` is public by design and only sends mail to the site owner. Reports are reviewed by hand and never change the site automatically.
 
+US territories are recognized by search and location but not covered yet, since there is no season data for them.
+
+Development: `node tools/check-data.cjs` checks windows and icons. `python3 dev/serve.py` serves the site locally with a Demo / Worst case / Empty / One data toggle that never ships in the page.
+
 Season windows are regional estimates. Texas and the Gulf Coast are the most reviewed, other regions are rough.
 
 City and ZIP data from [GeoNames](https://www.geonames.org/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

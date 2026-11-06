@@ -35,7 +35,7 @@ button[aria-pressed=true],button[aria-pressed=true]:hover,button[aria-pressed=tr
 .brand{margin:0;font-size:.95rem;font-weight:700;letter-spacing:-.01em;color:var(--accent)}
 
 .placebar{position:sticky;top:var(--sat);z-index:4;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;margin:0 calc(0px - var(--gr)) 0 calc(0px - var(--gl));padding:4px var(--gr) 4px var(--gl)}
-#place{margin:0;font-size:1.45rem;line-height:1.15;letter-spacing:-.02em;font-weight:700;overflow-wrap:anywhere}
+#place{margin:0;font-size:1.45rem;line-height:1.15;letter-spacing:-.02em;font-weight:700;overflow-wrap:break-word;min-width:0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
 #change{flex:none}
 .sub{color:var(--mute);margin:0 0 12px;font-size:.92rem}
 .sub .rough{color:var(--last)}
@@ -85,6 +85,14 @@ li.item{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:12px;al
 .ic{display:block;width:40px;height:40px}
 .b{min-width:0}
 .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.top>span:first-child{min-width:0}
+@media (max-width:300px){
+  .top{flex-direction:column;gap:0}
+  .placebar{flex-wrap:wrap}
+  li.item{grid-template-columns:28px minmax(0,1fr);column-gap:8px}
+  .ic{width:28px;height:28px}
+  #filters{grid-template-columns:repeat(2,1fr)}
+}
 .bar{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;margin-top:6px}
 .bar i{display:block;height:6px;border-radius:1px;background:var(--off);position:relative}
 .bar .on{background:var(--on)}.bar .best{background:var(--peak)}
@@ -97,7 +105,7 @@ li.item{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:12px;al
 .flag:active{background:none;color:var(--accent);transform:none}
 body:not(.fb-on) .fbx{display:none}
 .fbfoot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;margin:0 0 12px;font-size:.9rem;color:var(--ink)}
-#msg button{display:block;margin-top:8px}
+#msg button,.empty button{display:block;margin-top:8px}
 dialog#fb{border:0;padding:0;background:var(--bg);color:var(--ink);width:100%;max-width:100%;height:100dvh;max-height:100dvh;margin:0;overscroll-behavior:contain}
 dialog#fb::backdrop{background:rgb(0 0 0 / .5)}
 .fbhead{position:sticky;top:0;z-index:1;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(8px + var(--sat)) var(--gr) 8px var(--gl);border-bottom:1px solid var(--line)}
@@ -283,6 +291,11 @@ footer a{color:inherit;text-underline-offset:2px}
 </dialog>
 
 <script>
+const TERR={"72":"Puerto Rico","78":"the US Virgin Islands","66":"Guam","69":"the Northern Mariana Islands","60":"American Samoa"};
+const TERRBOX=[["72",-67.95,17.85,-65.2,18.55],["78",-65.1,17.65,-64.55,18.45],["66",144.6,13.2,145,13.7],["69",145,14,146.1,20.6],["60",-171.2,-14.6,-168.1,-11]];
+const TERRZIP={"006":"72","007":"72","009":"72","008":"78","969":"66"};
+const ALIAS={nyc:"new york city",nola:"new orleans",philly:"philadelphia",vegas:"las vegas",sf:"san francisco"};
+const terrAt=(lon,lat)=>TERRBOX.find(([,w,s,e,n])=>lon>=w&&lon<=e&&lat>=s&&lat<=n)?.[0]||null;
 const FEEDBACK_KEY="47f81114-0029-496e-b613-bd28d4f63ae2"; // Web3Forms access key. Feedback stays hidden until this is set.
 const MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const FULL=["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -334,20 +347,31 @@ function resultsFor(reg,m,t){
   return g;
 }
 function seasonText(segs){
+  const span=(a,b)=>a===b?MN[a-1]:MN[a-1]+" to "+MN[b-1];
   return segs.map(([s,e,ps,pe])=>{
-    if(s===nx(e,1)) return "all year, best "+MN[ps-1]+" to "+MN[pe-1];
-    return MN[s-1]+" to "+MN[e-1]+", best "+MN[ps-1]+" to "+MN[pe-1];
+    if(s===nx(e,1)) return "all year, best "+span(ps,pe);
+    if(s===e) return MN[s-1]+" only";
+    return span(s,e)+(ps===s&&pe===e?"":", best "+span(ps,pe));
   }).join("; ");
+}
+function nextUp(reg,m,t){
+  for(let k=1;k<12;k++){
+    const mo=nx(m,k),hit=items.filter(it=>(t==="all"||it.type===t)&&windowsFor(it,reg)?.some(([s])=>s===mo));
+    if(hit.length) return {names:hit.slice(0,2).map(i=>i.name),mo};
+  }
+  return null;
 }
 
 /* ---- place names ---- */
 function countySuffix(id){
   const st=id.slice(0,2);
   // Independent cities (VA, Baltimore, St. Louis, Carson City) share names with real counties.
+  if(id==="32510") return "";
   if(["24","29","32","51"].includes(st)&&+id.slice(2)>=510) return " (city)";
   return st==="22"?" Parish":st==="02"||st==="11"?"":" County";
 }
 function countyLabel(id){
+  if(id==="11001") return "Washington, DC";
   const n=places?.counties[id],s=stateInfo[id.slice(0,2)];
   return n?n+countySuffix(id)+", "+s[0]:null;
 }
@@ -449,6 +473,8 @@ function render(){
   const name=nameOfSel();
   $("place").textContent=name;
   document.title=name+" | In Season";
+  const pl=$("place");pl.title=name;
+  if(pl.scrollHeight>parseFloat(getComputedStyle(pl).lineHeight)*2.5) sub.append(name+". ");
   sub.append(reg.name+" region · "+FULL[month-1]);
   if(reg.quality!=="better") sub.append(". ",el("span","rough","Rough draft, may be off by a few weeks."));
   const g=resultsFor(reg,month,type),titles=headings();
@@ -462,7 +488,7 @@ function render(){
       if(k!=="soon") count++;
       const li=el("li","item"),body=el("div","b"),top=el("div","top"),l=el("span");
       l.append(el("span","n",it.name));
-      if(type==="all") l.append(el("span","t",it.type));
+      if(type==="all") l.append(" ",el("span","t",it.type));
       top.append(l,el("span","w",s.w));
       const line=el("div","barline");line.append(barEl(it,windowsFor(it,reg)));
       if(FEEDBACK_KEY) line.append(flagEl(it));
@@ -473,11 +499,14 @@ function render(){
     });
     out.append(ul);
   });
-  if(!out.children.length){
-    const label=TYPES.find(x=>x[0]===type)[1].toLowerCase();
-    const p=el("p","empty",type==="all"?"Nothing tracked for "+reg.name+" in "+FULL[month-1]+".":"No "+label+" tracked for "+reg.name+" in "+FULL[month-1]+".");
+  if(!count){
+    const label=type==="all"?"":TYPES.find(x=>x[0]===type)[1].toLowerCase()+" ";
+    const next=nextUp(reg,month,type);
+    const text=next?"None of the "+(label||"foods ")+"we track "+"is in season in "+reg.name+" in "+FULL[month-1]+". Next up: "+next.names.join(" and ")+" in "+FULL[next.mo-1]+".":"We don't track any "+(label||"foods ")+"for "+reg.name+" yet.";
+    const p=el("p","empty",text);
     if(type!=="all"){const b=el("button",null,"Show everything");b.type="button";b.onclick=()=>{type="all";update()};p.append(b)}
-    out.append(p);
+    out.prepend(p);
+    out.querySelector(".key")?.remove();
   }
   $("live").textContent=name+", "+FULL[month-1]+": "+count+" in season.";
 }
@@ -537,43 +566,63 @@ function readSaved(){
 }
 
 /* ---- search ---- */
-const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim()
+const norm=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/['\u2018\u2019\u02bb`]/g,"")
+  .replace(/\b([a-z])\.([a-z])\.?/g,"$1$2").replace(/[^a-z0-9]+/g," ").trim()
   .replace(/\bsaint\b/g,"st").replace(/\bsainte\b/g,"ste").replace(/\bmount\b/g,"mt").replace(/\bfort\b/g,"ft");
 let index=[],sugItems=[],sugPos=-1;
 function addEntry(name,extra,kind,rank,pop,act,label,hint){
-  index.push({n:norm(name),all:norm(name+" "+extra),kind,rank,pop,act,label,hint});
+  const n=norm(name);
+  index.push({n,tight:n.replace(/ /g,""),all:norm(name+" "+extra),kind,rank,pop,act,label,hint});
 }
 function buildIndex(){
   index=[];
   for(const it of items) addEntry(it.name,"","item",1,0,()=>showItem(it),it.name,it.type==="veg"?"vegetable":it.type);
   for(const [id,[a,n]] of Object.entries(stateInfo)) addEntry(n,a,"state",0,0,()=>choose({kind:"state",id}),n,"state");
+  for(const [id,n] of Object.entries(TERR)){
+    const shown=n.replace(/^the /,"");
+    addEntry(shown,"","state",0,0,()=>territoryNotice(id),shown,"not covered yet");
+  }
   if(!places) return;
+  const seen={},cityLabels=new Set();
+  for(const [name,id] of places.cities){const k=name+id.slice(0,2);seen[k]=(seen[k]||0)+1}
   for(const [name,id,pop] of places.cities){
     const s=stateInfo[id.slice(0,2)],label=name+", "+s[0];
-    addEntry(name,s[0]+" "+s[1],"city",2,pop,()=>choose({kind:"county",id,label}),label,"");
+    cityLabels.add(label);
+    addEntry(name,s[0]+" "+s[1],"city",2,pop,()=>choose({kind:"county",id,label}),label,seen[name+id.slice(0,2)]>1?countyLabel(id):"");
+  }
+  for(const [name,code,pop] of places.territoryCities||[]){
+    const t=TERR[code].replace(/^the /,"");
+    addEntry(name,t,"city",2,pop,()=>territoryNotice(code),name+", "+t,"not covered yet");
   }
   for(const [id,name] of Object.entries(places.counties)){
+    if(id==="11001") continue;
     const s=stateInfo[id.slice(0,2)],suf=countySuffix(id);
+    if(cityLabels.has(name+suf+", "+s[0])) continue;
     addEntry(name+suf,s[0]+" "+s[1],"county",3,0,()=>choose({kind:"county",id}),name+suf+", "+s[0],"");
   }
 }
 function showItem(it){lookupItem=it;$("q").value="";hideSug();if(regionOfSel())openFinder(false);render()}
 function hideSug(){$("sug").hidden=true;sugItems=[];sugPos=-1;$("q").setAttribute("aria-expanded","false");$("q").removeAttribute("aria-activedescendant")}
 function search(raw){
-  const q=norm(raw);
+  let q=norm(raw);
+  q=ALIAS[q]||q;
   if(!q) return [];
   if(/^\d+$/.test(q)){
     if(q.length<3||q.length>5||!places) return [];
+    const tz=TERRZIP[q.slice(0,3)];
+    if(tz) return [{label:"ZIP "+q,hint:TERR[tz].replace(/^the /,"")+", not covered yet",act:()=>territoryNotice(tz)}];
     const id=places.zip3[q.slice(0,3)];
     if(!id) return [];
     const label="ZIP "+q;
     return [{label,hint:countyLabel(id),act:()=>choose({kind:"county",id,label})}];
   }
-  const toks=q.split(" "),out=[];
+  const toks=q.split(" "),tight=q.replace(/ /g,""),out=[];
   for(const e of index){
     const words=e.all.split(" ");
-    if(!toks.every(t=>words.some(w=>w.startsWith(t)))) continue;
-    const score=e.n===q?0:e.n.startsWith(q)?1:2;
+    const hit=toks.every(t=>words.some(w=>w.startsWith(t)));
+    if(!hit&&!e.tight.startsWith(tight)) continue;
+    let score=e.n===q?0:e.n.startsWith(q)?1:2;
+    if(e.kind==="item") score=Math.min(score,1);
     out.push([score,e]);
   }
   out.sort((a,b)=>a[0]-b[0]||a[1].rank-b[1].rank||b[1].pop-a[1].pop||a[1].label.localeCompare(b[1].label));
@@ -592,8 +641,15 @@ function showSug(raw){
   });
   if(!sugItems.length){
     const digits=/^\d+$/.test(norm(raw));
-    const li=el("li","none",!places?"Still loading places...":digits?"No match. A US ZIP needs at least 3 digits.":"No match. Try a city, state, ZIP or food.");
+    const zq=norm(raw);
+    const li=el("li","none",!places?(placesFailed?"Couldn't load city and ZIP search. Check your signal.":"Still loading places..."):digits?(zq.length<3?"Keep typing, a ZIP needs at least 3 digits.":"We don't have ZIP "+zq+". Try a city name."):"No match. Try a city, state, ZIP or food.");
     li.setAttribute("role","option");li.setAttribute("aria-disabled","true");ul.append(li);
+    if(!places&&placesFailed){
+      const opt=el("li",null,"Try again"),act=()=>loadPlaces();
+      opt.id="s0";opt.setAttribute("role","option");opt.setAttribute("aria-selected","false");
+      opt.onmousedown=e=>{e.preventDefault();act()};ul.append(opt);
+      sugItems=[{act}];sugPos=-1;
+    }
     if(FEEDBACK_KEY&&places&&!digits){
       const text=raw.trim(),opt=el("li",null,"Can't find it? Suggest "+text);
       const act=()=>{$("q").value="";hideSug();openFeedback("food",{food:text})};
@@ -751,6 +807,20 @@ async function showMap(){
 }
 
 /* ---- GPS ---- */
+function coverageNotice(text,place,auto){
+  const msg=$("msg"),showing=sel?" Still showing "+nameOfSel()+".":"";
+  if(sel&&$("finder").hidden) openFinder(true);
+  msg.textContent=text+showing;
+  if(FEEDBACK_KEY){
+    const b=el("button",null,place?"Ask us to cover "+place:"Ask us to cover your area");b.type="button";
+    b.onclick=()=>openFeedback("place",{place:(place||"").replace(/^the /,"")});msg.append(b);
+  }
+}
+function territoryNotice(code){
+  const n=TERR[code],shown=n.replace(/^the /,""),cap=n[0].toUpperCase()+n.slice(1);
+  $("q").value="";hideSug();
+  coverageNotice(cap+(/Islands$/.test(n)?" aren't":" isn't")+" covered yet. We don't have season data for the US territories, and we'd rather say so than guess.",n);
+}
 const dist=(a,b)=>Math.hypot((a[0]-b[0])*Math.cos(a[1]*Math.PI/180),a[1]-b[1])*111;
 function locate(auto){
   const gps=$("gps"),msg=$("msg");
@@ -761,15 +831,14 @@ function locate(auto){
   navigator.geolocation.getCurrentPosition(async p=>{
     const fix=[+p.coords.longitude.toFixed(3),+p.coords.latitude.toFixed(3)];
     if(auto&&sel?.fix&&dist(sel.fix,fix)<3){done();return}
+    const tc=terrAt(fix[0],fix[1]);
+    if(tc){done();territoryNotice(tc);return}
     try{
       await loadGeo();
       const id=countyAt(fix[0],fix[1]);
       done();
       if(id) choose({kind:"county",id,gps:true,fix},{replace:auto,keepScroll:auto});
-      else if(!auto){
-        msg.textContent="That location looks outside the US, and In Season only covers the US so far."+stillShowing();
-        if(FEEDBACK_KEY){const b=el("button",null,"Ask us to cover your area");b.type="button";b.onclick=()=>openFeedback("place",{place:""});msg.append(b)}
-      }
+      else coverageNotice("That location looks outside the US, and In Season only covers the US so far.");
     }catch(e){
       done();
       if(!auto) msg.textContent="Couldn't load location data. Check your signal, or search for a city."+stillShowing();
@@ -913,6 +982,17 @@ function showSkeleton(){
   const o=$("out");o.textContent="";
   for(let i=0;i<6;i++)o.append(el("div","skel"));
 }
+let placesFailed=false;
+function loadPlaces(){
+  placesFailed=false;
+  if($("q").value) showSug($("q").value);
+  return fetch("data/places.json").then(x=>{if(!x.ok)throw 0;return x.json()}).then(p=>{
+    places=p;buildIndex();
+    if(sel?.label&&sel.kind==="county"&&!labelIsValid(sel.label,sel.id)) delete sel.label;
+    render();saveState();
+    if($("q").value) showSug($("q").value);
+  }).catch(()=>{placesFailed=true;if($("q").value) showSug($("q").value)});
+}
 async function boot(){
   showSkeleton();
   try{
@@ -930,16 +1010,13 @@ async function boot(){
   if(!$("months").children.length) buildControls();
   document.body.classList.toggle("fb-on",!!FEEDBACK_KEY);
   buildIndex();
+  const linkTerr=new URLSearchParams(location.hash.slice(1)).get("c")?.slice(0,2);
   const fromLink=readHash();
   sel=fromLink||readSaved();
   $("change").textContent="Change";$("change").setAttribute("aria-expanded","false");
   update();centerMonth();
-  fetch("data/places.json").then(x=>{if(!x.ok)throw 0;return x.json()}).then(p=>{
-    places=p;buildIndex();
-    if(sel?.label&&sel.kind==="county"&&!labelIsValid(sel.label,sel.id)) delete sel.label;
-    render();saveState();
-    if($("q").value) showSug($("q").value);
-  }).catch(()=>{});
+  loadPlaces();
+  if(TERR[linkTerr]) territoryNotice(linkTerr);
   if(desktop.matches||!$("mappanel").hidden) showMap();
   if(!fromLink&&(!sel||sel.gps)) autoLocate();
 }
