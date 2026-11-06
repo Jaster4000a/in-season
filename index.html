@@ -3,86 +3,201 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf8f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14181a" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='18' r='12' fill='%23c2410c'/%3E%3Cpath d='M16 7c0-3 2-5 6-5 0 3-2 5-6 5z' fill='%2315803d'/%3E%3C/svg%3E">
 <title>In Season</title>
-<meta name="description" content="Find out what seafood, fruit and vegetables are in season where you live. Search by state or county, or use your location.">
+<meta name="description" content="Find out what seafood, fruit and vegetables are in season where you are. Use your location, or search a city, ZIP or state.">
 <style>
-:root{--bg:#faf8f3;--card:#fff;--ink:#1d2b24;--mute:#68746d;--line:#e4dfd3;--accent:#c2410c;--peak:#15803d;--soon:#1d4ed8;--last:#b45309;--land:#c2410c}
-@media (prefers-color-scheme:dark){:root{--bg:#14181a;--card:#1d2326;--ink:#e8ece9;--mute:#98a39d;--line:#2c3539;--accent:#fb923c;--peak:#4ade80;--soon:#7aa7ff;--last:#fbbf24;--land:#fb923c}}
+:root{color-scheme:light dark;--bg:#faf8f3;--card:#fff;--ink:#1d2b24;--mute:#5f6b64;--line:#e4dfd3;--ctl:#8f8b80;--accent:#c2410c;--on-accent:#fff;--peak:#15803d;--soon:#1d4ed8;--last:#b45309;--land:#c2410c;--hover:#f1ede3}
+@media (prefers-color-scheme:dark){:root{--bg:#14181a;--card:#1d2326;--ink:#e8ece9;--mute:#a3aea8;--line:#2c3539;--ctl:#6f7b80;--accent:#fb923c;--on-accent:#14181a;--peak:#4ade80;--soon:#7aa7ff;--last:#fbbf24;--land:#fb923c;--hover:#293136}}
 *{box-sizing:border-box}
+::selection{background:var(--accent);color:var(--on-accent)}
+::placeholder{color:var(--mute);opacity:1}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+input::-webkit-search-cancel-button{filter:grayscale(1)}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
-main{max-width:860px;margin:0 auto;padding:24px 16px 56px}
-h1{margin:0;font-size:1.9rem;letter-spacing:-.02em}
-.sub{color:var(--mute);margin:.2rem 0 1rem}
-.row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-select,button,input{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+button,input{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--ctl);border-radius:8px;min-height:44px;padding:8px 12px}
 button{cursor:pointer}
-button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.search{position:relative;flex:1 1 240px}
+@media (hover:hover){button:hover{background:var(--hover)}}
+button:active{background:var(--hover)}
+button[aria-pressed=true],button[aria-pressed=true]:hover,button[aria-pressed=true]:active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip{position:absolute;left:8px;top:-60px;z-index:10;background:var(--card);padding:10px 14px;border-radius:8px}
+.skip:focus{top:8px}
+
+.shell{max-width:640px;margin:0 auto;padding:12px 16px 48px}
+.brand{margin:0;font-size:.95rem;font-weight:700;letter-spacing:-.01em;color:var(--accent)}
+
+.placebar{position:sticky;top:0;z-index:4;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;margin:0 -16px;padding:4px 16px}
+#place{margin:0;font-size:1.45rem;line-height:1.15;letter-spacing:-.02em;font-weight:700;overflow-wrap:anywhere}
+#change{flex:none}
+.sub{color:var(--mute);margin:0 0 12px;font-size:.92rem}
+.sub .rough{color:var(--last)}
+
+#finder{margin:0 0 14px}
+#finder[hidden]{display:none}
+#gps{width:100%;margin-bottom:8px}
+#gps.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:600}
+#gps[disabled]{opacity:.7;cursor:progress}
+.search{position:relative}
 .search input{width:100%}
-#sug{position:absolute;z-index:5;left:0;right:0;top:100%;margin:2px 0 0;padding:0;list-style:none;background:var(--card);border:1px solid var(--line);border-radius:8px;max-height:260px;overflow:auto;display:none}
-#sug li{padding:8px 12px;cursor:pointer;display:block;border:0;border-radius:0}
-#sug li:hover,#sug li[aria-selected=true]{background:var(--line)}
-.mapwrap{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;margin-bottom:6px}
+#sug{position:absolute;z-index:6;left:0;right:0;top:100%;margin:4px 0 0;padding:4px 0;list-style:none;background:var(--card);border:1px solid var(--ctl);border-radius:8px;max-height:min(312px,50vh);overflow:auto;box-shadow:0 8px 24px rgb(0 0 0 / .16)}
+#sug[hidden]{display:none}
+#sug li{min-height:44px;padding:10px 12px;cursor:pointer}
+#sug li[aria-selected=true]{background:var(--hover)}
+#sug li.none{cursor:default;color:var(--mute)}
+#sug .k{color:var(--mute);font-size:.82rem;margin-left:6px}
+#msg{margin:8px 0 0;font-size:.9rem;color:var(--mute)}
+#msg:empty{display:none}
+.privacy{margin:8px 0 0;font-size:.82rem;color:var(--mute)}
+
+.months{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(52px,1fr);gap:4px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:2px 16px;scroll-padding:0 16px;overscroll-behavior-x:contain}
+.months::-webkit-scrollbar{display:none}
+.months button{position:relative;padding:6px 0;font-size:.88rem}
+.months button[aria-current=date]::after{content:"";position:absolute;left:50%;bottom:5px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--accent)}
+.viewing{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0 0;font-size:.92rem}
+.viewing[hidden]{display:none}
+.viewing button{flex:none}
+
+#controls:not([hidden]){display:contents}
+#filters{position:sticky;top:52px;z-index:3;background:var(--bg);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:6px -16px 0;padding:6px 16px}
+#filters button{padding:6px 2px;font-size:.92rem}
+
+#lookup{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+#lookup[hidden]{display:none}
+#lookup p{margin:0;padding-top:2px}
+#lookup b{font-weight:650}
+#lookup button{flex:none;width:44px;padding:0;display:grid;place-items:center}
+
+h3{font-size:1.02rem;font-weight:700;margin:22px 0 2px;letter-spacing:-.005em}
+h3.peak{color:var(--peak)}h3.last{color:var(--last)}h3.soon{color:var(--soon)}h3.in{color:var(--mute)}
+ul.list{list-style:none;margin:0;padding:0}
+li.item{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
+.n{font-weight:600}
+.t{font-size:.72rem;color:var(--mute);margin-left:7px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.w{color:var(--mute);font-size:.85rem;text-align:right;white-space:nowrap}
+.nt{grid-column:1/-1;color:var(--mute);font-size:.87rem;margin-top:1px}
+.empty{color:var(--mute);margin:20px 0 0}
+.empty button{display:block;margin-top:10px}
+.state{margin:20px 0 0}
+.state button{display:block;margin-top:10px}
+.skel{height:40px;border-bottom:1px solid var(--line);background:linear-gradient(var(--hover),var(--hover)) 0 50%/55% 14px no-repeat}
+
+#mapsec{margin-top:24px}
+#explore{width:100%;display:flex;align-items:center;justify-content:center;gap:8px}
+#explore svg{transition:transform .15s ease-out}
+#explore[aria-expanded=true] svg{transform:rotate(180deg)}
+#mappanel{margin-top:10px}
+#mappanel[hidden]{display:none}
+.mapwrap{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;aspect-ratio:975/610}
 #map{display:block;width:100%;height:auto;touch-action:pan-y}
+#mapstate{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;color:var(--mute);font-size:.92rem;text-align:center;padding:12px}
+#mapstate[hidden]{display:none}
 .county{stroke:none;cursor:pointer;fill:var(--land)}
-.state{fill:none;stroke:var(--bg);stroke-width:.8;pointer-events:none}
+.borders{fill:none;stroke:var(--bg);stroke-width:.8;pointer-events:none}
 .sel{fill:none;stroke:var(--ink);stroke-width:2;vector-effect:non-scaling-stroke;pointer-events:none}
-#tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:.8rem;padding:3px 8px;border-radius:6px;display:none;white-space:nowrap}
-.zoom{position:absolute;right:8px;top:8px;display:grid;gap:4px}
-.zoom button{padding:2px 10px;line-height:1.3}
-.legend{color:var(--mute);font-size:.78rem;margin:0 0 16px}
-.months{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin:0 0 6px}
-.months button{padding:6px 0;font-size:.78rem;border-radius:6px}
-h2{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;margin:26px 0 8px}
-h2.peak{color:var(--peak)}h2.last{color:var(--last)}h2.soon{color:var(--soon)}h2.in{color:var(--mute)}
-ul.list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-li.item{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
-.n{font-weight:600}.t{font-size:.72rem;color:var(--mute);margin-left:8px;text-transform:uppercase;letter-spacing:.05em}
-.w{color:var(--mute);font-size:.85rem}
-.nt{flex-basis:100%;color:var(--mute);font-size:.88rem}
-.banner{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--last);border-radius:8px;padding:10px 14px;font-size:.88rem;color:var(--mute);margin:14px 0 0}
-.empty{color:var(--mute);font-size:.95rem;margin-top:20px}
-footer{margin-top:36px;color:var(--mute);font-size:.82rem;border-top:1px solid var(--line);padding-top:14px}
+#tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:.8rem;padding:3px 8px;border-radius:6px;white-space:nowrap}
+#tip[hidden]{display:none}
+.zoom{position:absolute;right:6px;top:6px;display:grid;gap:4px}
+.zoom[hidden]{display:none}
+.zoom button{width:40px;min-height:40px;padding:0;display:grid;place-items:center}
+.legend{color:var(--mute);font-size:.8rem;margin:6px 0 0}
+footer{margin-top:28px;color:var(--mute);font-size:.82rem;border-top:1px solid var(--line);padding-top:12px}
+footer a{color:inherit;text-underline-offset:2px}
+
+@media (min-width:960px){
+  .shell{max-width:1200px;padding:20px 28px 56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:36px;align-items:start}
+  #col{min-width:0}
+  #mapsec{margin:0;position:sticky;top:20px;grid-column:2}
+  #explore{display:none}
+  #mappanel{margin:0;display:block!important}
+  footer{grid-column:1/-1}
+  .placebar,#filters,.months{margin-left:0;margin-right:0;padding-left:0;padding-right:0}
+  .months{grid-auto-columns:minmax(0,1fr);overflow:visible}
+  .months button{font-size:.82rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
-<main>
-<h1>In Season</h1>
-<p class="sub" id="sub">Pick a place to see what's in season there.</p>
-<div class="row">
-  <div class="search">
-    <input id="q" type="search" placeholder="Search a state or county" autocomplete="off" aria-label="Search a state or county" aria-controls="sug">
-    <ul id="sug" role="listbox"></ul>
+<a class="skip" href="#out">Skip to results</a>
+<div class="shell">
+<div id="col">
+  <h1 class="brand">In Season</h1>
+  <div class="placebar">
+    <h2 id="place">What's in season where you are?</h2>
+    <button id="change" type="button" hidden>Change</button>
   </div>
-  <button id="gps">Use my location</button>
+  <p class="sub" id="sub"></p>
+
+  <div id="finder">
+    <button id="gps" type="button" class="primary">Use my location</button>
+    <div class="search">
+      <input id="q" type="search" placeholder="Search a city, ZIP, state or food" autocomplete="off" autocapitalize="off" enterkeyhint="search"
+        role="combobox" aria-label="Search a city, ZIP, state or food" aria-autocomplete="list" aria-expanded="false" aria-controls="sug">
+      <ul id="sug" role="listbox" aria-label="Search results" hidden></ul>
+    </div>
+    <p id="msg" role="status"></p>
+    <p class="privacy" id="privacy">Your location stays on your device.</p>
+  </div>
+
+  <div id="controls" hidden>
+    <div class="months" id="months" role="group" aria-label="Month"></div>
+    <div class="viewing" id="viewing" hidden><span id="viewingText"></span><button id="backNow" type="button"></button></div>
+    <div id="filters" role="group" aria-label="Type of food"></div>
+  </div>
+  <div id="lookup" hidden><p id="lookupText"></p><button id="lookupClose" type="button" aria-label="Dismiss"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+  <div id="out" tabindex="-1"></div>
+  <div id="live" class="vh" aria-live="polite"></div>
 </div>
-<div class="mapwrap">
-  <svg id="map" viewBox="0 0 975 610" role="img" aria-label="Map of US counties. Select one to see what is in season there."></svg>
-  <div class="zoom"><button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">&minus;</button><button id="zreset" aria-label="Reset zoom">&#8962;</button></div>
-  <div id="tip"></div>
+
+<section id="mapsec" aria-label="Map">
+  <button id="explore" type="button" aria-expanded="false" aria-controls="mappanel">Explore the map <svg width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <div id="mappanel" hidden>
+    <div class="mapwrap">
+      <svg id="map" viewBox="0 0 975 610" role="img" aria-label="Map of US counties shaded by how much is in season. Search gives the same places by keyboard."></svg>
+      <div id="mapstate">Loading the map...</div>
+      <div class="zoom" id="zoomctl" hidden>
+        <button id="zin" type="button" aria-label="Zoom in"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <button id="zout" type="button" aria-label="Zoom out"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M1 7h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+        <button id="zreset" type="button" aria-label="Reset zoom"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7.5L8 2l6 5.5M4 6.5V14h8V6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <div id="tip" hidden></div>
+    </div>
+    <p class="legend">Stronger color means more in season for the chosen month. Drag to pan, buttons to zoom.</p>
+  </div>
+</section>
+
+<footer>Season windows are regional estimates, not measured data, and weather moves them. Texas and the Gulf Coast get the most attention so far, other regions are rough. Every place uses the season region it belongs to. For legal harvest dates always check your state wildlife agency. City and ZIP lookup uses <a href="https://www.geonames.org/">GeoNames</a> (CC BY 4.0). <span id="upd"></span></footer>
 </div>
-<p class="legend">Darker means more things in season for the chosen month. Drag to pan, buttons to zoom.</p>
-<div class="months" id="months" role="group" aria-label="Month"></div>
-<div class="row" id="filters" style="margin-top:12px"></div>
-<div id="banner"></div>
-<div id="out"></div>
-<footer>Season windows are regional estimates, not measured data, and weather moves them. Texas and the Gulf Coast get the most attention so far, other regions are rough. County results use the region the county belongs to. For legal harvest dates always check your state wildlife agency. <span id="upd"></span></footer>
-</main>
-<script src="vendor/d3.min.js"></script>
-<script src="vendor/topojson-client.min.js"></script>
+
 <script>
 const MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const FULL=["January","February","March","April","May","June","July","August","September","October","November","December"];
 const TYPES=[["all","All"],["seafood","Seafood"],["fruit","Fruit"],["veg","Veg"]];
 const TORDER={seafood:0,fruit:1,veg:2};
-let topo,counties,states,regions,items,regById={},stateInfo,cRegion,
-    month=new Date().getMonth()+1,type="all",sel=null; // sel: {kind:'county'|'state',id}
 const $=id=>document.getElementById(id);
+const el=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e};
+const safe=f=>{try{return f()}catch(e){}};
 const inR=(m,a,b)=>a<=b?m>=a&&m<=b:m>=a||m<=b;
 const nx=(m,k)=>((m-1+k)%12)+1;
-const safe=(f)=>{try{return f()}catch(e){}};
+const nowMonth=()=>new Date().getMonth()+1;
+const desktop=matchMedia("(min-width:960px)");
+
+let regions,items,regById={},stateInfo,overrides,places=null;
+let month=nowMonth(),type="all",lookupItem=null;
+let sel=null; // {kind:'county'|'state',id,label?,gps?,fix?}
+let finderOpen=false;
 
 /* ---- season logic ---- */
+const regionOfCounty=id=>overrides[id]||stateInfo[id.slice(0,2)]?.[2];
+function regionOfSel(){
+  if(!sel) return null;
+  return regById[sel.kind==="county"?regionOfCounty(sel.id):stateInfo[sel.id]?.[2]]||null;
+}
 function windowsFor(it,reg){
   if(it.only&&!it.only.includes(reg.id)) return null;
   return it.w[reg.id]||it.w[reg.band]||null;
@@ -90,12 +205,13 @@ function windowsFor(it,reg){
 function statusOf(segs,m){
   for(const [s,e,ps,pe] of segs){
     if(inR(m,s,e)){
-      if(!inR(nx(m,1),s,e)) return {g:"last",w:"Ends after "+MN[e-1]};
-      if(inR(m,ps,pe)) return {g:"peak",w:"Peak until "+MN[pe-1]};
-      return {g:"in",w:"In season until "+MN[e-1]};
+      if(s===nx(e,1)) return inR(m,ps,pe)?{g:"peak",w:"Peak through "+MN[pe-1]}:{g:"in",w:"All year"};
+      if(!inR(nx(m,1),s,e)) return {g:"last",w:m===nowMonth()?"Ends this month":"Ends in "+MN[m-1]};
+      if(inR(m,ps,pe)) return {g:"peak",w:"Peak through "+MN[pe-1]};
+      return {g:"in",w:"Through "+MN[e-1]};
     }
   }
-  for(const k of [1,2]) for(const [s,e] of segs) if(inR(nx(m,k),s,e)) return {g:"soon",w:"Starts "+MN[s-1]};
+  for(const k of [1,2]) for(const [s] of segs) if(s===nx(m,k)) return {g:"soon",w:"Starts "+MN[s-1]};
   return null;
 }
 function resultsFor(reg,m,t){
@@ -108,127 +224,343 @@ function resultsFor(reg,m,t){
   for(const k in g) g[k].sort((a,b)=>TORDER[a[0].type]-TORDER[b[0].type]||a[0].name.localeCompare(b[0].name));
   return g;
 }
-function regionOfSel(){
-  if(!sel) return null;
-  if(sel.kind==="county") return regById[cRegion[sel.id]]||null;
-  return regById[stateInfo[sel.id]?.[2]]||null;
+function seasonText(segs){
+  return segs.map(([s,e,ps,pe])=>{
+    if(s===nx(e,1)) return "all year, best "+MN[ps-1]+" to "+MN[pe-1];
+    return MN[s-1]+" to "+MN[e-1]+", best "+MN[ps-1]+" to "+MN[pe-1];
+  }).join("; ");
+}
+
+/* ---- place names ---- */
+function countySuffix(id){
+  const st=id.slice(0,2);
+  // Independent cities (VA, Baltimore, St. Louis, Carson City) share names with real counties.
+  if(["24","29","32","51"].includes(st)&&+id.slice(2)>=510) return " (city)";
+  return st==="22"?" Parish":st==="02"||st==="11"?"":" County";
+}
+function countyLabel(id){
+  const n=places?.counties[id],s=stateInfo[id.slice(0,2)];
+  return n?n+countySuffix(id)+", "+s[0]:null;
 }
 function nameOfSel(){
-  if(sel.kind==="county"){const f=counties.find(c=>c.id===sel.id);return f.properties.name+", "+stateInfo[sel.id.slice(0,2)][0]}
-  return stateInfo[sel.id][1];
+  if(sel.label) return sel.label;
+  if(sel.kind==="state") return stateInfo[sel.id][1];
+  return countyLabel(sel.id)||stateInfo[sel.id.slice(0,2)][1];
+}
+function labelIsValid(label,id){
+  if(/^ZIP \d{3,5}$/.test(label)) return true;
+  const ab=stateInfo[id.slice(0,2)][0];
+  return !places||places.cities.some(c=>c[1]===id&&c[0]+", "+ab===label);
 }
 
-/* ---- map ---- */
-let svg,gMap,paths,selPath,pathGen,zoom;
-function drawMap(){
-  svg=d3.select("#map");
-  const nation=topojson.feature(topo,topo.objects.nation);
-  const proj=d3.geoAlbersUsa().fitSize([975,610],nation);
-  pathGen=d3.geoPath(proj);
-  gMap=svg.append("g");
-  paths=gMap.append("g").selectAll("path").data(counties.filter(c=>cRegion[c.id])).join("path")
-    .attr("class","county").attr("d",pathGen)
-    .on("click",(ev,d)=>choose({kind:"county",id:d.id}))
-    .on("mousemove",(ev,d)=>{const t=$("tip"),r=$("map").parentNode.getBoundingClientRect();
-      t.style.display="block";t.textContent=d.properties.name+", "+stateInfo[d.id.slice(0,2)][0];
-      t.style.left=Math.min(ev.clientX-r.left+12,r.width-140)+"px";t.style.top=(ev.clientY-r.top+12)+"px"})
-    .on("mouseleave",()=>$("tip").style.display="none");
-  gMap.append("path").attr("class","state").attr("d",pathGen(topojson.mesh(topo,topo.objects.states,(a,b)=>a!==b)));
-  selPath=gMap.append("path").attr("class","sel");
-  zoom=d3.zoom().scaleExtent([1,10]).translateExtent([[0,0],[975,610]])
-    .filter(ev=>!ev.ctrlKey&&ev.type!=="wheel"&&!ev.button)
-    .on("zoom",ev=>gMap.attr("transform",ev.transform));
-  svg.call(zoom);
-  $("zin").onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1.6);
-  $("zout").onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1/1.6);
-  $("zreset").onclick=()=>svg.transition().duration(200).call(zoom.transform,d3.zoomIdentity);
+/* ---- render ---- */
+function buildControls(){
+  const mo=$("months");
+  MN.forEach((l,i)=>{const b=el("button",null,l);b.type="button";b.setAttribute("aria-label",FULL[i]);b.onclick=()=>{month=i+1;update();keepList()};mo.append(b)});
+  const f=$("filters");
+  TYPES.forEach(([k,l])=>{const b=el("button",null,l);b.type="button";b.dataset.k=k;b.onclick=()=>{type=k;update();keepList()};f.append(b)});
 }
-function paintMap(){
-  const counts={};let max=1;
-  for(const r of regions){
-    const g=resultsFor(r,month,type);
-    counts[r.id]=g.last.length+g.peak.length+g.in.length;
-    max=Math.max(max,counts[r.id]);
+function syncControls(){
+  const today=nowMonth();
+  [...$("months").children].forEach((b,i)=>{
+    b.setAttribute("aria-pressed",i+1===month);
+    if(i+1===today) b.setAttribute("aria-current","date"); else b.removeAttribute("aria-current");
+  });
+  [...$("filters").children].forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===type));
+  const browsing=month!==today;
+  $("viewing").hidden=!browsing;
+  if(browsing){$("viewingText").textContent="Viewing "+FULL[month-1]+", not today.";$("backNow").textContent="Back to "+FULL[today-1]}
+}
+function centerMonth(){
+  const strip=$("months"),b=strip.children[month-1];
+  if(b&&strip.scrollWidth>strip.clientWidth) strip.scrollLeft=b.offsetLeft-strip.offsetLeft-(strip.clientWidth-b.offsetWidth)/2;
+}
+function headings(){
+  if(month===nowMonth()) return {last:"Last call",peak:"Peak now",in:"Also in season",soon:"Coming up"};
+  const n=FULL[month-1];
+  return {last:"Last call in "+n,peak:"Peak in "+n,in:"Also in season in "+n,soon:"Coming after "+n};
+}
+function renderLookup(reg){
+  const box=$("lookup");
+  if(!lookupItem){box.hidden=true;return}
+  const t=$("lookupText");t.textContent="";
+  t.append(el("b",null,lookupItem.name));
+  if(!reg) t.append(". Pick a place to see its season there.");
+  else{
+    const segs=windowsFor(lookupItem,reg);
+    t.append(segs?" in "+reg.name+": "+seasonText(segs)+".":" isn't tracked for "+reg.name+".");
   }
-  paths.attr("fill-opacity",d=>.08+.82*(counts[cRegion[d.id]]/max));
-  if(sel){
-    const f=sel.kind==="county"?counties.find(c=>c.id===sel.id):states.find(s=>s.id===sel.id);
-    selPath.attr("d",pathGen(f));
-  } else selPath.attr("d",null);
+  box.hidden=false;
 }
-
-/* ---- UI ---- */
 function render(){
-  const f=$("filters");f.innerHTML="";
-  TYPES.forEach(([k,l])=>{const b=document.createElement("button");b.textContent=l;b.setAttribute("aria-pressed",k===type);b.onclick=()=>{type=k;update()};f.append(b)});
-  const mo=$("months");mo.innerHTML="";
-  MN.forEach((l,i)=>{const b=document.createElement("button");b.textContent=l;b.setAttribute("aria-pressed",i+1===month);b.onclick=()=>{month=i+1;update()};mo.append(b)});
-  const out=$("out");out.innerHTML="";$("banner").innerHTML="";
-  const reg=regionOfSel();
-  if(!reg){$("sub").textContent="Pick a place to see what's in season there.";return}
-  $("sub").textContent=nameOfSel()+" ("+reg.name+") · "+FULL[month-1];
-  if(reg.quality!=="better"){
-    const b=document.createElement("div");b.className="banner";
-    b.textContent="Rough estimate for "+reg.name+". These windows are a first draft and may be off by a few weeks.";
-    $("banner").append(b);
+  const reg=regionOfSel(),out=$("out");
+  out.textContent="";
+  $("controls").hidden=!reg;
+  $("change").hidden=!reg;
+  $("finder").hidden=!!reg&&!finderOpen;
+  $("gps").classList.toggle("primary",!reg);
+  $("privacy").hidden=!!reg;
+  renderLookup(reg);
+  syncControls();
+  const sub=$("sub");sub.textContent="";
+  if(!reg){
+    $("place").textContent="What's in season where you are?";
+    sub.textContent="Seafood, fruit and vegetables, right now, US only for now.";
+    document.title="In Season";
+    return;
   }
-  const g=resultsFor(reg,month,type);
-  const titles={last:"Last call",peak:"Peak now",in:"Also in season",soon:"Coming up"};
+  const name=nameOfSel();
+  $("place").textContent=name;
+  document.title=name+" | In Season";
+  sub.append(reg.name+" region · "+FULL[month-1]);
+  if(reg.quality!=="better") sub.append(". ",el("span","rough","Rough draft, may be off by a few weeks."));
+  const g=resultsFor(reg,month,type),titles=headings();
+  let count=0;
   ["last","peak","in","soon"].forEach(k=>{
     if(!g[k].length) return;
-    const h=document.createElement("h2");h.className=k;h.textContent=titles[k];out.append(h);
-    const ul=document.createElement("ul");ul.className="list";
+    out.append(el("h3",k,titles[k]));
+    const ul=el("ul","list");
     g[k].forEach(([it,s])=>{
-      const li=document.createElement("li");li.className="item";
-      const l=document.createElement("span");
-      const n=document.createElement("span");n.className="n";n.textContent=it.name;
-      const t=document.createElement("span");t.className="t";t.textContent=it.type;
-      l.append(n,t);
-      const w=document.createElement("span");w.className="w";w.textContent=s.w;
-      li.append(l,w);
-      if(it.note){const p=document.createElement("div");p.className="nt";p.textContent=it.note;li.append(p)}
+      if(k!=="soon") count++;
+      const li=el("li","item"),l=el("span");
+      l.append(el("span","n",it.name));
+      if(type==="all") l.append(el("span","t",it.type));
+      li.append(l,el("span","w",s.w));
+      if(it.note) li.append(el("div","nt",it.note));
       ul.append(li);
     });
     out.append(ul);
   });
-  if(!out.children.length){const p=document.createElement("p");p.className="empty";p.textContent="Nothing in this filter for "+FULL[month-1]+" in this region.";out.append(p)}
+  if(!out.children.length){
+    const label=TYPES.find(x=>x[0]===type)[1].toLowerCase();
+    const p=el("p","empty",type==="all"?"Nothing tracked for "+reg.name+" in "+FULL[month-1]+".":"No "+label+" tracked for "+reg.name+" in "+FULL[month-1]+".");
+    if(type!=="all"){const b=el("button",null,"Show everything");b.type="button";b.onclick=()=>{type="all";update()};p.append(b)}
+    out.append(p);
+  }
+  $("live").textContent=name+", "+FULL[month-1]+": "+count+" in season.";
 }
 function update(){render();paintMap();saveState()}
-function choose(s){sel=s;$("q").value="";hideSug();update()}
-function saveState(){
-  const h=sel?"#"+(sel.kind==="county"?"c=":"s=")+sel.id+"&m="+month+"&t="+type:"#m="+month+"&t="+type;
-  safe(()=>history.replaceState(null,"",h));
+function keepList(){
+  // Changing month or type while scrolled keeps the top of the list under the sticky bars.
+  const stack=$("filters").getBoundingClientRect().bottom,top=$("out").getBoundingClientRect().top;
+  if(top<stack) scrollBy(0,top-stack);
+}
+function openFinder(open,focus){
+  finderOpen=open;
+  $("finder").hidden=!!regionOfSel()&&!open;
+  $("change").textContent=open?"Close":"Change";
+  $("change").setAttribute("aria-expanded",open);
+  if(open){scrollTo(0,0);if(focus)$("q").focus()}
+  else{$("q").value="";hideSug()}
+}
+function choose(s,opts={}){
+  const changed=!sel||sel.kind!==s.kind||sel.id!==s.id||sel.label!==s.label;
+  sel=s;
+  if(!opts.quiet) $("msg").textContent="";
+  openFinder(false);
+  render();paintMap();saveState(changed&&!opts.replace);
+  if(!opts.keepScroll) scrollTo(0,0);
+}
+
+/* ---- state: only an explicitly chosen other month goes in the link ---- */
+function hashNow(){
+  const p=new URLSearchParams();
+  if(sel){p.set(sel.kind==="county"?"c":"s",sel.id);if(sel.label)p.set("n",sel.label)}
+  if(month!==nowMonth())p.set("m",month);
+  if(type!=="all")p.set("t",type);
+  const h=p.toString();
+  return h?"#"+h:location.pathname+location.search;
+}
+function saveState(push){
+  safe(()=>history[push?"pushState":"replaceState"](null,"",hashNow()));
   safe(()=>localStorage.setItem("inseason",JSON.stringify({sel})));
 }
-function loadState(){
+function readHash(){
   const p=new URLSearchParams(location.hash.slice(1));
-  const m=+p.get("m");if(m>=1&&m<=12)month=m;
-  const t=p.get("t");if(TYPES.some(x=>x[0]===t))type=t;
-  if(p.get("c")&&cRegion[p.get("c")]) sel={kind:"county",id:p.get("c")};
-  else if(p.get("s")&&stateInfo[p.get("s")]) sel={kind:"state",id:p.get("s")};
-  else if(!location.hash){
-    const s=safe(()=>JSON.parse(localStorage.getItem("inseason")||"null"));
-    if(s&&s.sel&&((s.sel.kind==="county"&&cRegion[s.sel.id])||(s.sel.kind==="state"&&stateInfo[s.sel.id]))) sel=s.sel;
-  }
+  const m=+p.get("m");month=m>=1&&m<=12?m:nowMonth();
+  const t=p.get("t");type=TYPES.some(x=>x[0]===t)?t:"all";
+  const c=p.get("c"),s=p.get("s"),n=p.get("n");
+  if(c&&/^\d{5}$/.test(c)&&stateInfo[c.slice(0,2)]) return {kind:"county",id:c,label:n&&labelIsValid(n,c)?n:undefined};
+  if(s&&stateInfo[s]) return {kind:"state",id:s};
+  return null;
+}
+function readSaved(){
+  const v=safe(()=>JSON.parse(localStorage.getItem("inseason")||"null"))?.sel;
+  if(!v||typeof v.id!=="string") return null;
+  if(v.kind==="county"&&stateInfo[v.id.slice(0,2)]) return v;
+  if(v.kind==="state"&&stateInfo[v.id]) return v;
+  return null;
 }
 
 /* ---- search ---- */
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim()
+  .replace(/\bsaint\b/g,"st").replace(/\bsainte\b/g,"ste").replace(/\bmount\b/g,"mt").replace(/\bfort\b/g,"ft");
 let index=[],sugItems=[],sugPos=-1;
+function addEntry(name,extra,kind,rank,pop,act,label,hint){
+  index.push({n:norm(name),all:norm(name+" "+extra),kind,rank,pop,act,label,hint});
+}
 function buildIndex(){
-  index=Object.entries(stateInfo).map(([id,[a,n]])=>({label:n+" (state)",key:(n+" "+a).toLowerCase(),sel:{kind:"state",id},rank:0}));
-  for(const c of counties) if(cRegion[c.id]){const a=stateInfo[c.id.slice(0,2)][0],n=c.properties.name;
-    index.push({label:n+", "+a,key:(n+" "+a+" "+stateInfo[c.id.slice(0,2)][1]).toLowerCase(),sel:{kind:"county",id:c.id},rank:1})}
+  index=[];
+  for(const it of items) addEntry(it.name,"","item",1,0,()=>showItem(it),it.name,it.type==="veg"?"vegetable":it.type);
+  for(const [id,[a,n]] of Object.entries(stateInfo)) addEntry(n,a,"state",0,0,()=>choose({kind:"state",id}),n,"state");
+  if(!places) return;
+  for(const [name,id,pop] of places.cities){
+    const s=stateInfo[id.slice(0,2)],label=name+", "+s[0];
+    addEntry(name,s[0]+" "+s[1],"city",2,pop,()=>choose({kind:"county",id,label}),label,"");
+  }
+  for(const [id,name] of Object.entries(places.counties)){
+    const s=stateInfo[id.slice(0,2)],suf=countySuffix(id);
+    addEntry(name+suf,s[0]+" "+s[1],"county",3,0,()=>choose({kind:"county",id}),name+suf+", "+s[0],"");
+  }
 }
-function hideSug(){$("sug").style.display="none";sugItems=[];sugPos=-1}
-function showSug(q){
-  q=q.trim().toLowerCase();
-  if(!q){hideSug();return}
-  const m=index.filter(x=>x.key.includes(q)).sort((a,b)=>(b.key.startsWith(q)-a.key.startsWith(q))||a.rank-b.rank||a.label.localeCompare(b.label)).slice(0,8);
-  sugItems=m;sugPos=m.length?0:-1;
-  const ul=$("sug");ul.innerHTML="";
-  m.forEach((x,i)=>{const li=document.createElement("li");li.textContent=x.label;li.setAttribute("role","option");li.setAttribute("aria-selected",i===0);li.onmousedown=e=>{e.preventDefault();choose(x.sel)};ul.append(li)});
-  ul.style.display=m.length?"block":"none";
+function showItem(it){lookupItem=it;$("q").value="";hideSug();if(regionOfSel())openFinder(false);render()}
+function hideSug(){$("sug").hidden=true;sugItems=[];sugPos=-1;$("q").setAttribute("aria-expanded","false");$("q").removeAttribute("aria-activedescendant")}
+function search(raw){
+  const q=norm(raw);
+  if(!q) return [];
+  if(/^\d+$/.test(q)){
+    if(q.length<3||q.length>5||!places) return [];
+    const id=places.zip3[q.slice(0,3)];
+    if(!id) return [];
+    const label="ZIP "+q;
+    return [{label,hint:countyLabel(id),act:()=>choose({kind:"county",id,label})}];
+  }
+  const toks=q.split(" "),out=[];
+  for(const e of index){
+    const words=e.all.split(" ");
+    if(!toks.every(t=>words.some(w=>w.startsWith(t)))) continue;
+    const score=e.n===q?0:e.n.startsWith(q)?1:2;
+    out.push([score,e]);
+  }
+  out.sort((a,b)=>a[0]-b[0]||a[1].rank-b[1].rank||b[1].pop-a[1].pop||a[1].label.localeCompare(b[1].label));
+  let foods=0;
+  return out.map(x=>x[1]).filter(e=>e.kind!=="item"||foods++<2).slice(0,6);
 }
+function showSug(raw){
+  const ul=$("sug");ul.textContent="";
+  if(!raw.trim()){hideSug();return}
+  sugItems=search(raw);sugPos=sugItems.length?0:-1;
+  sugItems.forEach((x,i)=>{
+    const li=el("li",null,x.label);li.id="s"+i;li.setAttribute("role","option");li.setAttribute("aria-selected",i===0);
+    if(x.hint) li.append(el("span","k",x.hint));
+    li.onmousedown=e=>{e.preventDefault();x.act()};
+    ul.append(li);
+  });
+  if(!sugItems.length){
+    const digits=/^\d+$/.test(norm(raw));
+    const li=el("li","none",!places?"Still loading places...":digits?"No match. A US ZIP needs at least 3 digits.":"No match. Try a city, state, ZIP or food.");
+    li.setAttribute("role","option");li.setAttribute("aria-disabled","true");ul.append(li);
+  }
+  ul.hidden=false;$("q").setAttribute("aria-expanded","true");
+  if(sugItems.length)$("q").setAttribute("aria-activedescendant","s0");else $("q").removeAttribute("aria-activedescendant");
+}
+
+/* ---- geometry and map load only when needed ---- */
+let geoP=null,topo,counties,states;
+function loadScript(src){return new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=()=>no(new Error("load "+src));document.head.append(s)})}
+function loadGeo(){
+  if(!geoP) geoP=(async()=>{
+    await loadScript("vendor/d3.min.js");await loadScript("vendor/topojson-client.min.js");
+    const r=await fetch("data/counties-10m.json");if(!r.ok) throw new Error("HTTP "+r.status);
+    topo=await r.json();
+    counties=topojson.feature(topo,topo.objects.counties).features.filter(c=>stateInfo[c.id.slice(0,2)]);
+    states=topojson.feature(topo,topo.objects.states).features;
+  })().catch(e=>{geoP=null;throw e});
+  return geoP;
+}
+function countyAt(lon,lat){
+  const pt=[lon,lat];
+  for(const f of counties){
+    const b=f._b||(f._b=d3.geoBounds(f));
+    if(b[0][0]<=b[1][0]&&(lon<b[0][0]||lon>b[1][0])) continue;
+    if(lat<b[0][1]||lat>b[1][1]) continue;
+    if(d3.geoContains(f,pt)) return f.id;
+  }
+  return null;
+}
+
+let mapReady=false,svg,paths,selPath,pathGen,zoom;
+function drawMap(){
+  svg=d3.select("#map");
+  const nation=topojson.feature(topo,topo.objects.nation);
+  pathGen=d3.geoPath(d3.geoAlbersUsa().fitSize([975,610],nation));
+  const g=svg.append("g");
+  paths=g.append("g").selectAll("path").data(counties).join("path").attr("class","county").attr("d",pathGen)
+    .on("click",(ev,d)=>{$("tip").hidden=true;choose({kind:"county",id:d.id})})
+    .on("pointermove",(ev,d)=>{
+      if(ev.pointerType!=="mouse") return;
+      const t=$("tip"),r=$("map").parentNode.getBoundingClientRect();
+      t.hidden=false;t.textContent=d.properties.name+", "+stateInfo[d.id.slice(0,2)][0];
+      t.style.left=Math.min(ev.clientX-r.left+12,r.width-140)+"px";t.style.top=(ev.clientY-r.top+12)+"px"})
+    .on("pointerleave",()=>$("tip").hidden=true);
+  g.append("path").attr("class","borders").attr("d",pathGen(topojson.mesh(topo,topo.objects.states,(a,b)=>a!==b)));
+  selPath=g.append("path").attr("class","sel");
+  zoom=d3.zoom().scaleExtent([1,10]).translateExtent([[0,0],[975,610]])
+    .filter(ev=>!ev.ctrlKey&&ev.type!=="wheel"&&!ev.button)
+    .on("zoom",ev=>g.attr("transform",ev.transform));
+  svg.call(zoom);
+  $("zin").onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1.6);
+  $("zout").onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1/1.6);
+  $("zreset").onclick=()=>svg.transition().duration(200).call(zoom.transform,d3.zoomIdentity);
+  mapReady=true;$("zoomctl").hidden=false;$("mapstate").hidden=true;
+}
+function paintMap(){
+  if(!mapReady) return;
+  const c={};let max=1;
+  for(const r of regions){
+    const g=resultsFor(r,month,type);
+    c[r.id]=g.last.length+g.peak.length+g.in.length;
+    max=Math.max(max,c[r.id]);
+  }
+  paths.attr("fill-opacity",d=>.08+.82*(c[regionOfCounty(d.id)]/max));
+  const f=!sel?null:sel.kind==="county"?counties.find(x=>x.id===sel.id):states.find(x=>x.id===sel.id);
+  selPath.attr("d",f?pathGen(f):null);
+}
+async function showMap(){
+  const st=$("mapstate");
+  if(mapReady) return;
+  st.hidden=false;st.textContent="Loading the map...";
+  try{await loadGeo();if(!mapReady)drawMap();paintMap()}
+  catch(e){
+    st.textContent="Couldn't load the map. Check your signal.";
+    const b=el("button",null,"Try again");b.type="button";b.onclick=showMap;st.append(b);
+  }
+}
+
+/* ---- GPS ---- */
+const dist=(a,b)=>Math.hypot((a[0]-b[0])*Math.cos(a[1]*Math.PI/180),a[1]-b[1])*111;
+function locate(auto){
+  const gps=$("gps"),msg=$("msg");
+  const stillShowing=()=>sel?" Still showing "+nameOfSel()+".":"";
+  if(!navigator.geolocation){if(!auto)msg.textContent="This browser can't share a location. Search for a city instead."+stillShowing();return}
+  if(!auto){gps.disabled=true;gps.textContent="Finding you...";msg.textContent=""}
+  const done=()=>{gps.disabled=false;gps.textContent="Use my location"};
+  navigator.geolocation.getCurrentPosition(async p=>{
+    const fix=[+p.coords.longitude.toFixed(3),+p.coords.latitude.toFixed(3)];
+    if(auto&&sel?.fix&&dist(sel.fix,fix)<3){done();return}
+    try{
+      await loadGeo();
+      const id=countyAt(fix[0],fix[1]);
+      done();
+      if(id) choose({kind:"county",id,gps:true,fix},{replace:auto,keepScroll:auto});
+      else if(!auto) msg.textContent="That location looks outside the US, and In Season only covers the US so far."+stillShowing();
+    }catch(e){
+      done();
+      if(!auto) msg.textContent="Couldn't load location data. Check your signal, or search for a city."+stillShowing();
+    }
+  },err=>{
+    done();
+    if(auto) return;
+    msg.textContent=(err.code===1?"Location is turned off for this site. Search for a city instead.":"Couldn't get a location fix. Try again, or search for a city.")+stillShowing();
+  },auto?{timeout:8000,maximumAge:300000}:{timeout:12000,maximumAge:0});
+}
+async function autoLocate(){
+  // Only with permission already granted, and never over a place picked by hand or a shared link.
+  const perm=await safe(()=>navigator.permissions?.query({name:"geolocation"})?.catch(()=>null));
+  if(perm?.state==="granted") locate(true);
+}
+
+/* ---- wiring ---- */
 $("q").addEventListener("input",e=>showSug(e.target.value));
 $("q").addEventListener("blur",()=>setTimeout(hideSug,100));
 $("q").addEventListener("keydown",e=>{
@@ -236,43 +568,66 @@ $("q").addEventListener("keydown",e=>{
     if(!sugItems.length) return;e.preventDefault();
     sugPos=(sugPos+(e.key==="ArrowDown"?1:-1)+sugItems.length)%sugItems.length;
     [...$("sug").children].forEach((li,i)=>li.setAttribute("aria-selected",i===sugPos));
-  } else if(e.key==="Enter"&&sugItems[sugPos]){e.preventDefault();choose(sugItems[sugPos].sel)}
-  else if(e.key==="Escape") hideSug();
+    $("q").setAttribute("aria-activedescendant","s"+sugPos);
+    $("s"+sugPos).scrollIntoView({block:"nearest"});
+  }else if(e.key==="Enter"&&sugItems[sugPos]){e.preventDefault();sugItems[sugPos].act()}
+  else if(e.key==="Escape"){if(!$("sug").hidden)hideSug();else if(regionOfSel()){openFinder(false);$("change").focus()}}
+});
+$("gps").onclick=()=>locate(false);
+$("change").onclick=()=>openFinder(!finderOpen,true);
+$("backNow").onclick=()=>{month=nowMonth();update();centerMonth()};
+$("lookupClose").onclick=()=>{lookupItem=null;render()};
+$("explore").onclick=()=>{
+  const open=$("mappanel").hidden;
+  $("mappanel").hidden=!open;$("explore").setAttribute("aria-expanded",open);
+  if(open){showMap();$("explore").scrollIntoView({block:"start"})}
+};
+desktop.addEventListener("change",e=>{if(e.matches)showMap()});
+addEventListener("popstate",()=>{
+  if(!regions) return;
+  const h=readHash();sel=h||readSaved();render();paintMap();centerMonth();
+});
+document.addEventListener("visibilitychange",()=>{
+  // A page left open across a month boundary must not keep showing last month as today.
+  if(document.hidden||!regions) return;
+  if(!new URLSearchParams(location.hash.slice(1)).has("m")&&month!==nowMonth()){month=nowMonth();update();centerMonth()}
 });
 
-/* ---- GPS ---- */
-function countyAt(lon,lat){
-  const pt=[lon,lat];
-  for(const f of counties){
-    if(!cRegion[f.id]) continue;
-    const b=f._b||(f._b=d3.geoBounds(f));
-    if(b[0][0]<=b[1][0]){ if(lon<b[0][0]||lon>b[1][0]) continue } 
-    if(lat<b[0][1]||lat>b[1][1]) continue;
-    if(d3.geoContains(f,pt)) return f.id;
-  }
-  return null;
+/* ---- boot: the answer needs only regions and items, about 3 KB gzipped ---- */
+function showSkeleton(){
+  const o=$("out");o.textContent="";
+  for(let i=0;i<6;i++)o.append(el("div","skel"));
 }
-$("gps").onclick=()=>{
-  const btn=$("gps");
-  if(!navigator.geolocation){btn.textContent="Location not available";return}
-  btn.textContent="Finding you...";
-  navigator.geolocation.getCurrentPosition(p=>{
-    const id=countyAt(p.coords.longitude,p.coords.latitude);
-    if(id){btn.textContent="Use my location";choose({kind:"county",id})}
-    else btn.textContent="Not in the US? Search instead";
-  },()=>{btn.textContent="Location blocked. Search instead"},{timeout:10000,maximumAge:600000});
-};
-
-/* ---- boot ---- */
-Promise.all([d3.json("data/counties-10m.json"),d3.json("data/regions.json"),d3.json("data/items.json")]).then(([t,r,i])=>{
-  topo=t;regions=r.regions;regions.forEach(x=>regById[x.id]=x);stateInfo=r.states;items=i.items;
-  $("upd").textContent="Data updated "+i.updated+".";
-  counties=topojson.feature(t,t.objects.counties).features;
-  states=topojson.feature(t,t.objects.states).features;
-  cRegion={};
-  for(const c of counties){const s=stateInfo[c.id.slice(0,2)];if(s) cRegion[c.id]=r.countyRegion[c.id]||s[2]}
-  buildIndex();drawMap();loadState();update();
-}).catch(e=>{$("out").textContent="Could not load data: "+e});
+async function boot(){
+  showSkeleton();
+  try{
+    const [r,i]=await Promise.all(["data/regions.json","data/items.json"].map(async u=>{
+      const x=await fetch(u);if(!x.ok) throw new Error("HTTP "+x.status);return x.json()}));
+    regions=r.regions;regions.forEach(x=>regById[x.id]=x);stateInfo=r.states;overrides=r.countyRegion;items=i.items;
+    $("upd").textContent="Data updated "+i.updated+".";
+  }catch(e){
+    const o=$("out");o.textContent="";
+    const p=el("div","state");
+    p.append(el("p",null,"Couldn't load the season list. Check your signal and try again."));
+    const b=el("button",null,"Try again");b.type="button";b.onclick=boot;p.append(b);o.append(p);
+    return;
+  }
+  if(!$("months").children.length) buildControls();
+  buildIndex();
+  const fromLink=readHash();
+  sel=fromLink||readSaved();
+  $("change").textContent="Change";$("change").setAttribute("aria-expanded","false");
+  update();centerMonth();
+  fetch("data/places.json").then(x=>{if(!x.ok)throw 0;return x.json()}).then(p=>{
+    places=p;buildIndex();
+    if(sel?.label&&sel.kind==="county"&&!labelIsValid(sel.label,sel.id)) delete sel.label;
+    render();saveState();
+    if($("q").value) showSug($("q").value);
+  }).catch(()=>{});
+  if(desktop.matches||!$("mappanel").hidden) showMap();
+  if(!fromLink&&(!sel||sel.gps)) autoLocate();
+}
+boot();
 </script>
 </body>
 </html>
