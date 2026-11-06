@@ -79,13 +79,6 @@ button[aria-pressed=true],button[aria-pressed=true]:hover,button[aria-pressed=tr
 body.finding #filters{display:none}
 #filters button{padding:6px 2px;font-size:.92rem}
 
-#lookup{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-#lookup[hidden]{display:none}
-#lookup p{margin:0;padding-top:8px}
-#lookup b{font-weight:650}
-#lookup .ic{flex:none}
-#lookup .lt{flex:1;min-width:0}
-#lookup button{flex:none;width:44px;padding:0;display:grid;place-items:center}
 
 h3{font-size:1.02rem;font-weight:700;margin:22px 0 2px;letter-spacing:-.005em}
 h3.peak{color:var(--peak)}h3.last{color:var(--last)}h3.soon{color:var(--soon)}h3.in{color:var(--mute)}
@@ -103,6 +96,7 @@ li.item{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:12px;al
   #filters{grid-template-columns:repeat(2,1fr)}
 }
 .bar{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;margin-top:6px}
+.barline .bar{pointer-events:none}
 .bar i{display:block;height:6px;border-radius:1px;background:var(--off);position:relative}
 .bar .on{background:var(--on)}.bar .best{background:var(--peak)}
 .bar .cur::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;margin-left:-1px;background:var(--now);border-radius:1px}
@@ -143,6 +137,37 @@ dialog#fb::backdrop{background:rgb(0 0 0 / .5)}
 #fbDone p{margin:0}
 @media (min-width:600px){
   dialog#fb{margin:auto;width:520px;max-width:calc(100% - 32px);height:auto;max-height:calc(100dvh - 48px);border-radius:12px}
+}
+li.item{cursor:pointer}
+.rowbtn{all:unset;font-weight:600;cursor:pointer}
+.rowbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+li.item:active{background:var(--hover)}
+dialog#food{border:0;padding:0;background:var(--bg);color:var(--ink);width:100%;max-width:100%;height:100dvh;max-height:100dvh;margin:0;overscroll-behavior:contain}
+dialog#food::backdrop{background:rgb(0 0 0 / .5)}
+.foodtitle{display:flex;align-items:center;gap:12px;min-width:0}
+.foodtitle .ic{width:48px;height:48px;flex:none}
+.foodtitle h2:focus{outline:none}
+.foodtitle h2{margin:0;font-size:1.25rem;line-height:1.15;letter-spacing:-.015em;overflow-wrap:break-word;min-width:0}
+.foodbody{display:grid;gap:22px;padding:18px var(--gr) calc(32px + var(--sab)) var(--gl)}
+.foodbody h3{margin:0 0 7px;color:var(--ink);font-size:1.02rem}
+.foodbody p{margin:0}
+.foodstatus{font-weight:600}
+.foodwhen{margin-top:2px;color:var(--mute);font-size:.92rem}
+.bigbar{margin-top:10px}
+.bigbar .bar{margin:0}
+.bigbar .bar i{height:12px}
+.bigbar .bar .cur::after{top:-4px;bottom:-4px}
+.mlet{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;margin-top:4px;font-size:.72rem;color:var(--mute);text-align:center}
+.tips{margin:0;padding:0 0 0 18px;display:grid;gap:8px}
+.tips li::marker{color:var(--accent)}
+.foodnote{margin-top:10px!important;padding:8px 10px;border-radius:8px;background:var(--hover);font-size:.92rem}
+.foodsrc{margin-top:10px!important;color:var(--mute);font-size:.84rem}
+.foodsrc a{color:inherit;text-underline-offset:2px}
+.foodacts{display:grid;gap:8px}
+.foodacts a,.foodacts button{display:flex;align-items:center;justify-content:center;min-height:44px;width:100%;padding:8px 12px;border:1px solid var(--ctl);border-radius:8px;background:var(--card);color:var(--ink);text-decoration:none;font-size:1rem}
+.foodacts a:active{background:var(--hover)}
+@media (min-width:600px){
+  dialog#food{margin:auto;width:520px;max-width:calc(100% - 32px);height:auto;max-height:calc(100dvh - 48px);border-radius:12px}
 }
 .key{display:flex;flex-wrap:wrap;gap:4px 14px;margin:12px 0 -6px;font-size:.8rem;color:var(--mute)}
 .key span{display:inline-flex;align-items:center;gap:5px}
@@ -247,7 +272,6 @@ footer a{color:inherit;text-underline-offset:2px}
     <div class="viewing" id="viewing" hidden><span id="viewingText"></span><button id="backNow" type="button"></button></div>
     <div id="filters" role="group" aria-label="Type of food"></div>
   </div>
-  <div id="lookup" hidden><p id="lookupText" class="lt"></p><button id="lookupClose" type="button" aria-label="Dismiss"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
   <div id="out" tabindex="-1"></div>
   <div id="live" class="vh" aria-live="polite"></div>
 </div>
@@ -278,6 +302,11 @@ footer a{color:inherit;text-underline-offset:2px}
 
 <footer><div class="installrow" id="install" hidden><span id="installText"></span><button id="installBtn" type="button" hidden>Install</button></div><div class="fbfoot fbx"><span>Spot a mistake? Tap the flag next to any food.</span><button id="fbOpen" type="button">Send feedback</button></div>Season windows are regional estimates, not measured data, and weather moves them. Texas and the Gulf Coast get the most attention so far, other regions are rough. Every place uses the season region it belongs to. For legal harvest dates always check your state wildlife agency. City and ZIP lookup uses <a href="https://www.geonames.org/">GeoNames</a> (CC BY 4.0). <span id="upd"></span></footer>
 </div>
+
+<dialog id="food" aria-labelledby="foodName">
+  <div class="fbhead"><div class="foodtitle" id="foodTitle"></div><button id="foodClose" type="button">Close</button></div>
+  <div class="foodbody" id="foodBody"></div>
+</dialog>
 
 <dialog id="fb" aria-labelledby="fbTitle">
   <div class="fbhead"><h2 id="fbTitle">Send feedback</h2><button id="fbClose" type="button">Close</button></div>
@@ -320,7 +349,7 @@ const nowMonth=()=>new Date().getMonth()+1;
 const desktop=matchMedia("(min-width:960px)");
 
 let regions,items,regById={},stateInfo,overrides,places=null;
-let month=nowMonth(),type="all",lookupItem=null;
+let month=nowMonth(),type="all",foodOpen=null,foodPushed=false,guide=null;
 let sel=null; // {kind:'county'|'state',id,label?,gps?,fix?}
 let finderOpen=false;
 
@@ -450,19 +479,6 @@ function keyEl(){
   k.append(one("var(--on)","In season"),one("var(--peak)","Best"),one(null,month===nowMonth()?"Today":FULL[month-1],"tick"),el("span",null,"Bars run Jan to Dec"));
   return k;
 }
-function renderLookup(reg){
-  const box=$("lookup");
-  if(!lookupItem){box.hidden=true;box.querySelector(".ic")?.remove();return}
-  box.querySelector(".ic")?.remove();box.prepend(iconEl(lookupItem.id));
-  const t=$("lookupText");t.textContent="";
-  t.append(el("b",null,lookupItem.name));
-  if(!reg) t.append(". Pick a place to see its season there.");
-  else{
-    const segs=windowsFor(lookupItem,reg);
-    t.append(segs?" in "+reg.name+": "+seasonText(segs)+".":" isn't tracked for "+reg.name+".");
-  }
-  box.hidden=false;
-}
 function render(){
   const reg=regionOfSel(),out=$("out");
   out.textContent="";
@@ -471,7 +487,6 @@ function render(){
   $("finder").hidden=!!reg&&!finderOpen;
   $("gps").classList.toggle("primary",!reg);
   $("privacy").hidden=!!reg;
-  renderLookup(reg);
   syncControls();
   const sub=$("sub");sub.textContent="";
   if(!reg){
@@ -497,7 +512,9 @@ function render(){
     g[k].forEach(([it,s])=>{
       if(k!=="soon") count++;
       const li=el("li","item"),body=el("div","b"),top=el("div","top"),l=el("span");
-      l.append(el("span","n",it.name));
+      const nb=el("button","n rowbtn",it.name);nb.type="button";
+      li.onclick=e=>{if(!e.target.closest(".flag")) openFood(it)};
+      l.append(nb);
       if(type==="all") l.append(" ",el("span","t",it.type));
       top.append(l,el("span","w",s.w));
       const line=el("div","barline");line.append(barEl(it,windowsFor(it,reg)));
@@ -546,16 +563,20 @@ function choose(s,opts={}){
 }
 
 /* ---- state: only an explicitly chosen other month goes in the link ---- */
+let navKey="";
+function hashKey(){const q=new URLSearchParams(location.hash.slice(1));q.delete("f");return q.toString()}
 function hashNow(){
   const p=new URLSearchParams();
   if(sel){p.set(sel.kind==="county"?"c":"s",sel.id);if(sel.label)p.set("n",sel.label)}
   if(month!==nowMonth())p.set("m",month);
   if(type!=="all")p.set("t",type);
+  if(foodOpen)p.set("f",foodOpen.id);
   const h=p.toString();
   return h?"#"+h:location.pathname+location.search;
 }
 function saveState(push){
   safe(()=>history[push?"pushState":"replaceState"](null,"",hashNow()));
+  navKey=hashKey();
   safe(()=>localStorage.setItem("inseason",JSON.stringify({sel})));
 }
 function readHash(){
@@ -611,7 +632,7 @@ function buildIndex(){
     addEntry(name+suf,s[0]+" "+s[1],"county",3,0,()=>choose({kind:"county",id}),name+suf+", "+s[0],"");
   }
 }
-function showItem(it){lookupItem=it;$("q").value="";hideSug();if(regionOfSel())openFinder(false);render()}
+function showItem(it){$("q").value="";hideSug();if(regionOfSel())openFinder(false);openFood(it)}
 function hideSug(){$("sug").hidden=true;sugItems=[];sugPos=-1;$("q").setAttribute("aria-expanded","false");$("q").removeAttribute("aria-activedescendant")}
 function search(raw){
   let q=norm(raw);
@@ -881,7 +902,6 @@ $("q").addEventListener("keydown",e=>{
 $("gps").onclick=()=>locate(false);
 $("change").onclick=()=>openFinder(!finderOpen,true);
 $("backNow").onclick=()=>{month=nowMonth();update();centerMonth()};
-$("lookupClose").onclick=()=>{lookupItem=null;render()};
 $("explore").onclick=()=>{
   const open=$("mappanel").hidden;
   $("mappanel").hidden=!open;$("explore").setAttribute("aria-expanded",open);
@@ -890,7 +910,13 @@ $("explore").onclick=()=>{
 desktop.addEventListener("change",e=>{if(e.matches)showMap()});
 addEventListener("popstate",()=>{
   if(!regions) return;
-  const h=readHash();sel=h||readSaved();render();paintMap();centerMonth();
+  // Opening or closing a food window only changes "f". Rebuilding the list then would lose focus and scroll.
+  const key=hashKey();
+  if(key!==navKey){
+    navKey=key;
+    const h=readHash();sel=h||readSaved();render();paintMap();centerMonth();
+  }
+  syncFoodFromHash();
 });
 document.addEventListener("visibilitychange",()=>{
   // A page left open across a month boundary must not keep showing last month as today.
@@ -1023,6 +1049,80 @@ $("fbClose").onclick=()=>$("fb").close();
 $("fbDoneClose").onclick=()=>$("fb").close();
 $("fbOpen").onclick=()=>openFeedback(sel?"correction":"other");
 
+/* ---- food window: its season here and how to pick a good one ---- */
+function sourceLinks(g){
+  const box=el("p","foodsrc");
+  if(!g?.src){box.textContent="General shopping advice. We haven't checked this one against a published source yet.";return box}
+  const seen=new Set(),parts=[g,...(g.also||[])].filter(x=>{if(seen.has(x.src))return false;seen.add(x.src);return true});
+  box.append("Based on ");
+  parts.forEach((x,i)=>{
+    const s=guide.sources[x.src],a=el("a",null,s.name);
+    a.href=s.url+(x.page||"");a.target="_blank";a.rel="noopener";
+    if(i) box.append(" and ");
+    box.append(a);
+  });
+  box.append(", in our own words.");
+  return box;
+}
+function fillFood(it){
+  const t=$("foodTitle");t.textContent="";
+  const h=el("h2",null,it.name);h.id="foodName";h.tabIndex=-1;t.append(iconEl(it.id),h);
+  const body=$("foodBody");body.textContent="";
+  const when=el("section"),reg=regionOfSel(),segs=reg&&windowsFor(it,reg);
+  when.append(el("h3",null,"When it's in season"));
+  if(!reg) when.append(el("p",null,"Pick a place to see its season there."));
+  else if(!segs) when.append(el("p",null,"We don't track "+it.name.toLowerCase()+" for "+reg.name+"."));
+  else{
+    const st=statusOf(segs,month),cap=x=>x[0].toUpperCase()+x.slice(1);
+    when.append(el("p","foodstatus",reg.name+": "+seasonText(segs)));
+    const now=st?{last:month===nowMonth()?"Last call, this is the final month.":"Last call in "+FULL[month-1]+".",peak:month===nowMonth()?"At its best right now.":"At its best in "+FULL[month-1]+".",in:month===nowMonth()?"In season now.":"In season in "+FULL[month-1]+".",soon:cap(st.w)+"."}[st.g]:"Not in season in "+FULL[month-1]+".";
+    when.append(el("p","foodwhen",now));
+    const wrap=el("div","bigbar");wrap.append(barEl(it,segs));
+    const ml=el("div","mlet");ml.setAttribute("aria-hidden","true");MN.forEach(m=>ml.append(el("span",null,m[0])));
+    wrap.append(ml);when.append(wrap);
+    if(reg.quality!=="better") when.append(el("p","foodsrc","Rough draft for this region, may be off by a few weeks."));
+  }
+  body.append(when);
+  const g=guide?.foods[it.id];
+  if(g){
+    const pick=el("section");
+    pick.append(el("h3",null,it.type==="fruit"?"How to pick a ripe one":"How to pick a good one"));
+    const ul=el("ul","tips");g.tips.forEach(x=>ul.append(el("li",null,x)));pick.append(ul);
+    if(g.note) pick.append(el("p","foodnote",g.note));
+    if(it.note) pick.append(el("p","foodsrc",it.note));
+    pick.append(sourceLinks(g));
+    body.append(pick);
+  }
+  const acts=el("div","foodacts");
+  if(navigator.onLine!==false){
+    const a=el("a",null,"Search recipes");a.target="_blank";a.rel="noopener";
+    a.href="https://www.google.com/search?q="+encodeURIComponent("recipes with "+it.name.toLowerCase());acts.append(a);
+  }
+  if(FEEDBACK_KEY){
+    const b=el("button",null,"Something wrong?");b.type="button";
+    b.onclick=()=>{$("food").close();openFeedback("correction",{food:it.name})};acts.append(b);
+  }
+  body.append(acts);
+}
+function openFood(it,opts={}){
+  foodOpen=it;fillFood(it);
+  if(!$("food").open) $("food").showModal();
+  $("food").scrollTop=0;
+  $("foodName").focus({preventScroll:true});
+  if(!opts.fromHistory){foodPushed=true;safe(()=>history.pushState(null,"",hashNow()))}
+}
+$("foodClose").onclick=()=>$("food").close();
+$("food").addEventListener("close",()=>{
+  if(!foodOpen) return;
+  foodOpen=null;
+  if(foodPushed){foodPushed=false;history.back()}else saveState();
+});
+function syncFoodFromHash(){
+  const id=new URLSearchParams(location.hash.slice(1)).get("f"),it=id&&items.find(x=>x.id===id);
+  if(it){if(foodOpen!==it)openFood(it,{fromHistory:true})}
+  else if(foodOpen){foodOpen=null;foodPushed=false;$("food").close()}
+}
+
 /* ---- offline and install ---- */
 function syncOnline(){
   $("offline").hidden=navigator.onLine!==false;
@@ -1070,6 +1170,7 @@ function loadPlaces(){
 async function boot(){
   showSkeleton();
   try{
+    fetch("data/choose.json").then(x=>x.ok?x.json():null).then(j=>{guide=j;if(foodOpen)fillFood(foodOpen)}).catch(()=>{});
     const [r,i]=await Promise.all(["data/regions.json","data/items.json"].map(async u=>{
       const x=await fetch(u);if(!x.ok) throw new Error("HTTP "+x.status);return x.json()}));
     regions=r.regions;regions.forEach(x=>regById[x.id]=x);stateInfo=r.states;overrides=r.countyRegion;items=i.items;
@@ -1085,6 +1186,7 @@ async function boot(){
   document.body.classList.toggle("fb-on",!!FEEDBACK_KEY);
   buildIndex();
   const linkTerr=new URLSearchParams(location.hash.slice(1)).get("c")?.slice(0,2);
+  const linkFood=new URLSearchParams(location.hash.slice(1)).get("f");
   const fromLink=readHash();
   sel=fromLink||readSaved();
   $("change").textContent="Change";$("change").setAttribute("aria-expanded","false");
@@ -1092,6 +1194,8 @@ async function boot(){
   loadPlaces();
   syncOnline();
   if(TERR[linkTerr]) territoryNotice(linkTerr);
+  const lf=linkFood&&items.find(x=>x.id===linkFood);
+  if(lf) openFood(lf,{fromHistory:true});
   if(desktop.matches||!$("mappanel").hidden) showMap();
   if(!fromLink&&(!sel||sel.gps)) autoLocate();
 }

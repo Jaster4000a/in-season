@@ -8,6 +8,7 @@ Live: https://jaster4000a.github.io/in-season/
 - `data/regions.json`: 14 seasonal regions, state to region mapping, county overrides
 - `data/places.json`: county names, US cities of 5,000+ people and ZIP3 prefixes, each resolved to a county. Rebuild with `tools/build-places.cjs`
 - `data/icons.svg`: one hand-drawn flat-color icon per item, as an SVG sprite keyed by item id
+- `data/choose.json`: how to pick a good one, per food, in our own words, with the source it was based on. Foods without a source say so in the app
 - `data/counties-10m.json`: US counties from us-atlas (TopoJSON), loaded only for the map or a location lookup
 
 Feedback reports are emailed through [Web3Forms](https://web3forms.com/) only when someone taps Send. A report includes what they entered, the page address and their IP address. The access key in `index.html` is public by design and only sends mail to the site owner. Reports are reviewed by hand and never change the site automatically.

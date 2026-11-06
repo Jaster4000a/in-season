@@ -1,7 +1,7 @@
 // Offline support. The saved copy answers at once and refreshes in the background, so a weak
 // signal can't leave someone waiting in the aisle. Bump VERSION to drop old caches.
-const VERSION = "in-season-v1";
-const CORE = ["./", "index.html", "data/regions.json", "data/items.json", "data/places.json", "data/icons.svg", "manifest.webmanifest", "icons/icon.svg"];
+const VERSION = "in-season-v2";
+const CORE = ["./", "index.html", "data/regions.json", "data/items.json", "data/choose.json", "data/places.json", "data/icons.svg", "manifest.webmanifest", "icons/icon.svg"];
 // Needed for the map and for GPS. Worth having offline, but not worth failing the install over.
 const EXTRA = ["data/counties-10m.json", "vendor/d3.min.js", "vendor/topojson-client.min.js", "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png"];
 const scope = new URL("./", self.location).href;

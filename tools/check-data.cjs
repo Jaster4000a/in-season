@@ -22,5 +22,16 @@ for (const it of items) {
     }
   }
 }
+const { foods, sources } = JSON.parse(fs.readFileSync(path.join(root, "data/choose.json")));
+let unsourced = 0;
+for (const it of items) {
+  const g = foods[it.id];
+  if (!g || !g.tips || !g.tips.length) { bad.push(`${it.id}: no picking guidance`); continue; }
+  if (!g.src) unsourced++;
+  for (const x of [g, ...(g.also || [])]) if (x.src && !sources[x.src]) bad.push(`${it.id}: unknown source ${x.src}`);
+  if (g.src === "purdue" && !g.page) bad.push(`${it.id}: Purdue source needs a page`);
+}
+for (const k of Object.keys(foods)) if (!ids.has(k)) bad.push(`${k}: guidance for an unknown item`);
+console.log(`guidance: ${Object.keys(foods).length} foods, ${unsourced} not yet checked against a source`);
 if (bad.length) { console.error(bad.join("\n")); process.exit(1); }
 console.log(`ok: ${items.length} items, ${regions.length} regions, every item has an icon`);
