@@ -10,8 +10,8 @@
 <title>In Season</title>
 <meta name="description" content="Find out what seafood, fruit and vegetables are in season where you are. Use your location, or search a city, ZIP or state.">
 <style>
-:root{color-scheme:light dark;--bg:#faf8f3;--card:#fff;--ink:#1d2b24;--mute:#5f6b64;--line:#e4dfd3;--ctl:#8f8b80;--accent:#c2410c;--on-accent:#fff;--peak:#15803d;--soon:#1d4ed8;--last:#b45309;--land:#c2410c;--hover:#f1ede3;--off:#e9e4d8;--on:#86bd92;--now:#c2410c}
-@media (prefers-color-scheme:dark){:root{--bg:#14181a;--card:#1d2326;--ink:#e8ece9;--mute:#a3aea8;--line:#2c3539;--ctl:#6f7b80;--accent:#fb923c;--on-accent:#14181a;--peak:#4ade80;--soon:#7aa7ff;--last:#fbbf24;--land:#fb923c;--hover:#293136;--off:#2a3236;--on:#3a8055;--now:#fb923c}}
+:root{color-scheme:light dark;--bg:#faf8f3;--card:#fff;--ink:#1d2b24;--mute:#5f6b64;--line:#e4dfd3;--ctl:#8f8b80;--accent:#c2410c;--on-accent:#fff;--peak:#15803d;--soon:#1d4ed8;--last:#b45309;--land:#c2410c;--hover:#f1ede3;--off:#e9e4d8;--on:#86bd92;--now:#c2410c;--s0:#e7e3d8;--s1:#f0a56e;--s2:#e0813f;--s3:#c75f1c;--s4:#9c4412;--s5:#6b2c0b}
+@media (prefers-color-scheme:dark){:root{--bg:#14181a;--card:#1d2326;--ink:#e8ece9;--mute:#a3aea8;--line:#2c3539;--ctl:#6f7b80;--accent:#fb923c;--on-accent:#14181a;--peak:#4ade80;--soon:#7aa7ff;--last:#fbbf24;--land:#fb923c;--hover:#293136;--off:#2a3236;--on:#3a8055;--now:#fb923c;--s0:#2f373b;--s1:#8c4520;--s2:#ad5620;--s3:#cf6c26;--s4:#ef8f45;--s5:#fbb680}}
 *{box-sizing:border-box}
 :root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--gl:max(16px,env(safe-area-inset-left,0px));--gr:max(16px,env(safe-area-inset-right,0px))}
 body::before{content:"";position:fixed;inset:0 0 auto;height:var(--sat);z-index:5;background:var(--bg)}
@@ -151,14 +151,35 @@ dialog#fb::backdrop{background:rgb(0 0 0 / .5)}
 #map{display:block;width:100%;height:auto;touch-action:pan-y;-webkit-user-select:none;user-select:none}
 #mapstate{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;color:var(--mute);font-size:.92rem;text-align:center;padding:12px}
 #mapstate[hidden]{display:none}
-.county{stroke:none;cursor:pointer;fill:var(--land)}
+.county{stroke:none;cursor:pointer}
+.b0{fill:var(--s0)}.b1{fill:var(--s1)}.b2{fill:var(--s2)}.b3{fill:var(--s3)}.b4{fill:var(--s4)}.b5{fill:var(--s5)}
 .borders{fill:none;stroke:var(--bg);stroke-width:.8;pointer-events:none}
-.sel{fill:none;stroke:var(--ink);stroke-width:2;vector-effect:non-scaling-stroke;pointer-events:none}
+.selhalo{fill:none;stroke:var(--card);stroke-width:5;stroke-linejoin:round;vector-effect:non-scaling-stroke;pointer-events:none}
+.sel{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round;vector-effect:non-scaling-stroke;pointer-events:none}
+#maplabel{position:absolute;left:0;top:0;z-index:1;pointer-events:none;background:var(--ink);color:var(--bg);font-size:.8rem;font-weight:600;line-height:1.2;padding:3px 8px;border-radius:6px;white-space:nowrap;max-width:70%;overflow:hidden;text-overflow:ellipsis}
+#maplabel[hidden]{display:none}
 #tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:.8rem;padding:3px 8px;border-radius:6px;white-space:nowrap}
 #tip[hidden]{display:none}
 .zoom{position:absolute;right:6px;top:6px;display:grid;gap:4px}
 .zoom[hidden]{display:none}
 .zoom button{width:40px;min-height:40px;padding:0;display:grid;place-items:center}
+.scale{margin:10px 0 0}
+.scale-title{font-size:.88rem;font-weight:600;margin:0 0 5px}
+.scale-steps{display:flex;gap:2px;list-style:none;margin:0;padding:0}
+.scale-steps li{flex:1;min-width:0;font-size:.76rem;color:var(--mute);font-variant-numeric:tabular-nums;text-align:center}
+.scale-steps i{display:block;height:12px;margin-bottom:3px}
+.scale-steps li:first-child i{border-radius:3px 0 0 3px}.scale-steps li:last-child i{border-radius:0 3px 3px 0}
+.scale-here{font-size:.88rem;margin:7px 0 0}
+.maptable{margin:10px 0 0;font-size:.88rem}
+.maptable summary{cursor:pointer;min-height:44px;display:flex;align-items:center;gap:6px;color:var(--ink)}
+.maptable summary::-webkit-details-marker{display:none}
+.maptable summary::before{content:"";width:7px;height:7px;border-right:1.8px solid currentColor;border-bottom:1.8px solid currentColor;transform:rotate(-45deg);transition:transform .15s ease-out}
+.maptable[open] summary::before{transform:rotate(45deg)}
+.maptable table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.maptable th,.maptable td{text-align:left;padding:6px 0;border-bottom:1px solid var(--line)}
+.maptable th{font-weight:600;font-size:.82rem;color:var(--mute)}
+.maptable td:last-child,.maptable th:last-child{text-align:right}
+.maptable tr.here td{font-weight:700}
 .legend{color:var(--mute);font-size:.8rem;margin:6px 0 0}
 .l-touch{display:none}
 @media (pointer:coarse){.l-touch{display:inline}.l-mouse{display:none}}
@@ -224,9 +245,16 @@ footer a{color:inherit;text-underline-offset:2px}
         <button id="zout" type="button" aria-label="Zoom out"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M1 7h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
         <button id="zreset" type="button" aria-label="Reset zoom"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7.5L8 2l6 5.5M4 6.5V14h8V6.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
+      <div id="maplabel" hidden></div>
       <div id="tip" hidden></div>
     </div>
-    <p class="legend">Stronger color means more in season for the chosen month. <span class="l-mouse">Drag to pan, buttons to zoom.</span><span class="l-touch">Tap a spot to zoom in, then tap a county to pick it.</span></p>
+    <div class="scale" id="scale" hidden>
+      <p class="scale-title" id="scaleTitle"></p>
+      <ul class="scale-steps" id="scaleSteps"></ul>
+      <p class="scale-here" id="scaleHere" hidden></p>
+    </div>
+    <details class="maptable" id="maptable" hidden><summary>See the map as a table</summary><table><thead><tr><th scope="col">Region</th><th scope="col">In season</th></tr></thead><tbody id="maprows"></tbody></table></details>
+    <p class="legend">Colors stay the same all year, so you can compare months. <span class="l-mouse">Drag to pan, buttons to zoom.</span><span class="l-touch">Tap a spot to zoom in, then tap a county to pick it.</span></p>
   </div>
 </section>
 
@@ -602,7 +630,7 @@ function countyAt(lon,lat){
   return null;
 }
 
-let mapReady=false,svg,paths,selPath,pathGen,zoom;
+let mapReady=false,svg,paths,selPath,selHalo,pathGen,zoom,mapCounts={},selCentroid=null;
 function drawMap(){
   svg=d3.select("#map");
   const nation=topojson.feature(topo,topo.objects.nation);
@@ -621,10 +649,11 @@ function drawMap(){
     .on("pointermove",(ev,d)=>{
       if(ev.pointerType!=="mouse") return;
       const t=$("tip"),r=$("map").parentNode.getBoundingClientRect();
-      t.hidden=false;t.textContent=d.properties.name+", "+stateInfo[d.id.slice(0,2)][0];
-      t.style.left=Math.min(ev.clientX-r.left+12,r.width-140)+"px";t.style.top=(ev.clientY-r.top+12)+"px"})
+      t.hidden=false;t.textContent=d.properties.name+", "+stateInfo[d.id.slice(0,2)][0]+": "+mapCounts[regionOfCounty(d.id)]+" in season";
+      t.style.left=Math.max(0,Math.min(ev.clientX-r.left+12,r.width-t.offsetWidth))+"px";t.style.top=(ev.clientY-r.top+12)+"px"})
     .on("pointerleave",()=>$("tip").hidden=true);
   g.append("path").attr("class","borders").attr("d",pathGen(topojson.mesh(topo,topo.objects.states,(a,b)=>a!==b)));
+  selHalo=g.append("path").attr("class","selhalo");
   selPath=g.append("path").attr("class","sel");
   zoom=d3.zoom().scaleExtent([1,10]).translateExtent([[0,0],[975,610]])
     .filter(function(ev){
@@ -636,6 +665,7 @@ function drawMap(){
       g.attr("transform",ev.transform);
       // At full size a vertical swipe scrolls the page. Once zoomed in, a drag pans the map.
       svg.style("touch-action",ev.transform.k>1?"none":"pan-y");
+      placeLabel();
     });
   svg.call(zoom).on("dblclick.zoom",null);
   $("zin").onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1.6);
@@ -643,18 +673,72 @@ function drawMap(){
   $("zreset").onclick=()=>svg.transition().duration(200).call(zoom.transform,d3.zoomIdentity);
   mapReady=true;$("zoomctl").hidden=false;$("mapstate").hidden=true;
 }
+// Fixed for the whole year per food type, so a color means the same thing in January and July.
+function yearMax(t){
+  let max=1;
+  for(const r of regions) for(let m=1;m<=12;m++){
+    const g=resultsFor(r,m,t);
+    max=Math.max(max,g.last.length+g.peak.length+g.in.length);
+  }
+  return max;
+}
+const binOf=(c,max)=>c<=0?0:Math.min(5,Math.floor((c-1)/max*5)+1);
+function scaleSteps(max){
+  const steps=[{b:0,lo:0,hi:0}];
+  for(let c=1;c<=max;c++){
+    const b=binOf(c,max),last=steps[steps.length-1];
+    if(last.b===b) last.hi=c; else steps.push({b,lo:c,hi:c});
+  }
+  return steps;
+}
+function paintLegend(max){
+  const name=TYPES.find(x=>x[0]===type)[1].toLowerCase(),what=type==="all"?"Foods":name==="veg"?"Vegetables":name[0].toUpperCase()+name.slice(1);
+  $("scale").hidden=false;
+  $("scaleTitle").textContent=what+" in season, "+FULL[month-1];
+  const ul=$("scaleSteps");ul.textContent="";
+  for(const st of scaleSteps(max)){
+    const li=el("li"),i=el("i");i.style.background="var(--s"+st.b+")";
+    li.append(i,st.lo===st.hi?String(st.lo):st.lo+"-"+st.hi);ul.append(li);
+  }
+  const reg=regionOfSel(),here=$("scaleHere");
+  here.hidden=!reg;
+  if(reg) here.textContent=reg.name+" region: "+mapCounts[reg.id]+" in season";
+}
+function paintTable(){
+  const body=$("maprows"),reg=regionOfSel();body.textContent="";
+  $("maptable").hidden=false;
+  [...regions].sort((a,b)=>mapCounts[b.id]-mapCounts[a.id]||a.name.localeCompare(b.name)).forEach(r=>{
+    const tr=el("tr",reg&&reg.id===r.id?"here":null);tr.append(el("td",null,r.name),el("td",null,String(mapCounts[r.id])));body.append(tr);
+  });
+}
+function placeLabel(){
+  const l=$("maplabel");
+  if(!mapReady||!sel||!selCentroid){l.hidden=true;return}
+  const t=d3.zoomTransform(svg.node()),w=$("map").clientWidth,u=w/975,h=610*u;
+  const x=t.applyX(selCentroid[0])*u,y=t.applyY(selCentroid[1])*u;
+  if(x<0||x>w||y<0||y>h){l.hidden=true;return}
+  l.hidden=false;l.textContent=nameOfSel();
+  const lw=l.offsetWidth,lh=l.offsetHeight,gap=10;
+  const left=Math.max(4,Math.min(x-lw/2,w-lw-4));
+  const top=y-lh-gap>=4?y-lh-gap:y+gap;
+  l.style.transform="translate("+Math.round(left)+"px,"+Math.round(top)+"px)";
+}
 function paintMap(){
   if(!mapReady) return;
-  const c={};let max=1;
+  const max=yearMax(type);
   for(const r of regions){
     const g=resultsFor(r,month,type);
-    c[r.id]=g.last.length+g.peak.length+g.in.length;
-    max=Math.max(max,c[r.id]);
+    mapCounts[r.id]=g.last.length+g.peak.length+g.in.length;
   }
-  paths.attr("fill-opacity",d=>.08+.82*(c[regionOfCounty(d.id)]/max));
+  paths.attr("class",d=>"county b"+binOf(mapCounts[regionOfCounty(d.id)],max));
   const f=!sel?null:sel.kind==="county"?counties.find(x=>x.id===sel.id):states.find(x=>x.id===sel.id);
-  selPath.attr("d",f?pathGen(f):null);
+  const dpath=f?pathGen(f):null;
+  selPath.attr("d",dpath);selHalo.attr("d",dpath);
+  selCentroid=f?pathGen.centroid(f):null;
+  if(selCentroid&&!isFinite(selCentroid[0])) selCentroid=null;
+  placeLabel();paintLegend(max);paintTable();
 }
+addEventListener("resize",()=>placeLabel());
 async function showMap(){
   const st=$("mapstate");
   if(mapReady) return;
