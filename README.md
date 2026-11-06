@@ -16,6 +16,8 @@ US territories are recognized by search and location but not covered yet, since 
 
 Development: `node tools/check-data.cjs` checks windows and icons. `python3 dev/serve.py` serves the site locally with a Demo / Worst case / Empty / One data toggle that never ships in the page.
 
+Works offline after the first visit and can be installed to a home screen (`sw.js`, `manifest.webmanifest`). Bump `VERSION` in `sw.js` when changing the list of saved files. A feedback report written with no signal waits in the browser's local storage until the app next has a signal.
+
 Season windows are regional estimates. Texas and the Gulf Coast are the most reviewed, other regions are rough.
 
 City and ZIP data from [GeoNames](https://www.geonames.org/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

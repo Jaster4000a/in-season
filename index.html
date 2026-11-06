@@ -6,7 +6,12 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#faf8f3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14181a" media="(prefers-color-scheme: dark)">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='18' r='12' fill='%23c2410c'/%3E%3Cpath d='M16 7c0-3 2-5 6-5 0 3-2 5-6 5z' fill='%2315803d'/%3E%3C/svg%3E">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="In Season">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>In Season</title>
 <meta name="description" content="Find out what seafood, fruit and vegetables are in season where you are. Use your location, or search a city, ZIP or state.">
 <style>
@@ -34,6 +39,10 @@ button[aria-pressed=true],button[aria-pressed=true]:hover,button[aria-pressed=tr
 .shell{max-width:640px;margin:0 auto;padding:calc(12px + var(--sat)) var(--gr) calc(112px + var(--sab)) var(--gl)}
 .brand{margin:0;font-size:.95rem;font-weight:700;letter-spacing:-.01em;color:var(--accent)}
 
+#offline{margin:2px 0 0;font-size:.84rem;color:var(--mute)}
+#offline[hidden]{display:none}
+.installrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;margin:0 0 12px;font-size:.9rem;color:var(--ink)}
+.installrow[hidden]{display:none}
 .placebar{position:sticky;top:var(--sat);z-index:4;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;margin:0 calc(0px - var(--gr)) 0 calc(0px - var(--gl));padding:4px var(--gr) 4px var(--gl)}
 #place{margin:0;font-size:1.45rem;line-height:1.15;letter-spacing:-.02em;font-weight:700;overflow-wrap:break-word;min-width:0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow:hidden}
 #change{flex:none}
@@ -215,6 +224,7 @@ footer a{color:inherit;text-underline-offset:2px}
 <div class="shell">
 <div id="col">
   <h1 class="brand">In Season</h1>
+  <p id="offline" role="status" hidden>No signal. Showing saved seasons.</p>
   <div class="placebar">
     <h2 id="place">What's in season where you are?</h2>
     <button id="change" type="button" hidden>Change</button>
@@ -266,7 +276,7 @@ footer a{color:inherit;text-underline-offset:2px}
   </div>
 </section>
 
-<footer><div class="fbfoot fbx"><span>Spot a mistake? Tap the flag next to any food.</span><button id="fbOpen" type="button">Send feedback</button></div>Season windows are regional estimates, not measured data, and weather moves them. Texas and the Gulf Coast get the most attention so far, other regions are rough. Every place uses the season region it belongs to. For legal harvest dates always check your state wildlife agency. City and ZIP lookup uses <a href="https://www.geonames.org/">GeoNames</a> (CC BY 4.0). <span id="upd"></span></footer>
+<footer><div class="installrow" id="install" hidden><span id="installText"></span><button id="installBtn" type="button" hidden>Install</button></div><div class="fbfoot fbx"><span>Spot a mistake? Tap the flag next to any food.</span><button id="fbOpen" type="button">Send feedback</button></div>Season windows are regional estimates, not measured data, and weather moves them. Texas and the Gulf Coast get the most attention so far, other regions are rough. Every place uses the season region it belongs to. For legal harvest dates always check your state wildlife agency. City and ZIP lookup uses <a href="https://www.geonames.org/">GeoNames</a> (CC BY 4.0). <span id="upd"></span></footer>
 </div>
 
 <dialog id="fb" aria-labelledby="fbTitle">
@@ -957,25 +967,89 @@ async function fbSubmit(e){
   if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)) body.replyto=contact;
   const send=$("fbSend");send.disabled=true;send.textContent="Sending...";err.textContent="";
   try{
-    // Form encoding avoids a CORS preflight, so only the POST itself reaches the service.
-    const data=new FormData();for(const [k,v] of Object.entries(body)) data.append(k,v);
-    const r=await fetch("https://api.web3forms.com/submit",{method:"POST",body:data});
-    const j=await r.json().catch(()=>({}));
-    if(!r.ok||!j.success) throw new Error(j.message||"HTTP "+r.status);
+    await postReport(body);
     fbDone(!!contact);
   }catch(x){
-    err.textContent="Couldn't send that. Check your signal and try again. What you wrote is still here.";
+    if(x.rejected){err.textContent="That report wasn't accepted. Please try again later. What you wrote is still here."}
+    else if(outboxAdd(body)) fbDone(!!contact,true);
+    else err.textContent="Couldn't send that. Check your signal and try again. What you wrote is still here.";
   }finally{send.disabled=false;send.textContent="Send"}
 }
-function fbDone(hasContact){
+async function postReport(body){
+  // Form encoding avoids a CORS preflight, so only the POST itself reaches the service.
+  const data=new FormData();for(const [k,v] of Object.entries(body)) data.append(k,v);
+  const r=await fetch("https://api.web3forms.com/submit",{method:"POST",body:data});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok||!j.success){const e=new Error(j.message||"HTTP "+r.status);e.rejected=true;throw e}
+}
+/* Reports written with no signal wait on this device until the app next has one. */
+const OUTBOX="inseason-outbox",OUTBOX_MAX=20,OUTBOX_TRIES=5;
+const outboxRead=()=>safe(()=>JSON.parse(localStorage.getItem(OUTBOX)||"[]"))||[];
+const outboxWrite=q=>safe(()=>{q.length?localStorage.setItem(OUTBOX,JSON.stringify(q)):localStorage.removeItem(OUTBOX);return true});
+function outboxAdd(body){
+  const q=outboxRead();
+  if(q.length>=OUTBOX_MAX) return false;
+  q.push({body,tries:0});
+  return !!outboxWrite(q);
+}
+let flushing=false;
+async function outboxFlush(){
+  if(flushing||!FEEDBACK_KEY||navigator.onLine===false) return;
+  const start=outboxRead();
+  if(!start.length) return;
+  flushing=true;
+  let sent=0;
+  const keep=[];
+  for(const it of start){
+    try{await postReport(it.body);sent++}
+    catch(x){
+      // A rejected report will never work. A network failure gets a few more chances.
+      if(!x.rejected&&it.tries+1<OUTBOX_TRIES) keep.push({body:it.body,tries:it.tries+1});
+    }
+  }
+  outboxWrite(keep);
+  flushing=false;
+  if(sent) $("live").textContent=sent===1?"Your saved report was sent.":"Your "+sent+" saved reports were sent.";
+}
+function fbDone(hasContact,saved){
   $("fbForm").hidden=true;$("fbDone").hidden=false;
-  $("fbDoneText").textContent="Thanks, your report was sent."+(hasContact?" You may hear back at the contact you gave.":"");
+  $("fbDoneText").textContent=saved
+    ?"No signal right now, so your report is saved on this device. It sends the next time In Season is open with a signal."
+    :"Thanks, your report was sent."+(hasContact?" You may hear back at the contact you gave.":"");
   $("fbContact").value="";$("fbDoneClose").focus();
 }
 $("fbForm").addEventListener("submit",fbSubmit);
 $("fbClose").onclick=()=>$("fb").close();
 $("fbDoneClose").onclick=()=>$("fb").close();
 $("fbOpen").onclick=()=>openFeedback(sel?"correction":"other");
+
+/* ---- offline and install ---- */
+function syncOnline(){
+  $("offline").hidden=navigator.onLine!==false;
+  if(navigator.onLine!==false) outboxFlush();
+}
+addEventListener("online",syncOnline);
+addEventListener("offline",syncOnline);
+if("serviceWorker" in navigator) addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+const installed=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+let installEvent=null;
+addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();installEvent=e;
+  $("install").hidden=false;$("installBtn").hidden=false;
+  $("installText").textContent="Keep In Season on your home screen. It works with no signal.";
+});
+addEventListener("appinstalled",()=>{$("install").hidden=true;installEvent=null});
+$("installBtn").onclick=async()=>{
+  if(!installEvent) return;
+  installEvent.prompt();
+  await installEvent.userChoice.catch(()=>{});
+  installEvent=null;$("install").hidden=true;
+};
+// iOS has no install prompt. navigator.standalone exists only there, so this is a capability check.
+if(!installed&&"standalone" in navigator){
+  $("install").hidden=false;
+  $("installText").textContent="Keep In Season on your home screen: tap Share, then Add to Home Screen. It works with no signal.";
+}
 
 /* ---- boot: the answer needs only regions and items, about 3 KB gzipped ---- */
 function showSkeleton(){
@@ -1016,6 +1090,7 @@ async function boot(){
   $("change").textContent="Change";$("change").setAttribute("aria-expanded","false");
   update();centerMonth();
   loadPlaces();
+  syncOnline();
   if(TERR[linkTerr]) territoryNotice(linkTerr);
   if(desktop.matches||!$("mappanel").hidden) showMap();
   if(!fromLink&&(!sel||sel.gps)) autoLocate();

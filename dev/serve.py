@@ -35,12 +35,13 @@ class H(http.server.BaseHTTPRequestHandler):
             f = os.path.join(ROOT, "dev/fixtures", f"{m}.{name}")
             if os.path.exists(f):
                 return self.send(open(f, "rb").read(), "application/json")
-        if not (path.startswith("/data/") or path.startswith("/vendor/")) or ".." in path:
+        # sw.js is left out on purpose: a service worker would cache the fixtures.
+        if not (path.startswith(("/data/", "/vendor/", "/icons/")) or path == "/manifest.webmanifest") or ".." in path:
             self.send_error(404); return
         f = os.path.join(ROOT, path.lstrip("/"))
         if not os.path.isfile(f):
             self.send_error(404); return
-        ctype = {".json": "application/json", ".js": "text/javascript", ".svg": "image/svg+xml"}.get(os.path.splitext(f)[1], "application/octet-stream")
+        ctype = {".json": "application/json", ".js": "text/javascript", ".svg": "image/svg+xml", ".png": "image/png", ".webmanifest": "application/manifest+json"}.get(os.path.splitext(f)[1], "application/octet-stream")
         self.send(open(f, "rb").read(), ctype)
     def log_message(self, *a): pass
 
