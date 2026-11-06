@@ -16,9 +16,9 @@ for (const it of items) {
   for (const [k, ws] of Object.entries(it.w)) {
     if (!keys.has(k)) bad.push(`${it.id}: unknown region or band "${k}"`);
     for (const w of ws) {
-      if (w.length !== 4 || w.some(m => !Number.isInteger(m) || m < 1 || m > 12)) { bad.push(`${it.id}/${k}: bad window ${w}`); continue; }
+      if (w.length !== 4 || w.slice(0, 2).some(m => !Number.isInteger(m) || m < 1 || m > 12) || w.slice(2).some(m => !Number.isInteger(m) || m < 0 || m > 12)) { bad.push(`${it.id}/${k}: bad window ${w}`); continue; }
       const [s, e, ps, pe] = w;
-      if (!inR(ps, s, e) || !inR(pe, s, e)) bad.push(`${it.id}/${k}: peak ${ps}-${pe} outside season ${s}-${e}`);
+      if (ps && (!inR(ps, s, e) || !inR(pe, s, e))) bad.push(`${it.id}/${k}: peak ${ps}-${pe} outside season ${s}-${e}`);
     }
   }
 }

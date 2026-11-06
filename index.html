@@ -300,7 +300,7 @@ footer a{color:inherit;text-underline-offset:2px}
   </div>
 </section>
 
-<footer><div class="installrow" id="install" hidden><span id="installText"></span><button id="installBtn" type="button" hidden>Install</button></div><div class="fbfoot fbx"><span>Spot a mistake? Tap the flag next to any food.</span><button id="fbOpen" type="button">Send feedback</button></div>Season windows are regional estimates, not measured data, and weather moves them. Texas and the Gulf Coast get the most attention so far, other regions are rough. Every place uses the season region it belongs to. For legal harvest dates always check your state wildlife agency. City and ZIP lookup uses <a href="https://www.geonames.org/">GeoNames</a> (CC BY 4.0). <span id="upd"></span></footer>
+<footer><div class="installrow" id="install" hidden><span id="installText"></span><button id="installBtn" type="button" hidden>Install</button></div><div class="fbfoot fbx"><span>Spot a mistake? Tap the flag next to any food.</span><button id="fbOpen" type="button">Send feedback</button></div>Season windows are regional estimates, not measured data, and weather moves them. Texas and the Gulf Coast are partly checked against published sources, and other regions are rough. Open any food to see where its dates came from. Every place uses the season region it belongs to. For legal harvest dates always check your state wildlife agency. City and ZIP lookup uses <a href="https://www.geonames.org/">GeoNames</a> (CC BY 4.0). <span id="upd"></span></footer>
 </div>
 
 <dialog id="food" aria-labelledby="foodName">
@@ -348,7 +348,7 @@ const nx=(m,k)=>((m-1+k)%12)+1;
 const nowMonth=()=>new Date().getMonth()+1;
 const desktop=matchMedia("(min-width:960px)");
 
-let regions,items,regById={},stateInfo,overrides,places=null;
+let srcInfo={},regions,items,regById={},stateInfo,overrides,places=null;
 let month=nowMonth(),type="all",foodOpen=null,foodPushed=false,guide=null;
 let sel=null; // {kind:'county'|'state',id,label?,gps?,fix?}
 let finderOpen=false;
@@ -388,9 +388,9 @@ function resultsFor(reg,m,t){
 function seasonText(segs){
   const span=(a,b)=>a===b?MN[a-1]:MN[a-1]+" to "+MN[b-1];
   return segs.map(([s,e,ps,pe])=>{
-    if(s===nx(e,1)) return "all year, best "+span(ps,pe);
+    if(s===nx(e,1)) return "all year"+(ps?", best "+span(ps,pe):"");
     if(s===e) return MN[s-1]+" only";
-    return span(s,e)+(ps===s&&pe===e?"":", best "+span(ps,pe));
+    return span(s,e)+(!ps||(ps===s&&pe===e)?"":", best "+span(ps,pe));
   }).join("; ");
 }
 function nextUp(reg,m,t){
@@ -501,7 +501,9 @@ function render(){
   const pl=$("place");pl.title=name;
   if(pl.scrollHeight>parseFloat(getComputedStyle(pl).lineHeight)*2.5) sub.append(name+". ");
   sub.append(reg.name+" region · "+FULL[month-1]);
-  if(reg.quality!=="better") sub.append(". ",el("span","rough","Rough draft, may be off by a few weeks."));
+  const cc=checkedCount(reg);
+  if(cc.done) sub.append(". ",el("span","rough",cc.done+" of "+cc.all+" dates checked against a source."));
+  else sub.append(". ",el("span","rough","Rough draft, may be off by a few weeks."));
   const g=resultsFor(reg,month,type),titles=headings();
   let count=0;
   if(g.last.length+g.peak.length+g.in.length+g.soon.length) out.append(keyEl());
@@ -1064,6 +1066,19 @@ function sourceLinks(g){
   box.append(", in our own words.");
   return box;
 }
+function datesNote(it,reg){
+  const box=el("p","foodsrc"),c=it.checked?.[reg.id];
+  if(!c){box.textContent="Draft dates, not yet checked against a source. May be off by a few weeks.";return box}
+  const s=srcInfo[c.src],a=el("a",null,s.name);a.href=s.url;a.target="_blank";a.rel="noopener";
+  box.append("Dates checked against ",a," ("+s.note+").");
+  if(c.partial) box.append(" The rest is still a draft.");
+  else if(!c.peak&&it.w[reg.id]?.some(w=>w[2])) box.append(" Best months are our own estimate.");
+  return box;
+}
+function checkedCount(reg){
+  const here=items.filter(i=>windowsFor(i,reg));
+  return {done:here.filter(i=>i.checked?.[reg.id]).length,all:here.length};
+}
 function fillFood(it){
   const t=$("foodTitle");t.textContent="";
   const h=el("h2",null,it.name);h.id="foodName";h.tabIndex=-1;t.append(iconEl(it.id),h);
@@ -1080,7 +1095,7 @@ function fillFood(it){
     const wrap=el("div","bigbar");wrap.append(barEl(it,segs));
     const ml=el("div","mlet");ml.setAttribute("aria-hidden","true");MN.forEach(m=>ml.append(el("span",null,m[0])));
     wrap.append(ml);when.append(wrap);
-    if(reg.quality!=="better") when.append(el("p","foodsrc","Rough draft for this region, may be off by a few weeks."));
+    when.append(datesNote(it,reg));
   }
   body.append(when);
   const g=guide?.foods[it.id];
@@ -1173,7 +1188,7 @@ async function boot(){
     fetch("data/choose.json").then(x=>x.ok?x.json():null).then(j=>{guide=j;if(foodOpen)fillFood(foodOpen)}).catch(()=>{});
     const [r,i]=await Promise.all(["data/regions.json","data/items.json"].map(async u=>{
       const x=await fetch(u);if(!x.ok) throw new Error("HTTP "+x.status);return x.json()}));
-    regions=r.regions;regions.forEach(x=>regById[x.id]=x);stateInfo=r.states;overrides=r.countyRegion;items=i.items;
+    regions=r.regions;regions.forEach(x=>regById[x.id]=x);stateInfo=r.states;overrides=r.countyRegion;items=i.items;srcInfo=i.sources||{};
     $("upd").textContent="Data updated "+i.updated+".";
   }catch(e){
     const o=$("out");o.textContent="";

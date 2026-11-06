@@ -1,1 +1,2376 @@
-{"updated":"2026-11-06","items":[{"id":"crawfish","name":"Crawfish","type":"seafood","w":{"gulf":[[1,7,3,5]],"texas":[[1,7,3,5]],"southeast":[[3,6,4,5]]},"note":"Boil season. Best size and price in spring."},{"id":"oysters","name":"Oysters","type":"seafood","w":{"gulf":[[11,4,12,3]],"texas":[[11,4,12,3]],"florida":[[10,5,11,3]],"southeast":[[10,4,11,3]],"mid-atlantic":[[9,4,10,3]],"northeast":[[9,4,10,12]],"pacific-nw":[[9,4,10,3]],"california":[[10,4,11,3]]},"note":"Cold water months, best raw. Texas public reefs open Nov 1."},{"id":"blue-crab","name":"Blue crab","type":"seafood","w":{"gulf":[[4,11,6,9]],"texas":[[4,11,6,9]],"southeast":[[4,11,5,9]],"mid-atlantic":[[4,11,6,9]]},"note":"Heaviest and fattest late summer."},{"id":"soft-shell","name":"Soft-shell crab","type":"seafood","w":{"gulf":[[4,9,5,7]],"texas":[[4,9,5,7]],"southeast":[[4,9,5,7]],"mid-atlantic":[[5,9,5,7]]},"note":"Short molting windows, buy fast."},{"id":"shrimp","name":"Wild shrimp","type":"seafood","w":{"gulf":[[5,12,6,11]],"texas":[[7,12,8,11]],"southeast":[[6,12,8,11]]},"note":"Texas state waters reopen mid-July after the spring closure."},{"id":"stone-crab","name":"Stone crab","type":"seafood","w":{"florida":[[10,5,11,3]]},"note":"Claws only, harvested Oct 15 to May 1."},{"id":"spiny-lobster","name":"Spiny lobster","type":"seafood","w":{"florida":[[8,3,8,10]]},"note":"Florida season opens early August."},{"id":"dungeness","name":"Dungeness crab","type":"seafood","w":{"california":[[11,6,12,3]],"pacific-nw":[[12,9,12,3]]},"note":"Winter is the heart of the season."},{"id":"salmon","name":"Wild salmon","type":"seafood","w":{"pacific-nw":[[5,10,6,8]],"alaska":[[5,9,6,8]],"california":[[5,9,6,8]]},"note":"Fresh wild runs. Frozen is available year round."},{"id":"halibut","name":"Halibut","type":"seafood","w":{"alaska":[[3,11,5,8]],"pacific-nw":[[3,11,5,7]]}},{"id":"king-crab","name":"Alaska king crab","type":"seafood","w":{"alaska":[[10,1,10,12]]}},{"id":"lobster","name":"Lobster","type":"seafood","w":{"northeast":[[6,12,7,10]]},"note":"Summer shedders are sweeter, fall are meatier."},{"id":"scallops","name":"Scallops","type":"seafood","w":{"northeast":[[10,3,11,2]]},"note":"Bay scallops run November to March."},{"id":"walleye","name":"Walleye","type":"seafood","w":{"midwest":[[5,10,5,7]]},"note":"Open-water season, rough window."},{"id":"strawberries","name":"Strawberries","type":"fruit","w":{"warm":[[2,6,3,5]],"temperate":[[4,7,5,6]],"north":[[6,7,6,7]],"cold":[[7,8,7,8]]}},{"id":"blueberries","name":"Blueberries","type":"fruit","w":{"warm":[[5,7,6,6]],"temperate":[[5,8,6,7]],"north":[[7,9,7,8]],"cold":[[8,9,8,8]]}},{"id":"blackberries","name":"Blackberries","type":"fruit","w":{"warm":[[5,7,6,6]],"temperate":[[6,8,7,7]],"north":[[7,9,8,8]]}},{"id":"cherries","name":"Cherries","type":"fruit","w":{"warm":[[5,6,5,6]],"temperate":[[5,6,5,6]],"north":[[6,8,6,7]]}},{"id":"peaches","name":"Peaches","type":"fruit","w":{"warm":[[5,8,6,7]],"temperate":[[6,9,7,8]],"north":[[7,9,8,9]]}},{"id":"apples","name":"Apples","type":"fruit","w":{"warm":[[8,10,9,10]],"temperate":[[8,11,9,10]],"north":[[8,11,9,10]],"cold":[[9,10,9,9]]}},{"id":"pears","name":"Pears","type":"fruit","w":{"warm":[[8,11,9,10]],"temperate":[[8,11,9,10]],"north":[[8,11,9,10]]}},{"id":"watermelon","name":"Watermelon","type":"fruit","w":{"warm":[[5,8,6,7]],"temperate":[[6,9,7,8]],"north":[[7,9,8,8]]}},{"id":"cantaloupe","name":"Cantaloupe","type":"fruit","w":{"warm":[[6,8,6,7]],"temperate":[[7,9,7,8]],"north":[[8,9,8,9]]}},{"id":"figs","name":"Figs","type":"fruit","w":{"warm":[[6,9,7,8]],"temperate":[[7,10,8,9]]},"note":"Fragile, eat the day you buy."},{"id":"citrus","name":"Oranges and grapefruit","type":"fruit","w":{"warm":[[11,4,12,2]]},"note":"Valley, Florida and California citrus."},{"id":"satsuma","name":"Satsumas and mandarins","type":"fruit","w":{"warm":[[11,1,11,12]]},"note":"Easy peelers, early winter."},{"id":"pomegranate","name":"Pomegranate","type":"fruit","w":{"warm":[[9,12,10,11]]}},{"id":"persimmon","name":"Persimmon","type":"fruit","w":{"warm":[[10,12,10,11]],"temperate":[[10,12,10,11]]},"note":"Wait until fully soft if it is Hachiya."},{"id":"pecans","name":"Pecans","type":"fruit","w":{"warm":[[10,12,11,11]],"temperate":[[10,12,11,11]]},"note":"New crop harvest.","only":["texas","gulf","southeast","plains","southwest"]},{"id":"cranberries","name":"Cranberries","type":"fruit","w":{"north":[[9,12,10,11]]},"note":"Bog harvest.","only":["northeast","midwest","pacific-nw"]},{"id":"mango","name":"Mango","type":"fruit","w":{"hawaii":[[5,9,6,8]],"florida":[[6,9,7,8]]}},{"id":"pineapple","name":"Pineapple","type":"fruit","w":{"hawaii":[[1,12,3,7]]},"note":"Available year round, sweetest in spring and summer."},{"id":"papaya","name":"Papaya","type":"fruit","w":{"hawaii":[[1,12,4,10]]}},{"id":"lychee","name":"Lychee","type":"fruit","w":{"hawaii":[[5,7,6,6]]}},{"id":"rhubarb","name":"Rhubarb","type":"fruit","w":{"temperate":[[4,6,4,5]],"north":[[4,6,5,6]],"cold":[[6,7,6,7]]}},{"id":"spinach","name":"Spinach","type":"veg","w":{"warm":[[11,4,12,3]],"temperate":[[3,5,4,5],[10,12,10,11]],"north":[[4,6,5,5],[9,10,9,10]],"cold":[[6,8,6,7]]}},{"id":"greens","name":"Lettuce and salad greens","type":"veg","w":{"warm":[[11,4,12,3]],"temperate":[[4,6,4,5],[9,11,10,10]],"north":[[5,10,6,9]],"cold":[[6,8,6,7]]}},{"id":"kale","name":"Kale and collards","type":"veg","w":{"warm":[[10,4,11,2]],"temperate":[[10,3,11,2]],"north":[[6,11,9,11]],"cold":[[7,9,8,9]]},"note":"Sweeter after a frost."},{"id":"carrots","name":"Carrots","type":"veg","w":{"warm":[[10,5,11,3]],"temperate":[[5,6,5,6],[10,12,10,11]],"north":[[7,11,9,10]]}},{"id":"cabbage","name":"Cabbage","type":"veg","w":{"warm":[[10,5,11,3]],"temperate":[[5,6,5,6],[10,12,10,11]],"north":[[7,11,9,10]],"cold":[[8,10,9,9]]}},{"id":"brassicas","name":"Broccoli and cauliflower","type":"veg","w":{"warm":[[11,3,12,2]],"temperate":[[5,6,5,6],[10,12,10,11]],"north":[[6,10,9,10]]}},{"id":"brussels","name":"Brussels sprouts","type":"veg","w":{"warm":[[11,3,11,1]],"temperate":[[10,12,11,12]],"north":[[9,12,10,11]]}},{"id":"beets","name":"Beets and turnips","type":"veg","w":{"warm":[[11,3,12,2]],"temperate":[[5,6,5,5],[10,11,10,11]],"north":[[6,11,8,10]]}},{"id":"sweet-potatoes","name":"Sweet potatoes","type":"veg","w":{"warm":[[9,12,10,11]],"temperate":[[9,12,10,11]],"north":[[9,11,9,10]]}},{"id":"winter-squash","name":"Pumpkin and winter squash","type":"veg","w":{"warm":[[9,11,10,10]],"temperate":[[9,12,10,11]],"north":[[9,11,10,10]],"cold":[[9,10,9,9]]}},{"id":"potatoes","name":"Potatoes","type":"veg","w":{"warm":[[4,6,5,5]],"temperate":[[6,9,7,8]],"north":[[7,10,8,9]],"cold":[[8,9,8,9]]},"note":"Early crop is new potatoes."},{"id":"onions","name":"Onions","type":"veg","w":{"warm":[[4,6,5,5]],"temperate":[[6,9,6,8]],"north":[[8,10,8,9]]},"note":"Spring sweet onions in the south."},{"id":"green-beans","name":"Green beans","type":"veg","w":{"warm":[[4,6,5,5],[9,10,9,10]],"temperate":[[6,9,7,8]],"north":[[7,9,7,8]]}},{"id":"sweet-corn","name":"Sweet corn","type":"veg","w":{"warm":[[5,7,6,6]],"temperate":[[6,8,6,7]],"north":[[7,9,8,9]]}},{"id":"summer-squash","name":"Squash and zucchini","type":"veg","w":{"warm":[[5,10,6,8]],"temperate":[[6,9,7,8]],"north":[[7,9,7,8]]}},{"id":"cucumbers","name":"Cucumbers","type":"veg","w":{"warm":[[5,7,5,6],[9,10,9,10]],"temperate":[[6,9,7,8]],"north":[[7,9,7,8]]}},{"id":"tomatoes","name":"Tomatoes","type":"veg","w":{"warm":[[6,10,6,7]],"temperate":[[7,9,7,9]],"north":[[7,10,8,9]]},"note":"Peak in high summer."},{"id":"peppers","name":"Peppers","type":"veg","w":{"warm":[[6,10,7,9]],"temperate":[[7,10,8,9]],"north":[[8,10,8,9]]}},{"id":"eggplant","name":"Eggplant","type":"veg","w":{"warm":[[6,10,7,9]],"temperate":[[7,10,8,9]],"north":[[8,9,8,9]]}},{"id":"okra","name":"Okra","type":"veg","w":{"warm":[[6,10,7,9]],"temperate":[[7,9,7,9]]},"only":["gulf","texas","florida","southeast","plains","mid-atlantic","southwest"]},{"id":"field-peas","name":"Field peas","type":"veg","w":{"warm":[[6,8,6,7]],"temperate":[[6,8,6,7]]},"note":"Black-eyed, purple hull, cream.","only":["gulf","texas","florida","southeast","plains"]},{"id":"asparagus","name":"Asparagus","type":"veg","w":{"warm":[[3,4,3,4]],"temperate":[[4,6,4,5]],"north":[[4,6,5,6]]}},{"id":"peas","name":"Spring peas","type":"veg","w":{"warm":[[2,4,3,3]],"temperate":[[4,6,5,5]],"north":[[5,7,6,6]]}},{"id":"hatch-chile","name":"Hatch green chile","type":"veg","w":{"southwest":[[8,9,8,9]]},"note":"Roasting season.","only":["southwest"]},{"id":"maple","name":"Maple syrup","type":"veg","w":{"north":[[2,4,3,3]]},"note":"Sugaring season.","only":["northeast","midwest"]},{"id":"avocado","name":"Avocado","type":"fruit","w":{"hawaii":[[5,12,7,10]],"california":[[3,9,4,7]],"florida":[[6,1,7,11]]}}]}
+{
+"updated": "2026-11-06",
+"items": [
+{
+"id": "crawfish",
+"name": "Crawfish",
+"type": "seafood",
+"w": {
+"gulf": [
+[
+12,
+6,
+3,
+5
+]
+],
+"texas": [
+[
+12,
+6,
+3,
+5
+]
+],
+"southeast": [
+[
+3,
+6,
+4,
+5
+]
+]
+},
+"note": "Boil season. Best size and price in spring.",
+"checked": {
+"texas": {
+"src": "lsu",
+"peak": true
+},
+"gulf": {
+"src": "lsu",
+"peak": true
+}
+}
+},
+{
+"id": "oysters",
+"name": "Oysters",
+"type": "seafood",
+"w": {
+"gulf": [
+[
+11,
+4,
+12,
+3
+]
+],
+"texas": [
+[
+11,
+4,
+12,
+3
+]
+],
+"florida": [
+[
+10,
+5,
+11,
+3
+]
+],
+"southeast": [
+[
+10,
+4,
+11,
+3
+]
+],
+"mid-atlantic": [
+[
+9,
+4,
+10,
+3
+]
+],
+"northeast": [
+[
+9,
+4,
+10,
+12
+]
+],
+"pacific-nw": [
+[
+9,
+4,
+10,
+3
+]
+],
+"california": [
+[
+10,
+4,
+11,
+3
+]
+]
+},
+"note": "Cold water months, best raw. Texas public reefs open Nov 1.",
+"checked": {
+"texas": {
+"src": "txoyster"
+}
+}
+},
+{
+"id": "blue-crab",
+"name": "Blue crab",
+"type": "seafood",
+"w": {
+"gulf": [
+[
+4,
+11,
+6,
+9
+]
+],
+"texas": [
+[
+4,
+11,
+6,
+9
+]
+],
+"southeast": [
+[
+4,
+11,
+5,
+9
+]
+],
+"mid-atlantic": [
+[
+4,
+11,
+6,
+9
+]
+]
+},
+"note": "Heaviest and fattest late summer."
+},
+{
+"id": "soft-shell",
+"name": "Soft-shell crab",
+"type": "seafood",
+"w": {
+"gulf": [
+[
+4,
+9,
+5,
+7
+]
+],
+"texas": [
+[
+4,
+9,
+5,
+7
+]
+],
+"southeast": [
+[
+4,
+9,
+5,
+7
+]
+],
+"mid-atlantic": [
+[
+5,
+9,
+5,
+7
+]
+]
+},
+"note": "Short molting windows, buy fast."
+},
+{
+"id": "shrimp",
+"name": "Wild shrimp",
+"type": "seafood",
+"w": {
+"gulf": [
+[
+5,
+12,
+6,
+11
+]
+],
+"texas": [
+[
+7,
+12,
+8,
+11
+]
+],
+"southeast": [
+[
+6,
+12,
+8,
+11
+]
+]
+},
+"note": "Texas state waters reopen mid-July after the spring closure.",
+"checked": {
+"texas": {
+"src": "tpwdshrimp",
+"partial": true
+}
+}
+},
+{
+"id": "stone-crab",
+"name": "Stone crab",
+"type": "seafood",
+"w": {
+"florida": [
+[
+10,
+5,
+11,
+3
+]
+]
+},
+"note": "Claws only, harvested Oct 15 to May 1."
+},
+{
+"id": "spiny-lobster",
+"name": "Spiny lobster",
+"type": "seafood",
+"w": {
+"florida": [
+[
+8,
+3,
+8,
+10
+]
+]
+},
+"note": "Florida season opens early August."
+},
+{
+"id": "dungeness",
+"name": "Dungeness crab",
+"type": "seafood",
+"w": {
+"california": [
+[
+11,
+6,
+12,
+3
+]
+],
+"pacific-nw": [
+[
+12,
+9,
+12,
+3
+]
+]
+},
+"note": "Winter is the heart of the season."
+},
+{
+"id": "salmon",
+"name": "Wild salmon",
+"type": "seafood",
+"w": {
+"pacific-nw": [
+[
+5,
+10,
+6,
+8
+]
+],
+"alaska": [
+[
+5,
+9,
+6,
+8
+]
+],
+"california": [
+[
+5,
+9,
+6,
+8
+]
+]
+},
+"note": "Fresh wild runs. Frozen is available year round."
+},
+{
+"id": "halibut",
+"name": "Halibut",
+"type": "seafood",
+"w": {
+"alaska": [
+[
+3,
+11,
+5,
+8
+]
+],
+"pacific-nw": [
+[
+3,
+11,
+5,
+7
+]
+]
+}
+},
+{
+"id": "king-crab",
+"name": "Alaska king crab",
+"type": "seafood",
+"w": {
+"alaska": [
+[
+10,
+1,
+10,
+12
+]
+]
+}
+},
+{
+"id": "lobster",
+"name": "Lobster",
+"type": "seafood",
+"w": {
+"northeast": [
+[
+6,
+12,
+7,
+10
+]
+]
+},
+"note": "Summer shedders are sweeter, fall are meatier."
+},
+{
+"id": "scallops",
+"name": "Scallops",
+"type": "seafood",
+"w": {
+"northeast": [
+[
+10,
+3,
+11,
+2
+]
+]
+},
+"note": "Bay scallops run November to March."
+},
+{
+"id": "walleye",
+"name": "Walleye",
+"type": "seafood",
+"w": {
+"midwest": [
+[
+5,
+10,
+5,
+7
+]
+]
+},
+"note": "Open-water season, rough window."
+},
+{
+"id": "strawberries",
+"name": "Strawberries",
+"type": "fruit",
+"w": {
+"warm": [
+[
+2,
+6,
+3,
+5
+]
+],
+"temperate": [
+[
+4,
+7,
+5,
+6
+]
+],
+"north": [
+[
+6,
+7,
+6,
+7
+]
+],
+"cold": [
+[
+7,
+8,
+7,
+8
+]
+],
+"gulf": [
+[
+11,
+6,
+3,
+5
+]
+]
+},
+"checked": {
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "blueberries",
+"name": "Blueberries",
+"type": "fruit",
+"w": {
+"warm": [
+[
+5,
+7,
+6,
+6
+]
+],
+"temperate": [
+[
+5,
+8,
+6,
+7
+]
+],
+"north": [
+[
+7,
+9,
+7,
+8
+]
+],
+"cold": [
+[
+8,
+9,
+8,
+8
+]
+],
+"texas": [
+[
+5,
+7,
+6,
+6
+]
+],
+"gulf": [
+[
+5,
+7,
+6,
+6
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+},
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "blackberries",
+"name": "Blackberries",
+"type": "fruit",
+"w": {
+"warm": [
+[
+5,
+7,
+6,
+6
+]
+],
+"temperate": [
+[
+6,
+8,
+7,
+7
+]
+],
+"north": [
+[
+7,
+9,
+8,
+8
+]
+],
+"texas": [
+[
+4,
+6,
+6,
+6
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "cherries",
+"name": "Cherries",
+"type": "fruit",
+"w": {
+"warm": [
+[
+5,
+6,
+5,
+6
+]
+],
+"temperate": [
+[
+5,
+6,
+5,
+6
+]
+],
+"north": [
+[
+6,
+8,
+6,
+7
+]
+]
+}
+},
+{
+"id": "peaches",
+"name": "Peaches",
+"type": "fruit",
+"w": {
+"warm": [
+[
+5,
+8,
+6,
+7
+]
+],
+"temperate": [
+[
+6,
+9,
+7,
+8
+]
+],
+"north": [
+[
+7,
+9,
+8,
+9
+]
+],
+"texas": [
+[
+4,
+8,
+6,
+7
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "apples",
+"name": "Apples",
+"type": "fruit",
+"w": {
+"warm": [
+[
+8,
+10,
+9,
+10
+]
+],
+"temperate": [
+[
+8,
+11,
+9,
+10
+]
+],
+"north": [
+[
+8,
+11,
+9,
+10
+]
+],
+"cold": [
+[
+9,
+10,
+9,
+9
+]
+],
+"texas": [
+[
+6,
+11,
+9,
+10
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "pears",
+"name": "Pears",
+"type": "fruit",
+"w": {
+"warm": [
+[
+8,
+11,
+9,
+10
+]
+],
+"temperate": [
+[
+8,
+11,
+9,
+10
+]
+],
+"north": [
+[
+8,
+11,
+9,
+10
+]
+],
+"texas": [
+[
+6,
+9,
+9,
+9
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "watermelon",
+"name": "Watermelon",
+"type": "fruit",
+"w": {
+"warm": [
+[
+5,
+8,
+6,
+7
+]
+],
+"temperate": [
+[
+6,
+9,
+7,
+8
+]
+],
+"north": [
+[
+7,
+9,
+8,
+8
+]
+],
+"texas": [
+[
+5,
+11,
+6,
+7
+]
+],
+"gulf": [
+[
+6,
+9,
+6,
+7
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+},
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "cantaloupe",
+"name": "Cantaloupe",
+"type": "fruit",
+"w": {
+"warm": [
+[
+6,
+8,
+6,
+7
+]
+],
+"temperate": [
+[
+7,
+9,
+7,
+8
+]
+],
+"north": [
+[
+8,
+9,
+8,
+9
+]
+],
+"texas": [
+[
+5,
+7,
+6,
+7
+],
+[
+10,
+11,
+0,
+0
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "figs",
+"name": "Figs",
+"type": "fruit",
+"w": {
+"warm": [
+[
+6,
+9,
+7,
+8
+]
+],
+"temperate": [
+[
+7,
+10,
+8,
+9
+]
+]
+},
+"note": "Fragile, eat the day you buy."
+},
+{
+"id": "citrus",
+"name": "Oranges and grapefruit",
+"type": "fruit",
+"w": {
+"warm": [
+[
+11,
+4,
+12,
+2
+]
+],
+"texas": [
+[
+9,
+5,
+12,
+2
+]
+],
+"gulf": [
+[
+11,
+2,
+12,
+2
+]
+]
+},
+"note": "Valley, Florida and California citrus.",
+"checked": {
+"texas": {
+"src": "tda"
+},
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "satsuma",
+"name": "Satsumas and mandarins",
+"type": "fruit",
+"w": {
+"warm": [
+[
+11,
+1,
+11,
+12
+]
+]
+},
+"note": "Easy peelers, early winter."
+},
+{
+"id": "pomegranate",
+"name": "Pomegranate",
+"type": "fruit",
+"w": {
+"warm": [
+[
+9,
+12,
+10,
+11
+]
+]
+}
+},
+{
+"id": "persimmon",
+"name": "Persimmon",
+"type": "fruit",
+"w": {
+"warm": [
+[
+10,
+12,
+10,
+11
+]
+],
+"temperate": [
+[
+10,
+12,
+10,
+11
+]
+],
+"texas": [
+[
+8,
+11,
+10,
+11
+]
+]
+},
+"note": "Wait until fully soft if it is Hachiya.",
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "pecans",
+"name": "Pecans",
+"type": "fruit",
+"w": {
+"warm": [
+[
+10,
+12,
+11,
+11
+]
+],
+"temperate": [
+[
+10,
+12,
+11,
+11
+]
+],
+"texas": [
+[
+10,
+1,
+11,
+11
+]
+]
+},
+"note": "New crop harvest.",
+"only": [
+"texas",
+"gulf",
+"southeast",
+"plains",
+"southwest"
+],
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "cranberries",
+"name": "Cranberries",
+"type": "fruit",
+"w": {
+"north": [
+[
+9,
+12,
+10,
+11
+]
+]
+},
+"note": "Bog harvest.",
+"only": [
+"northeast",
+"midwest",
+"pacific-nw"
+]
+},
+{
+"id": "mango",
+"name": "Mango",
+"type": "fruit",
+"w": {
+"hawaii": [
+[
+5,
+9,
+6,
+8
+]
+],
+"florida": [
+[
+6,
+9,
+7,
+8
+]
+]
+}
+},
+{
+"id": "pineapple",
+"name": "Pineapple",
+"type": "fruit",
+"w": {
+"hawaii": [
+[
+1,
+12,
+3,
+7
+]
+]
+},
+"note": "Available year round, sweetest in spring and summer."
+},
+{
+"id": "papaya",
+"name": "Papaya",
+"type": "fruit",
+"w": {
+"hawaii": [
+[
+1,
+12,
+4,
+10
+]
+]
+}
+},
+{
+"id": "lychee",
+"name": "Lychee",
+"type": "fruit",
+"w": {
+"hawaii": [
+[
+5,
+7,
+6,
+6
+]
+]
+}
+},
+{
+"id": "rhubarb",
+"name": "Rhubarb",
+"type": "fruit",
+"w": {
+"temperate": [
+[
+4,
+6,
+4,
+5
+]
+],
+"north": [
+[
+4,
+6,
+5,
+6
+]
+],
+"cold": [
+[
+6,
+7,
+6,
+7
+]
+]
+}
+},
+{
+"id": "spinach",
+"name": "Spinach",
+"type": "veg",
+"w": {
+"warm": [
+[
+11,
+4,
+12,
+3
+]
+],
+"temperate": [
+[
+3,
+5,
+4,
+5
+],
+[
+10,
+12,
+10,
+11
+]
+],
+"north": [
+[
+4,
+6,
+5,
+5
+],
+[
+9,
+10,
+9,
+10
+]
+],
+"cold": [
+[
+6,
+8,
+6,
+7
+]
+],
+"texas": [
+[
+11,
+4,
+12,
+3
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "greens",
+"name": "Lettuce and salad greens",
+"type": "veg",
+"w": {
+"warm": [
+[
+11,
+4,
+12,
+3
+]
+],
+"temperate": [
+[
+4,
+6,
+4,
+5
+],
+[
+9,
+11,
+10,
+10
+]
+],
+"north": [
+[
+5,
+10,
+6,
+9
+]
+],
+"cold": [
+[
+6,
+8,
+6,
+7
+]
+],
+"texas": [
+[
+4,
+10,
+0,
+0
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "kale",
+"name": "Kale and collards",
+"type": "veg",
+"w": {
+"warm": [
+[
+10,
+4,
+11,
+2
+]
+],
+"temperate": [
+[
+10,
+3,
+11,
+2
+]
+],
+"north": [
+[
+6,
+11,
+9,
+11
+]
+],
+"cold": [
+[
+7,
+9,
+8,
+9
+]
+],
+"texas": [
+[
+10,
+4,
+11,
+2
+]
+]
+},
+"note": "Sweeter after a frost.",
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "carrots",
+"name": "Carrots",
+"type": "veg",
+"w": {
+"warm": [
+[
+10,
+5,
+11,
+3
+]
+],
+"temperate": [
+[
+5,
+6,
+5,
+6
+],
+[
+10,
+12,
+10,
+11
+]
+],
+"north": [
+[
+7,
+11,
+9,
+10
+]
+],
+"texas": [
+[
+1,
+12,
+11,
+3
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "cabbage",
+"name": "Cabbage",
+"type": "veg",
+"w": {
+"warm": [
+[
+10,
+5,
+11,
+3
+]
+],
+"temperate": [
+[
+5,
+6,
+5,
+6
+],
+[
+10,
+12,
+10,
+11
+]
+],
+"north": [
+[
+7,
+11,
+9,
+10
+]
+],
+"cold": [
+[
+8,
+10,
+9,
+9
+]
+],
+"texas": [
+[
+1,
+12,
+11,
+3
+]
+],
+"gulf": [
+[
+10,
+5,
+11,
+3
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+},
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "brassicas",
+"name": "Broccoli and cauliflower",
+"type": "veg",
+"w": {
+"warm": [
+[
+11,
+3,
+12,
+2
+]
+],
+"temperate": [
+[
+5,
+6,
+5,
+6
+],
+[
+10,
+12,
+10,
+11
+]
+],
+"north": [
+[
+6,
+10,
+9,
+10
+]
+],
+"texas": [
+[
+11,
+4,
+12,
+2
+]
+],
+"gulf": [
+[
+10,
+5,
+12,
+2
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+},
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "brussels",
+"name": "Brussels sprouts",
+"type": "veg",
+"w": {
+"warm": [
+[
+11,
+3,
+11,
+1
+]
+],
+"temperate": [
+[
+10,
+12,
+11,
+12
+]
+],
+"north": [
+[
+9,
+12,
+10,
+11
+]
+]
+}
+},
+{
+"id": "beets",
+"name": "Beets and turnips",
+"type": "veg",
+"w": {
+"warm": [
+[
+11,
+3,
+12,
+2
+]
+],
+"temperate": [
+[
+5,
+6,
+5,
+5
+],
+[
+10,
+11,
+10,
+11
+]
+],
+"north": [
+[
+6,
+11,
+8,
+10
+]
+],
+"texas": [
+[
+10,
+4,
+12,
+2
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "sweet-potatoes",
+"name": "Sweet potatoes",
+"type": "veg",
+"w": {
+"warm": [
+[
+9,
+12,
+10,
+11
+]
+],
+"temperate": [
+[
+9,
+12,
+10,
+11
+]
+],
+"north": [
+[
+9,
+11,
+9,
+10
+]
+],
+"texas": [
+[
+8,
+5,
+10,
+11
+]
+],
+"gulf": [
+[
+1,
+12,
+10,
+11
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+},
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "winter-squash",
+"name": "Pumpkin and winter squash",
+"type": "veg",
+"w": {
+"warm": [
+[
+9,
+11,
+10,
+10
+]
+],
+"temperate": [
+[
+9,
+12,
+10,
+11
+]
+],
+"north": [
+[
+9,
+11,
+10,
+10
+]
+],
+"cold": [
+[
+9,
+10,
+9,
+9
+]
+],
+"texas": [
+[
+9,
+11,
+10,
+10
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "potatoes",
+"name": "Potatoes",
+"type": "veg",
+"w": {
+"warm": [
+[
+4,
+6,
+5,
+5
+]
+],
+"temperate": [
+[
+6,
+9,
+7,
+8
+]
+],
+"north": [
+[
+7,
+10,
+8,
+9
+]
+],
+"cold": [
+[
+8,
+9,
+8,
+9
+]
+],
+"texas": [
+[
+4,
+9,
+5,
+5
+]
+]
+},
+"note": "Early crop is new potatoes.",
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "onions",
+"name": "Onions",
+"type": "veg",
+"w": {
+"warm": [
+[
+4,
+6,
+5,
+5
+]
+],
+"temperate": [
+[
+6,
+9,
+6,
+8
+]
+],
+"north": [
+[
+8,
+10,
+8,
+9
+]
+],
+"texas": [
+[
+3,
+8,
+5,
+5
+]
+]
+},
+"note": "Spring sweet onions in the south.",
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "green-beans",
+"name": "Green beans",
+"type": "veg",
+"w": {
+"warm": [
+[
+4,
+6,
+5,
+5
+],
+[
+9,
+10,
+9,
+10
+]
+],
+"temperate": [
+[
+6,
+9,
+7,
+8
+]
+],
+"north": [
+[
+7,
+9,
+7,
+8
+]
+]
+}
+},
+{
+"id": "sweet-corn",
+"name": "Sweet corn",
+"type": "veg",
+"w": {
+"warm": [
+[
+5,
+7,
+6,
+6
+]
+],
+"temperate": [
+[
+6,
+8,
+6,
+7
+]
+],
+"north": [
+[
+7,
+9,
+8,
+9
+]
+]
+}
+},
+{
+"id": "summer-squash",
+"name": "Squash and zucchini",
+"type": "veg",
+"w": {
+"warm": [
+[
+5,
+10,
+6,
+8
+]
+],
+"temperate": [
+[
+6,
+9,
+7,
+8
+]
+],
+"north": [
+[
+7,
+9,
+7,
+8
+]
+],
+"texas": [
+[
+4,
+11,
+6,
+8
+]
+],
+"gulf": [
+[
+3,
+11,
+6,
+8
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+},
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "cucumbers",
+"name": "Cucumbers",
+"type": "veg",
+"w": {
+"warm": [
+[
+5,
+7,
+5,
+6
+],
+[
+9,
+10,
+9,
+10
+]
+],
+"temperate": [
+[
+6,
+9,
+7,
+8
+]
+],
+"north": [
+[
+7,
+9,
+7,
+8
+]
+],
+"texas": [
+[
+4,
+12,
+5,
+6
+]
+],
+"gulf": [
+[
+4,
+8,
+5,
+6
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+},
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "tomatoes",
+"name": "Tomatoes",
+"type": "veg",
+"w": {
+"warm": [
+[
+6,
+10,
+6,
+7
+]
+],
+"temperate": [
+[
+7,
+9,
+7,
+9
+]
+],
+"north": [
+[
+7,
+10,
+8,
+9
+]
+],
+"texas": [
+[
+5,
+11,
+6,
+7
+]
+],
+"gulf": [
+[
+5,
+11,
+6,
+7
+]
+]
+},
+"note": "Peak in high summer.",
+"checked": {
+"texas": {
+"src": "tda"
+},
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "peppers",
+"name": "Peppers",
+"type": "veg",
+"w": {
+"warm": [
+[
+6,
+10,
+7,
+9
+]
+],
+"temperate": [
+[
+7,
+10,
+8,
+9
+]
+],
+"north": [
+[
+8,
+10,
+8,
+9
+]
+],
+"texas": [
+[
+5,
+12,
+7,
+9
+]
+],
+"gulf": [
+[
+5,
+11,
+7,
+9
+]
+]
+},
+"checked": {
+"texas": {
+"src": "tda"
+},
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "eggplant",
+"name": "Eggplant",
+"type": "veg",
+"w": {
+"warm": [
+[
+6,
+10,
+7,
+9
+]
+],
+"temperate": [
+[
+7,
+10,
+8,
+9
+]
+],
+"north": [
+[
+8,
+9,
+8,
+9
+]
+],
+"gulf": [
+[
+6,
+10,
+7,
+9
+]
+]
+},
+"checked": {
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "okra",
+"name": "Okra",
+"type": "veg",
+"w": {
+"warm": [
+[
+6,
+10,
+7,
+9
+]
+],
+"temperate": [
+[
+7,
+9,
+7,
+9
+]
+],
+"gulf": [
+[
+5,
+10,
+7,
+9
+]
+]
+},
+"only": [
+"gulf",
+"texas",
+"florida",
+"southeast",
+"plains",
+"mid-atlantic",
+"southwest"
+],
+"checked": {
+"gulf": {
+"src": "tulane"
+}
+}
+},
+{
+"id": "field-peas",
+"name": "Field peas",
+"type": "veg",
+"w": {
+"warm": [
+[
+6,
+8,
+6,
+7
+]
+],
+"temperate": [
+[
+6,
+8,
+6,
+7
+]
+],
+"texas": [
+[
+4,
+12,
+6,
+7
+]
+]
+},
+"note": "Black-eyed, purple hull, cream.",
+"only": [
+"gulf",
+"texas",
+"florida",
+"southeast",
+"plains"
+],
+"checked": {
+"texas": {
+"src": "tda"
+}
+}
+},
+{
+"id": "asparagus",
+"name": "Asparagus",
+"type": "veg",
+"w": {
+"warm": [
+[
+3,
+4,
+3,
+4
+]
+],
+"temperate": [
+[
+4,
+6,
+4,
+5
+]
+],
+"north": [
+[
+4,
+6,
+5,
+6
+]
+]
+}
+},
+{
+"id": "peas",
+"name": "Spring peas",
+"type": "veg",
+"w": {
+"warm": [
+[
+2,
+4,
+3,
+3
+]
+],
+"temperate": [
+[
+4,
+6,
+5,
+5
+]
+],
+"north": [
+[
+5,
+7,
+6,
+6
+]
+]
+}
+},
+{
+"id": "hatch-chile",
+"name": "Hatch green chile",
+"type": "veg",
+"w": {
+"southwest": [
+[
+8,
+9,
+8,
+9
+]
+]
+},
+"note": "Roasting season.",
+"only": [
+"southwest"
+]
+},
+{
+"id": "maple",
+"name": "Maple syrup",
+"type": "veg",
+"w": {
+"north": [
+[
+2,
+4,
+3,
+3
+]
+]
+},
+"note": "Sugaring season.",
+"only": [
+"northeast",
+"midwest"
+]
+},
+{
+"id": "avocado",
+"name": "Avocado",
+"type": "fruit",
+"w": {
+"hawaii": [
+[
+5,
+12,
+7,
+10
+]
+],
+"california": [
+[
+3,
+9,
+4,
+7
+]
+],
+"florida": [
+[
+6,
+1,
+7,
+11
+]
+]
+}
+}
+],
+"sources": {
+"tda": {
+"name": "Texas Department of Agriculture",
+"note": "2015 chart",
+"url": "https://leon.agrilife.org/files/2019/03/produce-availability-brochure-2015-nocropmarks.pdf"
+},
+"tulane": {
+"name": "Tulane Goldring Center",
+"note": "Southern Louisiana calendar",
+"url": "https://goldringcenter.tulane.edu/wp-content/uploads/sites/10/2023/01/Southern-Louisiana-Local-Produce-Calendar_REVISED.pdf"
+},
+"lsu": {
+"name": "LSU AgCenter",
+"note": "based on Louisiana harvests",
+"url": "https://www.lsuagcenter.com/~/media/system/3/8/8/9/3889736fec72246f396a6f349c3eace9/pub2353enjoyinglouisianacrawfishlowres1.pdf"
+},
+"txoyster": {
+"name": "Texas Administrative Code",
+"note": "public reefs, and bays can close",
+"url": "https://www.law.cornell.edu/regulations/texas/31-Tex-Admin-Code-SS-58-21"
+},
+"tpwdshrimp": {
+"name": "Texas Parks and Wildlife",
+"note": "the July reopening only",
+"url": "https://tpwd.texas.gov/newsmedia/releases?req=20260508a"
+}
+}
+}

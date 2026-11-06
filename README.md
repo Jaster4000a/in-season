@@ -19,6 +19,6 @@ Development: `node tools/check-data.cjs` checks windows and icons. `python3 dev/
 
 Works offline after the first visit and can be installed to a home screen (`sw.js`, `manifest.webmanifest`). Bump `VERSION` in `sw.js` when changing the list of saved files. A feedback report written with no signal waits in the browser's local storage until the app next has a signal.
 
-Season windows are regional estimates. Texas and the Gulf Coast are the most reviewed, other regions are rough.
+Season windows started as regional estimates. Many Texas and Gulf Coast dates are now checked against published sources, recorded per food under `checked` in `data/items.json`, and the app shows the source on each food. Everything else is labeled as a draft.
 
 City and ZIP data from [GeoNames](https://www.geonames.org/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
