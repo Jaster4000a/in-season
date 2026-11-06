@@ -10,8 +10,8 @@
 <title>In Season</title>
 <meta name="description" content="Find out what seafood, fruit and vegetables are in season where you are. Use your location, or search a city, ZIP or state.">
 <style>
-:root{color-scheme:light dark;--bg:#faf8f3;--card:#fff;--ink:#1d2b24;--mute:#5f6b64;--line:#e4dfd3;--ctl:#8f8b80;--accent:#c2410c;--on-accent:#fff;--peak:#15803d;--soon:#1d4ed8;--last:#b45309;--land:#c2410c;--hover:#f1ede3}
-@media (prefers-color-scheme:dark){:root{--bg:#14181a;--card:#1d2326;--ink:#e8ece9;--mute:#a3aea8;--line:#2c3539;--ctl:#6f7b80;--accent:#fb923c;--on-accent:#14181a;--peak:#4ade80;--soon:#7aa7ff;--last:#fbbf24;--land:#fb923c;--hover:#293136}}
+:root{color-scheme:light dark;--bg:#faf8f3;--card:#fff;--ink:#1d2b24;--mute:#5f6b64;--line:#e4dfd3;--ctl:#8f8b80;--accent:#c2410c;--on-accent:#fff;--peak:#15803d;--soon:#1d4ed8;--last:#b45309;--land:#c2410c;--hover:#f1ede3;--off:#e9e4d8;--on:#86bd92;--now:#c2410c}
+@media (prefers-color-scheme:dark){:root{--bg:#14181a;--card:#1d2326;--ink:#e8ece9;--mute:#a3aea8;--line:#2c3539;--ctl:#6f7b80;--accent:#fb923c;--on-accent:#14181a;--peak:#4ade80;--soon:#7aa7ff;--last:#fbbf24;--land:#fb923c;--hover:#293136;--off:#2a3236;--on:#3a8055;--now:#fb923c}}
 *{box-sizing:border-box}
 ::selection{background:var(--accent);color:var(--on-accent)}
 ::placeholder{color:var(--mute);opacity:1}
@@ -68,18 +68,31 @@ button[aria-pressed=true],button[aria-pressed=true]:hover,button[aria-pressed=tr
 
 #lookup{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 #lookup[hidden]{display:none}
-#lookup p{margin:0;padding-top:2px}
+#lookup p{margin:0;padding-top:8px}
 #lookup b{font-weight:650}
+#lookup .ic{flex:none}
+#lookup .lt{flex:1;min-width:0}
 #lookup button{flex:none;width:44px;padding:0;display:grid;place-items:center}
 
 h3{font-size:1.02rem;font-weight:700;margin:22px 0 2px;letter-spacing:-.005em}
 h3.peak{color:var(--peak)}h3.last{color:var(--last)}h3.soon{color:var(--soon)}h3.in{color:var(--mute)}
 ul.list{list-style:none;margin:0;padding:0}
-li.item{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--line)}
+li.item{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+.ic{display:block;width:40px;height:40px}
+.b{min-width:0}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.bar{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;margin-top:6px}
+.bar i{display:block;height:6px;border-radius:1px;background:var(--off);position:relative}
+.bar .on{background:var(--on)}.bar .best{background:var(--peak)}
+.bar .cur::after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;margin-left:-1px;background:var(--now);border-radius:1px}
+.key{display:flex;flex-wrap:wrap;gap:4px 14px;margin:12px 0 -6px;font-size:.8rem;color:var(--mute)}
+.key span{display:inline-flex;align-items:center;gap:5px}
+.key i{display:inline-block;width:14px;height:6px;border-radius:1px}
+.key .tick{width:2px;height:12px;background:var(--now)}
 .n{font-weight:600}
 .t{font-size:.72rem;color:var(--mute);margin-left:7px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
-.w{color:var(--mute);font-size:.85rem;text-align:right;white-space:nowrap}
-.nt{grid-column:1/-1;color:var(--mute);font-size:.87rem;margin-top:1px}
+.w{color:var(--mute);font-size:.85rem;white-space:nowrap}
+.nt{color:var(--mute);font-size:.87rem;margin-top:4px}
 .empty{color:var(--mute);margin:20px 0 0}
 .empty button{display:block;margin-top:10px}
 .state{margin:20px 0 0}
@@ -149,7 +162,7 @@ footer a{color:inherit;text-underline-offset:2px}
     <div class="viewing" id="viewing" hidden><span id="viewingText"></span><button id="backNow" type="button"></button></div>
     <div id="filters" role="group" aria-label="Type of food"></div>
   </div>
-  <div id="lookup" hidden><p id="lookupText"></p><button id="lookupClose" type="button" aria-label="Dismiss"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+  <div id="lookup" hidden><p id="lookupText" class="lt"></p><button id="lookupClose" type="button" aria-label="Dismiss"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
   <div id="out" tabindex="-1"></div>
   <div id="live" class="vh" aria-live="polite"></div>
 </div>
@@ -280,9 +293,31 @@ function headings(){
   const n=FULL[month-1];
   return {last:"Last call in "+n,peak:"Peak in "+n,in:"Also in season in "+n,soon:"Coming after "+n};
 }
+const SVGNS="http://www.w3.org/2000/svg";
+function iconEl(id){
+  const s=document.createElementNS(SVGNS,"svg"),u=document.createElementNS(SVGNS,"use");
+  s.setAttribute("class","ic");s.setAttribute("viewBox","0 0 48 48");s.setAttribute("aria-hidden","true");
+  u.setAttribute("href","data/icons.svg#"+id);s.append(u);return s;
+}
+function barEl(it,segs){
+  const b=el("div","bar");
+  b.setAttribute("role","img");b.setAttribute("aria-label",it.name+" season: "+seasonText(segs));
+  for(let m=1;m<=12;m++){
+    let c="";
+    for(const [s,e,ps,pe] of segs) if(inR(m,s,e)){c=inR(m,ps,pe)?"best":c||"on"}
+    const i=el("i",c+(m===month?" cur":""));b.append(i);
+  }
+  return b;
+}
+function keyEl(){
+  const k=el("div","key"),one=(style,text,cls)=>{const s=el("span"),i=el("i",cls);if(style)i.style.background=style;s.append(i,text);return s};
+  k.append(one("var(--on)","In season"),one("var(--peak)","Best"),one(null,month===nowMonth()?"Today":FULL[month-1],"tick"),el("span",null,"Bars run Jan to Dec"));
+  return k;
+}
 function renderLookup(reg){
   const box=$("lookup");
-  if(!lookupItem){box.hidden=true;return}
+  if(!lookupItem){box.hidden=true;box.querySelector(".ic")?.remove();return}
+  box.querySelector(".ic")?.remove();box.prepend(iconEl(lookupItem.id));
   const t=$("lookupText");t.textContent="";
   t.append(el("b",null,lookupItem.name));
   if(!reg) t.append(". Pick a place to see its season there.");
@@ -316,17 +351,20 @@ function render(){
   if(reg.quality!=="better") sub.append(". ",el("span","rough","Rough draft, may be off by a few weeks."));
   const g=resultsFor(reg,month,type),titles=headings();
   let count=0;
+  if(g.last.length+g.peak.length+g.in.length+g.soon.length) out.append(keyEl());
   ["last","peak","in","soon"].forEach(k=>{
     if(!g[k].length) return;
     out.append(el("h3",k,titles[k]));
     const ul=el("ul","list");
     g[k].forEach(([it,s])=>{
       if(k!=="soon") count++;
-      const li=el("li","item"),l=el("span");
+      const li=el("li","item"),body=el("div","b"),top=el("div","top"),l=el("span");
       l.append(el("span","n",it.name));
       if(type==="all") l.append(el("span","t",it.type));
-      li.append(l,el("span","w",s.w));
-      if(it.note) li.append(el("div","nt",it.note));
+      top.append(l,el("span","w",s.w));
+      body.append(top,barEl(it,windowsFor(it,reg)));
+      if(it.note) body.append(el("div","nt",it.note));
+      li.append(iconEl(it.id),body);
       ul.append(li);
     });
     out.append(ul);

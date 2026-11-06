@@ -7,6 +7,7 @@ Live: https://jaster4000a.github.io/in-season/
 - `data/items.json`: items with season windows per region or climate band (`[start, end, peakStart, peakEnd]` months)
 - `data/regions.json`: 14 seasonal regions, state to region mapping, county overrides
 - `data/places.json`: county names, US cities of 5,000+ people and ZIP3 prefixes, each resolved to a county. Rebuild with `tools/build-places.cjs`
+- `data/icons.svg`: one hand-drawn flat-color icon per item, as an SVG sprite keyed by item id
 - `data/counties-10m.json`: US counties from us-atlas (TopoJSON), loaded only for the map or a location lookup
 
 Season windows are regional estimates. Texas and the Gulf Coast are the most reviewed, other regions are rough.
