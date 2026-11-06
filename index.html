@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#faf8f3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14181a" media="(prefers-color-scheme: dark)">
@@ -13,6 +13,8 @@
 :root{color-scheme:light dark;--bg:#faf8f3;--card:#fff;--ink:#1d2b24;--mute:#5f6b64;--line:#e4dfd3;--ctl:#8f8b80;--accent:#c2410c;--on-accent:#fff;--peak:#15803d;--soon:#1d4ed8;--last:#b45309;--land:#c2410c;--hover:#f1ede3;--off:#e9e4d8;--on:#86bd92;--now:#c2410c}
 @media (prefers-color-scheme:dark){:root{--bg:#14181a;--card:#1d2326;--ink:#e8ece9;--mute:#a3aea8;--line:#2c3539;--ctl:#6f7b80;--accent:#fb923c;--on-accent:#14181a;--peak:#4ade80;--soon:#7aa7ff;--last:#fbbf24;--land:#fb923c;--hover:#293136;--off:#2a3236;--on:#3a8055;--now:#fb923c}}
 *{box-sizing:border-box}
+:root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--gl:max(16px,env(safe-area-inset-left,0px));--gr:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:var(--sat);z-index:5;background:var(--bg)}
 ::selection{background:var(--accent);color:var(--on-accent)}
 ::placeholder{color:var(--mute);opacity:1}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -20,18 +22,19 @@ html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 input::-webkit-search-cancel-button{filter:grayscale(1)}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
 button,input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--ctl);border-radius:8px;min-height:44px;padding:8px 12px}
-button{cursor:pointer}
-@media (hover:hover){button:hover{background:var(--hover)}}
-button:active{background:var(--hover)}
+button{cursor:pointer;touch-action:manipulation;transition:transform .1s ease-out,background .1s ease-out}
+button,.fbt label,#sug li{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+@media (hover:hover) and (pointer:fine){button:hover{background:var(--hover)}}
+button:active{background:var(--hover);transform:scale(.97)}
 button[aria-pressed=true],button[aria-pressed=true]:hover,button[aria-pressed=true]:active{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .skip{position:absolute;left:8px;top:-60px;z-index:10;background:var(--card);padding:10px 14px;border-radius:8px}
 .skip:focus{top:8px}
 
-.shell{max-width:640px;margin:0 auto;padding:12px 16px 48px}
+.shell{max-width:640px;margin:0 auto;padding:calc(12px + var(--sat)) var(--gr) calc(112px + var(--sab)) var(--gl)}
 .brand{margin:0;font-size:.95rem;font-weight:700;letter-spacing:-.01em;color:var(--accent)}
 
-.placebar{position:sticky;top:0;z-index:4;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;margin:0 -16px;padding:4px 16px}
+.placebar{position:sticky;top:var(--sat);z-index:4;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;margin:0 calc(0px - var(--gr)) 0 calc(0px - var(--gl));padding:4px var(--gr) 4px var(--gl)}
 #place{margin:0;font-size:1.45rem;line-height:1.15;letter-spacing:-.02em;font-weight:700;overflow-wrap:anywhere}
 #change{flex:none}
 .sub{color:var(--mute);margin:0 0 12px;font-size:.92rem}
@@ -54,7 +57,7 @@ button[aria-pressed=true],button[aria-pressed=true]:hover,button[aria-pressed=tr
 #msg:empty{display:none}
 .privacy{margin:8px 0 0;font-size:.82rem;color:var(--mute)}
 
-.months{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(52px,1fr);gap:4px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:2px 16px;scroll-padding:0 16px;overscroll-behavior-x:contain}
+.months{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(52px,1fr);gap:4px;overflow-x:auto;scrollbar-width:none;margin:0 calc(0px - var(--gr)) 0 calc(0px - var(--gl));padding:2px var(--gr) 2px var(--gl);overscroll-behavior-x:contain}
 .months::-webkit-scrollbar{display:none}
 .months button{position:relative;padding:6px 0;font-size:.88rem}
 .months button[aria-current=date]::after{content:"";position:absolute;left:50%;bottom:5px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--accent)}
@@ -63,7 +66,8 @@ button[aria-pressed=true],button[aria-pressed=true]:hover,button[aria-pressed=tr
 .viewing button{flex:none}
 
 #controls:not([hidden]){display:contents}
-#filters{position:sticky;top:52px;z-index:3;background:var(--bg);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:6px -16px 0;padding:6px 16px}
+#filters{position:fixed;left:0;right:0;bottom:0;z-index:4;background:var(--bg);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:6px var(--gr) calc(6px + var(--sab)) var(--gl)}
+body.finding #filters{display:none}
 #filters button{padding:6px 2px;font-size:.92rem}
 
 #lookup{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0 0;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
@@ -89,16 +93,16 @@ li.item{display:grid;grid-template-columns:40px minmax(0,1fr);column-gap:12px;al
 .barline .bar{flex:1;margin:0}
 .flag{flex:none;position:relative;width:28px;height:28px;min-height:0;margin:-11px -6px -11px 0;padding:0;border:0;background:none;color:var(--mute);display:grid;place-items:center}
 .flag::before{content:"";position:absolute;inset:-8px}
-@media (hover:hover){.flag:hover{background:none;color:var(--accent)}}
-.flag:active{background:none;color:var(--accent)}
+@media (hover:hover) and (pointer:fine){.flag:hover{background:none;color:var(--accent)}}
+.flag:active{background:none;color:var(--accent);transform:none}
 body:not(.fb-on) .fbx{display:none}
 .fbfoot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;margin:0 0 12px;font-size:.9rem;color:var(--ink)}
 #msg button{display:block;margin-top:8px}
-dialog#fb{border:0;padding:0;background:var(--bg);color:var(--ink);width:100%;max-width:100%;height:100%;max-height:100%;margin:0;overscroll-behavior:contain}
+dialog#fb{border:0;padding:0;background:var(--bg);color:var(--ink);width:100%;max-width:100%;height:100dvh;max-height:100dvh;margin:0;overscroll-behavior:contain}
 dialog#fb::backdrop{background:rgb(0 0 0 / .5)}
-.fbhead{position:sticky;top:0;z-index:1;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 16px;border-bottom:1px solid var(--line)}
+.fbhead{position:sticky;top:0;z-index:1;background:var(--bg);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:calc(8px + var(--sat)) var(--gr) 8px var(--gl);border-bottom:1px solid var(--line)}
 .fbhead h2{margin:0;font-size:1.15rem;letter-spacing:-.01em}
-.fbbody{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:12px 16px 28px}
+.fbbody{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:12px var(--gr) calc(28px + var(--sab)) var(--gl)}
 .fbbody>*{grid-column:1/-1}
 .fbbody>.fbf[data-f=month]:not([hidden]),.fbbody>.fbf[data-f=place]:has(~ .fbf[data-f=month]:not([hidden])){grid-column:auto}
 .fbbody fieldset{border:0;margin:0;padding:0;min-width:0}
@@ -118,10 +122,10 @@ dialog#fb::backdrop{background:rgb(0 0 0 / .5)}
 #fbErr{margin:0;color:var(--last);font-size:.92rem}
 #fbErr:empty{display:none}
 #fbDone[hidden],#fbForm[hidden]{display:none}
-#fbDone{padding:24px 16px;display:grid;gap:14px;justify-items:start}
+#fbDone{padding:24px var(--gr) 24px var(--gl);display:grid;gap:14px;justify-items:start}
 #fbDone p{margin:0}
 @media (min-width:600px){
-  dialog#fb{margin:auto;width:520px;max-width:calc(100% - 32px);height:auto;max-height:calc(100% - 48px);border-radius:12px}
+  dialog#fb{margin:auto;width:520px;max-width:calc(100% - 32px);height:auto;max-height:calc(100dvh - 48px);border-radius:12px}
 }
 .key{display:flex;flex-wrap:wrap;gap:4px 14px;margin:12px 0 -6px;font-size:.8rem;color:var(--mute)}
 .key span{display:inline-flex;align-items:center;gap:5px}
@@ -144,7 +148,7 @@ dialog#fb::backdrop{background:rgb(0 0 0 / .5)}
 #mappanel{margin-top:10px}
 #mappanel[hidden]{display:none}
 .mapwrap{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;aspect-ratio:975/610}
-#map{display:block;width:100%;height:auto;touch-action:pan-y}
+#map{display:block;width:100%;height:auto;touch-action:pan-y;-webkit-user-select:none;user-select:none}
 #mapstate{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;color:var(--mute);font-size:.92rem;text-align:center;padding:12px}
 #mapstate[hidden]{display:none}
 .county{stroke:none;cursor:pointer;fill:var(--land)}
@@ -156,17 +160,21 @@ dialog#fb::backdrop{background:rgb(0 0 0 / .5)}
 .zoom[hidden]{display:none}
 .zoom button{width:40px;min-height:40px;padding:0;display:grid;place-items:center}
 .legend{color:var(--mute);font-size:.8rem;margin:6px 0 0}
+.l-touch{display:none}
+@media (pointer:coarse){.l-touch{display:inline}.l-mouse{display:none}}
 footer{margin-top:28px;color:var(--mute);font-size:.82rem;border-top:1px solid var(--line);padding-top:12px}
 footer a{color:inherit;text-underline-offset:2px}
 
 @media (min-width:960px){
-  .shell{max-width:1200px;padding:20px 28px 56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:36px;align-items:start}
+  .shell{max-width:1200px;padding:calc(20px + var(--sat)) 28px 56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:36px;align-items:start}
   #col{min-width:0}
   #mapsec{margin:0;position:sticky;top:20px;grid-column:2}
   #explore{display:none}
   #mappanel{margin:0;display:block!important}
   footer{grid-column:1/-1}
-  .placebar,#filters,.months{margin-left:0;margin-right:0;padding-left:0;padding-right:0}
+  .placebar,.months{margin-left:0;margin-right:0;padding-left:0;padding-right:0}
+  #filters{position:sticky;top:calc(52px + var(--sat));left:auto;right:auto;bottom:auto;z-index:3;border-top:0;margin-top:6px;padding:6px 0}
+  body.finding #filters{display:grid}
   .months{grid-auto-columns:minmax(0,1fr);overflow:visible}
   .months button{font-size:.82rem}
 }
@@ -187,7 +195,7 @@ footer a{color:inherit;text-underline-offset:2px}
   <div id="finder">
     <button id="gps" type="button" class="primary">Use my location</button>
     <div class="search">
-      <input id="q" type="search" placeholder="Search a city, ZIP, state or food" autocomplete="off" autocapitalize="off" enterkeyhint="search"
+      <input id="q" type="search" placeholder="Search a city, ZIP, state or food" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search"
         role="combobox" aria-label="Search a city, ZIP, state or food" aria-autocomplete="list" aria-expanded="false" aria-controls="sug">
       <ul id="sug" role="listbox" aria-label="Search results" hidden></ul>
     </div>
@@ -218,7 +226,7 @@ footer a{color:inherit;text-underline-offset:2px}
       </div>
       <div id="tip" hidden></div>
     </div>
-    <p class="legend">Stronger color means more in season for the chosen month. Drag to pan, buttons to zoom.</p>
+    <p class="legend">Stronger color means more in season for the chosen month. <span class="l-mouse">Drag to pan, buttons to zoom.</span><span class="l-touch">Tap a spot to zoom in, then tap a county to pick it.</span></p>
   </div>
 </section>
 
@@ -237,7 +245,7 @@ footer a{color:inherit;text-underline-offset:2px}
     <div class="fbf" data-f="month"><label for="fbMonth"></label><input id="fbMonth" maxlength="60" autocomplete="off"></div>
     <div class="fbf" data-f="msg"><label for="fbMsg"></label><textarea id="fbMsg" maxlength="2000"></textarea></div>
     <div class="fbf" data-f="source"><label for="fbSource"></label><input id="fbSource" maxlength="300" autocomplete="off"></div>
-    <div class="fbf" data-f="contact"><label for="fbContact">Your email or phone <span class="opt">(optional, only if you'd like a reply)</span></label><input id="fbContact" maxlength="120" autocomplete="email"></div>
+    <div class="fbf" data-f="contact"><label for="fbContact">Your email or phone <span class="opt">(optional, only if you'd like a reply)</span></label><input id="fbContact" maxlength="120" autocomplete="email" autocapitalize="off" autocorrect="off" spellcheck="false"></div>
     <label class="trap" aria-hidden="true">Leave this empty<input id="fbTrap" type="checkbox" tabindex="-1"></label>
     <p class="fbnote">Nothing is sent until you tap Send. Your report, including the place and any contact details you add, is emailed through <a href="https://web3forms.com/" style="color:inherit">Web3Forms</a>, which also includes your IP address. Reports are checked before anything on the site changes.</p>
     <p id="fbErr" role="alert"></p>
@@ -448,11 +456,13 @@ function render(){
 function update(){render();paintMap();saveState()}
 function keepList(){
   // Changing month or type while scrolled keeps the top of the list under the sticky bars.
-  const stack=$("filters").getBoundingClientRect().bottom,top=$("out").getBoundingClientRect().top;
+  const f=$("filters"),bar=getComputedStyle(f).position==="fixed"?document.querySelector(".placebar"):f;
+  const stack=bar.getBoundingClientRect().bottom,top=$("out").getBoundingClientRect().top;
   if(top<stack) scrollBy(0,top-stack);
 }
 function openFinder(open,focus){
   finderOpen=open;
+  document.body.classList.toggle("finding",open);
   $("finder").hidden=!!regionOfSel()&&!open;
   $("change").textContent=open?"Close":"Change";
   $("change").setAttribute("aria-expanded",open);
@@ -599,7 +609,15 @@ function drawMap(){
   pathGen=d3.geoPath(d3.geoAlbersUsa().fitSize([975,610],nation));
   const g=svg.append("g");
   paths=g.append("g").selectAll("path").data(counties).join("path").attr("class","county").attr("d",pathGen)
-    .on("click",(ev,d)=>{$("tip").hidden=true;choose({kind:"county",id:d.id})})
+    .on("click",(ev,d)=>{
+      $("tip").hidden=true;
+      // Counties are about 4px at full-map size, too small to hit with a finger: zoom first.
+      if(matchMedia("(pointer:coarse)").matches&&d3.zoomTransform(svg.node()).k<4){
+        svg.transition().duration(250).call(zoom.scaleTo,4,d3.pointer(ev,svg.node()));
+        return;
+      }
+      choose({kind:"county",id:d.id});
+    })
     .on("pointermove",(ev,d)=>{
       if(ev.pointerType!=="mouse") return;
       const t=$("tip"),r=$("map").parentNode.getBoundingClientRect();
@@ -609,9 +627,17 @@ function drawMap(){
   g.append("path").attr("class","borders").attr("d",pathGen(topojson.mesh(topo,topo.objects.states,(a,b)=>a!==b)));
   selPath=g.append("path").attr("class","sel");
   zoom=d3.zoom().scaleExtent([1,10]).translateExtent([[0,0],[975,610]])
-    .filter(ev=>!ev.ctrlKey&&ev.type!=="wheel"&&!ev.button)
-    .on("zoom",ev=>g.attr("transform",ev.transform));
-  svg.call(zoom);
+    .filter(function(ev){
+      // One finger at full size belongs to page scrolling, and a tap still reaches the county.
+      if(ev.touches&&ev.touches.length===1&&d3.zoomTransform(this).k===1) return false;
+      return !ev.ctrlKey&&ev.type!=="wheel"&&!ev.button;
+    })
+    .on("zoom",ev=>{
+      g.attr("transform",ev.transform);
+      // At full size a vertical swipe scrolls the page. Once zoomed in, a drag pans the map.
+      svg.style("touch-action",ev.transform.k>1?"none":"pan-y");
+    });
+  svg.call(zoom).on("dblclick.zoom",null);
   $("zin").onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1.6);
   $("zout").onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1/1.6);
   $("zreset").onclick=()=>svg.transition().duration(200).call(zoom.transform,d3.zoomIdentity);
