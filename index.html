@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; form-action 'none'; base-uri 'none'; object-src 'none'">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#faf8f3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14181a" media="(prefers-color-scheme: dark)">
@@ -139,7 +140,7 @@ dialog#fb::backdrop{background:rgb(0 0 0 / .5)}
   dialog#fb{margin:auto;width:520px;max-width:calc(100% - 32px);height:auto;max-height:calc(100dvh - 48px);border-radius:12px}
 }
 li.item{cursor:pointer}
-.rowbtn{all:unset;font-weight:600;cursor:pointer}
+.rowbtn{color:inherit;text-decoration:none}
 .rowbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 li.item:active{background:var(--hover)}
 dialog#food{border:0;padding:0;background:var(--bg);color:var(--ink);width:100%;max-width:100%;height:100dvh;max-height:100dvh;margin:0;overscroll-behavior:contain}
@@ -422,7 +423,7 @@ function nameOfSel(){
 function labelIsValid(label,id){
   if(/^ZIP \d{3,5}$/.test(label)) return true;
   const ab=stateInfo[id.slice(0,2)][0];
-  return !places||places.cities.some(c=>c[1]===id&&c[0]+", "+ab===label);
+  return !!places&&places.cities.some(c=>c[1]===id&&c[0]+", "+ab===label);
 }
 
 /* ---- render ---- */
@@ -502,7 +503,7 @@ function render(){
   if(pl.scrollHeight>parseFloat(getComputedStyle(pl).lineHeight)*2.5) sub.append(name+". ");
   sub.append(reg.name+" region · "+FULL[month-1]);
   const cc=checkedCount(reg);
-  if(cc.done) sub.append(". ",el("span","rough",cc.done+" of "+cc.all+" dates checked against a source."));
+  if(cc.done) sub.append(". "+cc.done+" of "+cc.all+" foods have dates checked against a source.");
   else sub.append(". ",el("span","rough","Rough draft, may be off by a few weeks."));
   const g=resultsFor(reg,month,type),titles=headings();
   let count=0;
@@ -514,8 +515,9 @@ function render(){
     g[k].forEach(([it,s])=>{
       if(k!=="soon") count++;
       const li=el("li","item"),body=el("div","b"),top=el("div","top"),l=el("span");
-      const nb=el("button","n rowbtn",it.name);nb.type="button";
-      li.onclick=e=>{if(!e.target.closest(".flag")) openFood(it)};
+      // A link, not a button, so the type tag flows right after a long name that wraps.
+      const nb=el("a","n rowbtn",it.name);nb.href="#f="+it.id;
+      li.onclick=e=>{if(e.target.closest(".flag")) return;e.preventDefault();openFood(it)};
       l.append(nb);
       if(type==="all") l.append(" ",el("span","t",it.type));
       top.append(l,el("span","w",s.w));
@@ -569,7 +571,7 @@ let navKey="";
 function hashKey(){const q=new URLSearchParams(location.hash.slice(1));q.delete("f");return q.toString()}
 function hashNow(){
   const p=new URLSearchParams();
-  if(sel){p.set(sel.kind==="county"?"c":"s",sel.id);if(sel.label)p.set("n",sel.label)}
+  if(sel){p.set(sel.kind==="county"?"c":"s",sel.id);if(sel.label||sel.linkLabel)p.set("n",sel.label||sel.linkLabel)}
   if(month!==nowMonth())p.set("m",month);
   if(type!=="all")p.set("t",type);
   if(foodOpen)p.set("f",foodOpen.id);
@@ -586,7 +588,7 @@ function readHash(){
   const m=+p.get("m");month=m>=1&&m<=12?m:nowMonth();
   const t=p.get("t");type=TYPES.some(x=>x[0]===t)?t:"all";
   const c=p.get("c"),s=p.get("s"),n=p.get("n");
-  if(c&&/^\d{5}$/.test(c)&&stateInfo[c.slice(0,2)]) return {kind:"county",id:c,label:n&&labelIsValid(n,c)?n:undefined};
+  if(c&&/^\d{5}$/.test(c)&&stateInfo[c.slice(0,2)]) return {kind:"county",id:c,label:n&&labelIsValid(n,c)?n:undefined,linkLabel:n&&!labelIsValid(n,c)?n:undefined};
   if(s&&stateInfo[s]) return {kind:"state",id:s};
   return null;
 }
@@ -1058,26 +1060,29 @@ function sourceLinks(g){
   const seen=new Set(),parts=[g,...(g.also||[])].filter(x=>{if(seen.has(x.src))return false;seen.add(x.src);return true});
   box.append("Based on ");
   parts.forEach((x,i)=>{
-    const s=guide.sources[x.src],a=el("a",null,s.name);
-    a.href=s.url+(x.page||"");a.target="_blank";a.rel="noopener";
+    const s=guide.sources[x.src];
+    if(!s) return;
     if(i) box.append(" and ");
-    box.append(a);
+    box.append(srcLink(s.name,s.url+(x.page||"")));
   });
   box.append(", in our own words.");
   return box;
 }
-function datesNote(it,reg){
-  const box=el("p","foodsrc"),c=it.checked?.[reg.id];
-  if(!c){box.textContent="Draft dates, not yet checked against a source. May be off by a few weeks.";return box}
-  const s=srcInfo[c.src],a=el("a",null,s.name);a.href=s.url;a.target="_blank";a.rel="noopener";
-  box.append("Dates checked against ",a," ("+s.note+").");
-  if(c.partial) box.append(" The rest is still a draft.");
-  else if(!c.peak&&it.w[reg.id]?.some(w=>w[2])) box.append(" Best months are our own estimate.");
+function srcLink(name,url){
+  const a=el("a",null,name);a.href=url;a.target="_blank";a.rel="noopener";return a;
+}
+function datesNote(it,reg,segs){
+  const box=el("p","foodsrc"),c=it.checked?.[reg.id],s=c&&srcInfo[c.src];
+  if(!s){box.textContent="Draft dates, not yet checked against a source. May be off by a few weeks.";return box}
+  box.append("Dates checked against ",srcLink(s.name,s.url)," ("+s.note+").");
+  if(c.part) box.append(" This covers "+c.part+" only.");
+  else if(c.partial) box.append(" The rest is still a draft.");
+  if((!c.partial||c.part)&&!c.peak&&segs.some(w=>w[2])) box.append(" Best months are our own estimate.");
   return box;
 }
 function checkedCount(reg){
   const here=items.filter(i=>windowsFor(i,reg));
-  return {done:here.filter(i=>i.checked?.[reg.id]).length,all:here.length};
+  return {done:here.filter(i=>i.checked?.[reg.id]&&!i.checked[reg.id].partial).length,all:here.length};
 }
 function fillFood(it){
   const t=$("foodTitle");t.textContent="";
@@ -1095,7 +1100,7 @@ function fillFood(it){
     const wrap=el("div","bigbar");wrap.append(barEl(it,segs));
     const ml=el("div","mlet");ml.setAttribute("aria-hidden","true");MN.forEach(m=>ml.append(el("span",null,m[0])));
     wrap.append(ml);when.append(wrap);
-    when.append(datesNote(it,reg));
+    when.append(datesNote(it,reg,segs));
   }
   body.append(when);
   const g=guide?.foods[it.id];
@@ -1178,6 +1183,8 @@ function loadPlaces(){
   return fetch("data/places.json").then(x=>{if(!x.ok)throw 0;return x.json()}).then(p=>{
     places=p;buildIndex();
     if(sel?.label&&sel.kind==="county"&&!labelIsValid(sel.label,sel.id)) delete sel.label;
+    if(sel?.linkLabel&&labelIsValid(sel.linkLabel,sel.id)) sel.label=sel.linkLabel;
+    if(sel) delete sel.linkLabel;
     render();saveState();
     if($("q").value) showSug($("q").value);
   }).catch(()=>{placesFailed=true;if($("q").value) showSug($("q").value)});

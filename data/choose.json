@@ -1,560 +1,65 @@
 {
-"sources": {
-"fda": {
-"name": "US Food and Drug Administration",
-"url": "https://www.fda.gov/food/buy-store-serve-safe-food/selecting-and-serving-fresh-and-frozen-seafood-safely"
-},
-"lsu": {
-"name": "LSU AgCenter",
-"url": "https://www.lsuagcenter.com/~/media/system/3/8/8/9/3889736fec72246f396a6f349c3eace9/pub2353enjoyinglouisianacrawfishlowres1.pdf"
-},
-"usu": {
-"name": "Utah State University Extension",
-"url": "https://extension.usu.edu/fscreate/files/2020-22-staff/Shopping_for_Fruit.pdf"
-},
-"purdue": {
-"name": "Purdue Extension FoodLink",
-"url": "https://extension.purdue.edu/foodlink/food.php?food="
-}
-},
-"foods": {
-"crawfish": {
-"tips": [
-"Buy them alive and active, and keep them cold until you cook them.",
-"Before boiling, throw out any dead ones.",
-"Small to medium crawfish give more meat for the weight and peel more easily."
-],
-"src": "lsu",
-"also": [
-{
-"src": "fda"
-}
-]
-},
-"oysters": {
-"tips": [
-"Live oysters should have a tag showing the processor's certification number. Shucked ones should have a label with it.",
-"Skip any with a cracked or broken shell.",
-"Tap the shell. A live oyster closes up, so leave any that don't."
-],
-"src": "fda",
-"note": "Raw oysters are riskier for anyone pregnant, children, older adults, and people with weakened immune systems. Those groups should avoid eating them raw."
-},
-"blue-crab": {
-"tips": [
-"Live crabs should move their legs when handled. Only buy and cook live ones.",
-"Cooked or picked crab should be kept cold and smell mild, not sour or like ammonia."
-],
-"src": "fda"
-},
-"soft-shell": {
-"tips": [
-"Live crabs should move their legs when handled. Only buy and cook live ones.",
-"Cooked or picked crab should be kept cold and smell mild, not sour or like ammonia."
-],
-"src": "fda"
-},
-"dungeness": {
-"tips": [
-"Live crabs should move their legs when handled. Only buy and cook live ones.",
-"Cooked or picked crab should be kept cold and smell mild, not sour or like ammonia."
-],
-"src": "fda"
-},
-"shrimp": {
-"tips": [
-"Buy it refrigerated or on a thick bed of fresh ice.",
-"The flesh should look clear with a pearly color and smell mild.",
-"If frozen, skip torn packages or any with frost or ice crystals inside."
-],
-"src": "fda"
-},
-"stone-crab": {
-"tips": [
-"Buy claws kept cold in a refrigerated case or on ice.",
-"They should smell mild, never sour or like ammonia.",
-"If frozen, skip torn packages or any with frost or ice crystals inside."
-],
-"src": "fda"
-},
-"king-crab": {
-"tips": [
-"If frozen, the meat should be hard and not bend.",
-"Skip torn or crushed packages, or any with frost or ice crystals inside.",
-"If thawed, it should be kept cold and smell mild."
-],
-"src": "fda"
-},
-"spiny-lobster": {
-"tips": [
-"Live lobsters should move their legs when handled.",
-"Tail meat should look clear with a pearly color and smell mild.",
-"If frozen, skip torn packages or any with frost or ice crystals inside."
-],
-"src": "fda"
-},
-"lobster": {
-"tips": [
-"Live lobsters should move their legs when handled. Only buy and cook live ones.",
-"Tail meat should look clear with a pearly color and smell mild."
-],
-"src": "fda"
-},
-"salmon": {
-"tips": [
-"Buy it refrigerated or on a thick bed of fresh ice.",
-"It should smell mild, never sour or like ammonia.",
-"Look for clear, shiny eyes and firm flesh. Color alone doesn't tell you it's fresh."
-],
-"src": "fda"
-},
-"halibut": {
-"tips": [
-"Buy it refrigerated or on a thick bed of fresh ice.",
-"It should smell mild, never sour or like ammonia.",
-"The flesh should be firm. Color alone doesn't tell you it's fresh."
-],
-"src": "fda"
-},
-"walleye": {
-"tips": [
-"Buy it refrigerated or on a thick bed of fresh ice.",
-"It should smell mild, never sour or like ammonia.",
-"Look for clear, shiny eyes and firm flesh. Color alone doesn't tell you it's fresh."
-],
-"src": "fda"
-},
-"scallops": {
-"tips": [
-"Buy them refrigerated or on a thick bed of fresh ice.",
-"The flesh should look clear with a pearly color and smell mild.",
-"If frozen, skip torn packages or any with frost or ice crystals inside."
-],
-"src": "fda"
-},
-"strawberries": {
-"tips": [
-"Look for a deep, even red with no white or green tinges. Berries don't ripen after picking.",
-"They should be firm and shiny, with green caps still attached.",
-"Check the package for juice stains, a sign of crushed or moldy fruit."
-],
-"src": "usu",
-"also": [
-{
-"src": "purdue",
-"page": "strawberry"
-}
-]
-},
-"blueberries": {
-"tips": [
-"Look for a deep color with no white or green tinges. Berries don't ripen after picking.",
-"They should be firm, dry and plump, not wrinkled.",
-"Check the package for juice stains, a sign of crushed or moldy fruit."
-],
-"src": "usu"
-},
-"blackberries": {
-"tips": [
-"Look for a deep color and a shiny surface, with no green tinges. Berries don't ripen after picking.",
-"They should be firm, dry and plump.",
-"Check the package for juice stains, a sign of crushed or moldy fruit."
-],
-"src": "usu",
-"also": [
-{
-"src": "purdue",
-"page": "blackberry"
-}
-]
-},
-"cherries": {
-"tips": [
-"Look for dark color and firm, glossy skin.",
-"Bright green stems mean they're fresh.",
-"Wrinkled skin or brown stems mean they're past it."
-],
-"src": "usu"
-},
-"peaches": {
-"tips": [
-"A ripe peach gives slightly when you press it and smells sweet.",
-"Look for fuzzy skin in red or yellow, without blemishes."
-],
-"src": "usu"
-},
-"apples": {
-"tips": [
-"Look for very firm fruit with shiny skin and a fresh smell.",
-"Tap it with a finger. It should sound hollow, not flat.",
-"Skip any with bruises."
-],
-"src": "usu",
-"also": [
-{
-"src": "purdue",
-"page": "apple"
-}
-]
-},
-"pears": {
-"tips": [
-"Press gently near the stem with your thumb. If the neck gives, it's ready.",
-"Pears ripen from the inside out, so don't judge by the skin. Yellowing at the base is a good sign.",
-"A ripe pear smells sweet. Brown marks on the skin aren't always a bad sign."
-],
-"src": "usu",
-"also": [
-{
-"src": "purdue",
-"page": "pear"
-}
-]
-},
-"watermelon": {
-"tips": [
-"Look at the bottom. The spot where it sat on the ground should be yellow, not white.",
-"Thump it. A ripe one sounds hollow, an unripe one sounds solid.",
-"Faded stripes and a nearly even green mean it's ready, and it should feel heavy for its size."
-],
-"src": "usu",
-"also": [
-{
-"src": "purdue",
-"page": "watermelon"
-}
-]
-},
-"cantaloupe": {
-"tips": [
-"Smell it. A ripe one has a musky, sweet scent.",
-"The end opposite the stem should give a little when you press, without feeling mushy.",
-"The rind should be orange or golden between the netting. Green means unripe, and it won't ripen after picking."
-],
-"src": "usu"
-},
-"citrus": {
-"tips": [
-"Pick fruit that feels firm and heavy for its size.",
-"Skip any with blemishes, moldy spots or shriveled skin.",
-"A little green is fine. Color reflects the climate, not ripeness."
-],
-"src": "usu"
-},
-"satsuma": {
-"tips": [
-"Pick fruit that feels firm and heavy for its size, with a clean, sweet smell.",
-"Skip any with blemishes, moldy spots or shriveled skin.",
-"A little green is fine. Color reflects the climate, not ripeness."
-],
-"src": "usu"
-},
-"pomegranate": {
-"tips": [
-"Look for deep-colored skin you can scratch easily with a fingernail.",
-"A ripe one looks slightly square, while an unripe one is round. It should feel heavy for its size.",
-"Skip any with cracks or splits."
-],
-"src": "usu"
-},
-"persimmon": {
-"tips": [
-"Look for glossy, brightly colored skin, and pick one heavy for its size.",
-"Astringent types are full of tannin until ripe and make your mouth pucker. Those need to be very soft before eating.",
-"A very ripe one looks almost overripe and is extremely soft. Handle gently, since it bruises easily."
-],
-"src": "purdue",
-"page": "persimmon"
-},
-"cranberries": {
-"tips": [
-"Look for red, hard, plump, shiny berries.",
-"Ripe ones float in water and bounce.",
-"Skip any that are soft, mushy or discolored."
-],
-"src": "usu"
-},
-"mango": {
-"tips": [
-"A ripe mango feels soft and smells sweet.",
-"Wrinkled skin can be a sign it's ripe, not a flaw."
-],
-"src": "usu"
-},
-"pineapple": {
-"tips": [
-"Look for golden yellow. The higher the yellow climbs, the sweeter it will be.",
-"It should smell sweet. A fermented smell means overripe.",
-"It should give only slightly when pressed, and the green leaves shouldn't pull out easily."
-],
-"src": "usu"
-},
-"rhubarb": {
-"tips": [
-"Look for crisp stalks without scars, cuts or decay.",
-"If leaves are attached, they shouldn't be wilted."
-],
-"src": "purdue",
-"page": "rhubarb",
-"note": "Eat only the stalks. Rhubarb leaves are poisonous."
-},
-"avocado": {
-"tips": [
-"A ripe one is firm but gives when you press it. Overly soft means overripe.",
-"If the skin feels separated from the flesh, it's likely brown inside.",
-"Buying for later? Pick an unripe one. It ripens at home in 2 to 5 days."
-],
-"src": "usu"
-},
-"figs": {
-"tips": [
-"Look for plump fruit that gives slightly when pressed.",
-"Skip any that are split, leaking or smell sour."
-]
-},
-"papaya": {
-"tips": [
-"Look for skin turning yellow, with a slight give when pressed.",
-"A hard papaya isn't ready, and a mushy one has gone too far."
-]
-},
-"lychee": {
-"tips": [
-"Look for bright, unblemished skin that isn't dried out or brown.",
-"They don't ripen after picking, so buy the freshest you can find."
-]
-},
-"pecans": {
-"tips": [
-"In the shell, pick nuts that feel heavy and don't rattle.",
-"Shelled pecans should look plump and even in color, without a stale smell."
-]
-},
-"field-peas": {
-"tips": [
-"Look for plump, firm pods that aren't dried out or yellowed.",
-"Shelled peas should look fresh and moist, with no slimy feel or sour smell."
-]
-},
-"spinach": {
-"tips": [
-"Look for fresh, dark green leaves.",
-"Skip anything wilted."
-],
-"src": "purdue",
-"page": "spinach"
-},
-"greens": {
-"tips": [
-"Look for vivid color and fresh-looking leaves.",
-"Skip lettuce with wilted leaves or brown edges."
-],
-"src": "purdue",
-"page": "lettuce"
-},
-"kale": {
-"tips": [
-"Look for crisp, plump, dark green leaves.",
-"Kale is best with small to medium leaves.",
-"Skip yellowed or torn leaves."
-],
-"src": "purdue",
-"page": "kale",
-"also": [
-{
-"src": "purdue",
-"page": "collard%20greens"
-}
-]
-},
-"carrots": {
-"tips": [
-"Look for firm, smooth, evenly shaped carrots with bright skin.",
-"Skip any cracked, shriveled or green at the top."
-],
-"src": "purdue",
-"page": "carrot"
-},
-"cabbage": {
-"tips": [
-"Pick a firm, heavy, compact head with crisp leaves.",
-"Skip any with yellow leaves, splits or soft spots."
-],
-"src": "purdue",
-"page": "cabbage"
-},
-"brassicas": {
-"tips": [
-"Broccoli should be dark green with no yellowing or odor, and without thick, woody stalks.",
-"Cauliflower should be a compact, bright head with bright green leaves. Skip brown or spotty leaves."
-],
-"src": "purdue",
-"page": "broccoli",
-"also": [
-{
-"src": "purdue",
-"page": "cauliflower"
-}
-]
-},
-"brussels": {
-"tips": [
-"Look for bright green, firm sprouts.",
-"Skip any with loose leaves.",
-"They taste better after cool weather and a frost."
-],
-"src": "purdue",
-"page": "Brussels%20sprouts"
-},
-"beets": {
-"tips": [
-"Pick small beets with firm, unblemished skin and bright green leaves. Large ones can be tough and woody.",
-"Turnips should feel heavy for their size, with no soft spots."
-],
-"src": "purdue",
-"page": "beet",
-"also": [
-{
-"src": "purdue",
-"page": "turnip%20and%20turnip%20greens"
-}
-]
-},
-"sweet-potatoes": {
-"tips": [
-"Pick small to medium ones with smooth, even, deep-colored skin.",
-"Skip any with holes."
-],
-"src": "purdue",
-"page": "sweet%20potato"
-},
-"winter-squash": {
-"tips": [
-"Pick one heavy for its size. Pumpkins should be deep orange.",
-"Skip any that are soft, cut, bruised, or with moist, black or shriveled stems.",
-"Butternut should be deep tan with no green streaks."
-],
-"src": "purdue",
-"page": "winter%20squash",
-"also": [
-{
-"src": "purdue",
-"page": "pumpkin"
-}
-]
-},
-"potatoes": {
-"tips": [
-"Pick potatoes that are firm, dry and clean.",
-"Choose ones about the same size so they cook evenly."
-],
-"src": "purdue",
-"page": "potato"
-},
-"onions": {
-"tips": [
-"Pick firm, dry onions with little to no smell.",
-"Skip any with blemishes, cuts or bruises."
-],
-"src": "purdue",
-"page": "onion,%20green%20onion,%20scallion"
-},
-"green-beans": {
-"tips": [
-"Look for evenly colored beans with no blemishes.",
-"Bend one. A fresh bean snaps easily."
-],
-"src": "purdue",
-"page": "snap%20bean"
-},
-"sweet-corn": {
-"tips": [
-"Look for fresh, green husks with no insects.",
-"If you can see the kernels, they should be plump.",
-"Buy only what you'll eat soon. Corn loses sweetness quickly after picking."
-],
-"src": "purdue",
-"page": "sweet%20corn"
-},
-"summer-squash": {
-"tips": [
-"Pick small to medium squash that feel heavy for their size.",
-"The skin should be glossy."
-],
-"src": "purdue",
-"page": "summer%20squash"
-},
-"cucumbers": {
-"tips": [
-"Pick firm, slender, green cucumbers.",
-"Skip any turning yellow or swollen in the middle."
-],
-"src": "purdue",
-"page": "cucumber"
-},
-"tomatoes": {
-"tips": [
-"Look for firm tomatoes with shiny skin.",
-"Skip any with breaks in the skin or bruises."
-],
-"src": "purdue",
-"page": "tomato"
-},
-"peppers": {
-"tips": [
-"Look for firm peppers with a fresh, green stem.",
-"Skip any with wrinkles, black spots or cuts."
-],
-"src": "purdue",
-"page": "sweet%20pepper"
-},
-"eggplant": {
-"tips": [
-"Look for firm fruit with a fresh green cap, not brown or dry.",
-"Skip any with cracks or discoloration."
-],
-"src": "purdue",
-"page": "eggplant"
-},
-"okra": {
-"tips": [
-"Look for bright color, dry pods and a firm feel."
-],
-"src": "purdue",
-"page": "okra"
-},
-"asparagus": {
-"tips": [
-"Look for bright green stems that are crisp and snap when bent.",
-"Tips should be dark green, sometimes with a hint of purple.",
-"Skip yellow or dried-out tips, a sign of age."
-],
-"src": "purdue",
-"page": "asparagus"
-},
-"peas": {
-"tips": [
-"Pick medium, bright green, firm pods.",
-"Skip any that are wilted or decaying."
-],
-"src": "purdue",
-"page": "green%20peas"
-},
-"hatch-chile": {
-"tips": [
-"Look for fresh, unwilted peppers.",
-"Skip any that are bruised, torn or moldy."
-],
-"src": "purdue",
-"page": "hot%20pepper"
-},
-"maple": {
-"tips": [
-"Look for pure maple syrup. There's no wrong grade.",
-"Darker syrup has a stronger flavor, and lighter syrup is milder."
-],
-"src": "purdue",
-"page": "Maple%20Syrup"
-}
-}
-}
+"sources":{"fda":{"name":"US Food and Drug Administration","url":"https://www.fda.gov/food/buy-store-serve-safe-food/selecting-and-serving-fresh-and-frozen-seafood-safely"},"lsu":{"name":"LSU AgCenter","url":"https://www.lsuagcenter.com/~/media/system/3/8/8/9/3889736fec72246f396a6f349c3eace9/pub2353enjoyinglouisianacrawfishlowres1.pdf"},"usu":{"name":"Utah State University Extension","url":"https://extension.usu.edu/fscreate/files/2020-22-staff/Shopping_for_Fruit.pdf"},"purdue":{"name":"Purdue Extension FoodLink","url":"https://extension.purdue.edu/foodlink/food.php?food="}},
+"foods":{
+"crawfish":{"tips":["Buy them alive and active, and keep them cold until you cook them.","Before boiling, throw out any dead ones.","Small to medium crawfish give more meat for the weight and peel more easily."],"src":"lsu","also":[{"src":"fda"}]},
+"oysters":{"tips":["Live oysters should have a tag showing the processor's certification number. Shucked ones should have a label with it.","Skip any with a cracked or broken shell.","Tap the shell. A live oyster closes up, so leave any that don't."],"src":"fda","note":"Raw oysters are riskier for anyone pregnant, children, older adults, and people with weakened immune systems. Those groups should avoid eating them raw."},
+"blue-crab":{"tips":["Live crabs should move their legs when handled. Only buy and cook live ones.","Cooked or picked crab should be kept cold and smell mild, not sour or like ammonia."],"src":"fda"},
+"soft-shell":{"tips":["Live crabs should move their legs when handled. Only buy and cook live ones.","Cooked or picked crab should be kept cold and smell mild, not sour or like ammonia."],"src":"fda"},
+"dungeness":{"tips":["Live crabs should move their legs when handled. Only buy and cook live ones.","Cooked or picked crab should be kept cold and smell mild, not sour or like ammonia."],"src":"fda"},
+"shrimp":{"tips":["Buy it refrigerated or on a thick bed of fresh ice.","The flesh should look clear with a pearly color and smell mild.","If frozen, skip torn packages or any with frost or ice crystals inside."],"src":"fda"},
+"stone-crab":{"tips":["Buy claws kept cold in a refrigerated case or on ice.","They should smell mild, never sour or like ammonia.","If frozen, skip torn packages or any with frost or ice crystals inside."],"src":"fda"},
+"king-crab":{"tips":["If frozen, the meat should be hard and not bend.","Skip torn or crushed packages, or any with frost or ice crystals inside.","If thawed, it should be kept cold and smell mild."],"src":"fda"},
+"spiny-lobster":{"tips":["Live lobsters should move their legs when handled.","Tail meat should look clear with a pearly color and smell mild.","If frozen, skip torn packages or any with frost or ice crystals inside."],"src":"fda"},
+"lobster":{"tips":["Live lobsters should move their legs when handled. Only buy and cook live ones.","Tail meat should look clear with a pearly color and smell mild."],"src":"fda"},
+"salmon":{"tips":["Buy it refrigerated or on a thick bed of fresh ice.","It should smell mild, never sour or like ammonia.","Look for clear, shiny eyes and firm flesh. Color alone doesn't tell you it's fresh."],"src":"fda"},
+"halibut":{"tips":["Buy it refrigerated or on a thick bed of fresh ice.","It should smell mild, never sour or like ammonia.","The flesh should be firm. Color alone doesn't tell you it's fresh."],"src":"fda"},
+"walleye":{"tips":["Buy it refrigerated or on a thick bed of fresh ice.","It should smell mild, never sour or like ammonia.","Look for clear, shiny eyes and firm flesh. Color alone doesn't tell you it's fresh."],"src":"fda"},
+"scallops":{"tips":["Buy them refrigerated or on a thick bed of fresh ice.","The flesh should look clear with a pearly color and smell mild.","If frozen, skip torn packages or any with frost or ice crystals inside."],"src":"fda"},
+"strawberries":{"tips":["Look for a deep, even red with no white or green tinges. Berries don't ripen after picking.","They should be firm and shiny, with green caps still attached.","Check the package for juice stains, a sign of crushed or moldy fruit."],"src":"usu","also":[{"src":"purdue","page":"strawberry"}]},
+"blueberries":{"tips":["Look for a deep color with no white or green tinges. Berries don't ripen after picking.","They should be firm, dry and plump, not wrinkled.","Check the package for juice stains, a sign of crushed or moldy fruit."],"src":"usu"},
+"blackberries":{"tips":["Look for a deep color and a shiny surface, with no green tinges. Berries don't ripen after picking.","They should be firm, dry and plump.","Check the package for juice stains, a sign of crushed or moldy fruit."],"src":"usu","also":[{"src":"purdue","page":"blackberry"}]},
+"cherries":{"tips":["Look for dark color and firm, glossy skin.","Bright green stems mean they're fresh.","Wrinkled skin or brown stems mean they're past it."],"src":"usu"},
+"peaches":{"tips":["A ripe peach gives slightly when you press it and smells sweet.","Look for fuzzy skin in red or yellow, without blemishes."],"src":"usu"},
+"apples":{"tips":["Look for very firm fruit with shiny skin and a fresh smell.","Tap it with a finger. It should sound hollow, not flat.","Skip any with bruises."],"src":"usu","also":[{"src":"purdue","page":"apple"}]},
+"pears":{"tips":["Press gently near the stem with your thumb. If the neck gives, it's ready.","Pears ripen from the inside out, so don't judge by the skin. Yellowing at the base is a good sign.","A ripe pear smells sweet. Brown marks on the skin aren't always a bad sign."],"src":"usu","also":[{"src":"purdue","page":"pear"}]},
+"watermelon":{"tips":["Look at the bottom. The spot where it sat on the ground should be yellow, not white.","Thump it. A ripe one sounds hollow, an unripe one sounds solid.","Faded stripes and a nearly even green mean it's ready, and it should feel heavy for its size."],"src":"usu","also":[{"src":"purdue","page":"watermelon"}]},
+"cantaloupe":{"tips":["Smell it. A ripe one has a musky, sweet scent.","The end opposite the stem should give a little when you press, without feeling mushy.","The rind should be orange or golden between the netting. Green means unripe, and it won't ripen after picking."],"src":"usu"},
+"citrus":{"tips":["Pick fruit that feels firm and heavy for its size.","Skip any with blemishes, moldy spots or shriveled skin.","A little green is fine. Color reflects the climate, not ripeness."],"src":"usu"},
+"satsuma":{"tips":["Pick fruit that feels firm and heavy for its size, with a clean, sweet smell.","Skip any with blemishes, moldy spots or shriveled skin.","A little green is fine. Color reflects the climate, not ripeness."],"src":"usu"},
+"pomegranate":{"tips":["Look for deep-colored skin you can scratch easily with a fingernail.","A ripe one looks slightly square, while an unripe one is round. It should feel heavy for its size.","Skip any with cracks or splits."],"src":"usu"},
+"persimmon":{"tips":["Look for glossy, brightly colored skin, and pick one heavy for its size.","Astringent types are full of tannin until ripe and make your mouth pucker. Those need to be very soft before eating.","A very ripe one looks almost overripe and is extremely soft. Handle gently, since it bruises easily."],"src":"purdue","page":"persimmon"},
+"cranberries":{"tips":["Look for red, hard, plump, shiny berries.","Ripe ones float in water and bounce.","Skip any that are soft, mushy or discolored."],"src":"usu"},
+"mango":{"tips":["A ripe mango feels soft and smells sweet.","Wrinkled skin can be a sign it's ripe, not a flaw."],"src":"usu"},
+"pineapple":{"tips":["Look for golden yellow. The higher the yellow climbs, the sweeter it will be.","It should smell sweet. A fermented smell means overripe.","It should give only slightly when pressed, and the green leaves shouldn't pull out easily."],"src":"usu"},
+"rhubarb":{"tips":["Look for crisp stalks without scars, cuts or decay.","If leaves are attached, they shouldn't be wilted."],"src":"purdue","page":"rhubarb","note":"Eat only the stalks. Rhubarb leaves are poisonous."},
+"avocado":{"tips":["A ripe one is firm but gives when you press it. Overly soft means overripe.","If the skin feels separated from the flesh, it's likely brown inside.","Buying for later? Pick an unripe one. It ripens at home in 2 to 5 days."],"src":"usu"},
+"figs":{"tips":["Look for plump fruit that gives slightly when pressed.","Skip any that are split, leaking or smell sour."]},
+"papaya":{"tips":["Look for skin turning yellow, with a slight give when pressed.","A hard papaya isn't ready, and a mushy one has gone too far."]},
+"lychee":{"tips":["Look for bright, unblemished skin that isn't dried out or brown.","They don't ripen after picking, so buy the freshest you can find."]},
+"pecans":{"tips":["In the shell, pick nuts that feel heavy and don't rattle.","Shelled pecans should look plump and even in color, without a stale smell."]},
+"field-peas":{"tips":["Look for plump, firm pods that aren't dried out or yellowed.","Shelled peas should look fresh and moist, with no slimy feel or sour smell."]},
+"spinach":{"tips":["Look for fresh, dark green leaves.","Skip anything wilted."],"src":"purdue","page":"spinach"},
+"greens":{"tips":["Look for vivid color and fresh-looking leaves.","Skip lettuce with wilted leaves or brown edges."],"src":"purdue","page":"lettuce"},
+"kale":{"tips":["Look for crisp, plump, dark green leaves.","Kale is best with small to medium leaves.","Skip yellowed or torn leaves."],"src":"purdue","page":"kale","also":[{"src":"purdue","page":"collard%20greens"}]},
+"carrots":{"tips":["Look for firm, smooth, evenly shaped carrots with bright skin.","Skip any cracked, shriveled or green at the top."],"src":"purdue","page":"carrot"},
+"cabbage":{"tips":["Pick a firm, heavy, compact head with crisp leaves.","Skip any with yellow leaves, splits or soft spots."],"src":"purdue","page":"cabbage"},
+"brassicas":{"tips":["Broccoli should be dark green with no yellowing or odor, and without thick, woody stalks.","Cauliflower should be a compact, bright head with bright green leaves. Skip brown or spotty leaves."],"src":"purdue","page":"broccoli","also":[{"src":"purdue","page":"cauliflower"}]},
+"brussels":{"tips":["Look for bright green, firm sprouts.","Skip any with loose leaves.","They taste better after cool weather and a frost."],"src":"purdue","page":"Brussels%20sprouts"},
+"beets":{"tips":["Pick small beets with firm, unblemished skin and bright green leaves. Large ones can be tough and woody.","Turnips should feel heavy for their size, with no soft spots."],"src":"purdue","page":"beet","also":[{"src":"purdue","page":"turnip%20and%20turnip%20greens"}]},
+"sweet-potatoes":{"tips":["Pick small to medium ones with smooth, even, deep-colored skin.","Skip any with holes."],"src":"purdue","page":"sweet%20potato"},
+"winter-squash":{"tips":["Pick one heavy for its size. Pumpkins should be deep orange.","Skip any that are soft, cut, bruised, or with moist, black or shriveled stems.","Butternut should be deep tan with no green streaks."],"src":"purdue","page":"winter%20squash","also":[{"src":"purdue","page":"pumpkin"}]},
+"potatoes":{"tips":["Pick potatoes that are firm, dry and clean.","Choose ones about the same size so they cook evenly."],"src":"purdue","page":"potato"},
+"onions":{"tips":["Pick firm, dry onions with little to no smell.","Skip any with blemishes, cuts or bruises."],"src":"purdue","page":"onion,%20green%20onion,%20scallion"},
+"green-beans":{"tips":["Look for evenly colored beans with no blemishes.","Bend one. A fresh bean snaps easily."],"src":"purdue","page":"snap%20bean"},
+"sweet-corn":{"tips":["Look for fresh, green husks with no insects.","If you can see the kernels, they should be plump.","Buy only what you'll eat soon. Corn loses sweetness quickly after picking."],"src":"purdue","page":"sweet%20corn"},
+"summer-squash":{"tips":["Pick small to medium squash that feel heavy for their size.","The skin should be glossy."],"src":"purdue","page":"summer%20squash"},
+"cucumbers":{"tips":["Pick firm, slender, green cucumbers.","Skip any turning yellow or swollen in the middle."],"src":"purdue","page":"cucumber"},
+"tomatoes":{"tips":["Look for firm tomatoes with shiny skin.","Skip any with breaks in the skin or bruises."],"src":"purdue","page":"tomato"},
+"peppers":{"tips":["Look for firm peppers with a fresh, green stem.","Skip any with wrinkles, black spots or cuts."],"src":"purdue","page":"sweet%20pepper"},
+"eggplant":{"tips":["Look for firm fruit with a fresh green cap, not brown or dry.","Skip any with cracks or discoloration."],"src":"purdue","page":"eggplant"},
+"okra":{"tips":["Look for bright color, dry pods and a firm feel."],"src":"purdue","page":"okra"},
+"asparagus":{"tips":["Look for bright green stems that are crisp and snap when bent.","Tips should be dark green, sometimes with a hint of purple.","Skip yellow or dried-out tips, a sign of age."],"src":"purdue","page":"asparagus"},
+"peas":{"tips":["Pick medium, bright green, firm pods.","Skip any that are wilted or decaying."],"src":"purdue","page":"green%20peas"},
+"hatch-chile":{"tips":["Look for fresh, unwilted peppers.","Skip any that are bruised, torn or moldy."],"src":"purdue","page":"hot%20pepper"},
+"maple":{"tips":["Look for pure maple syrup. There's no wrong grade.","Darker syrup has a stronger flavor, and lighter syrup is milder."],"src":"purdue","page":"Maple%20Syrup"}
+}}

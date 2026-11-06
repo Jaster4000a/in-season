@@ -17,7 +17,7 @@ US territories are recognized by search and location but not covered yet, since 
 
 Development: `node tools/check-data.cjs` checks windows and icons. `python3 dev/serve.py` serves the site locally with a Demo / Worst case / Empty / One data toggle that never ships in the page.
 
-Works offline after the first visit and can be installed to a home screen (`sw.js`, `manifest.webmanifest`). Bump `VERSION` in `sw.js` when changing the list of saved files. A feedback report written with no signal waits in the browser's local storage until the app next has a signal.
+Works offline after the first visit and can be installed to a home screen (`sw.js`, `manifest.webmanifest`). Run `node tools/stamp-sw.cjs` before every deploy: it updates `VERSION` in `sw.js`, and `tools/check-data.cjs` fails if you forget. A feedback report written with no signal waits in the browser's local storage until the app next has a signal.
 
 Season windows started as regional estimates. Many Texas and Gulf Coast dates are now checked against published sources, recorded per food under `checked` in `data/items.json`, and the app shows the source on each food. Everything else is labeled as a draft.
 

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Dev-only worst-case viewer. Never deployed behaviour: the production page has no toggle.
 
-  python3 dev/serve.py [port]
+  python3 dev/serve.py [port] [--lan]
+
+This computer only by default. Add --lan to test from a phone on your network.
 
 Serves only index.html, data/ and vendor/. Injects a Demo / Worst case / Empty / One toggle
 and swaps data/items.json (and regions.json for Worst case) at the data boundary, via a cookie.
@@ -45,4 +47,6 @@ class H(http.server.BaseHTTPRequestHandler):
         self.send(open(f, "rb").read(), ctype)
     def log_message(self, *a): pass
 
-http.server.ThreadingHTTPServer(("0.0.0.0", int(sys.argv[1]) if len(sys.argv) > 1 else 8780), H).serve_forever()
+args = [a for a in sys.argv[1:] if a != "--lan"]
+host = "0.0.0.0" if "--lan" in sys.argv else "127.0.0.1"
+http.server.ThreadingHTTPServer((host, int(args[0]) if args else 8780), H).serve_forever()
