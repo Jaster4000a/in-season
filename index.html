@@ -694,7 +694,7 @@ function scaleSteps(max){
 function paintLegend(max){
   const name=TYPES.find(x=>x[0]===type)[1].toLowerCase(),what=type==="all"?"Foods":name==="veg"?"Vegetables":name[0].toUpperCase()+name.slice(1);
   $("scale").hidden=false;
-  $("scaleTitle").textContent=what+" in season, "+FULL[month-1];
+  $("scaleTitle").textContent=what+" we track in season, "+FULL[month-1];
   const ul=$("scaleSteps");ul.textContent="";
   for(const st of scaleSteps(max)){
     const li=el("li"),i=el("i");i.style.background="var(--s"+st.b+")";
